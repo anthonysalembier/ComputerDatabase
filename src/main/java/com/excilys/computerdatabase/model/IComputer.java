@@ -1,20 +1,21 @@
 package com.excilys.computerdatabase.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public interface IComputer {
 	
-public int getId();
+	public long getId();
 	
 	public String getName();
 	
-	public LocalDate getIntroducedDate();
+	public Timestamp getIntroducedDate();
 	
-	public LocalDate getDiscontinuedDate();
+	public Timestamp getDiscontinuedDate();
 	
-	public int getCompanyId();
+	public long getCompanyId();
 
-	public void setId(int id);
+	public void setId(long id);
 	
 	public void setName(String name);
 	
@@ -22,6 +23,6 @@ public int getId();
 	
 	public void setDiscontinuedDate(LocalDate date);
 	
-	public void setCompanyId(int id);
+	public void setCompanyId(long id);
 
 }

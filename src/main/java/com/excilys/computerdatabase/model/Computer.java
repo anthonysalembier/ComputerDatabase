@@ -1,21 +1,22 @@
 package com.excilys.computerdatabase.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class Computer implements IComputer {
 	
-	private int id;
+	private long id;
 	private String name;
-	private LocalDate introducedDate;
-	private LocalDate discontinuedDate;
-	private int companyId;
+	private Timestamp introducedDate;
+	private Timestamp discontinuedDate;
+	private long companyId;
 	
 	public Computer(String name, LocalDate introducedDate, Company company) {
 		// TODO
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -27,25 +28,25 @@ public class Computer implements IComputer {
 	}
 
 	@Override
-	public LocalDate getIntroducedDate() {
+	public Timestamp getIntroducedDate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LocalDate getDiscontinuedDate() {
+	public Timestamp getDiscontinuedDate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int getCompanyId() {
+	public long getCompanyId() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setId(int id) {
+	public void setId(long id) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -69,7 +70,7 @@ public class Computer implements IComputer {
 	}
 
 	@Override
-	public void setCompanyId(int id) {
+	public void setCompanyId(long id) {
 		// TODO Auto-generated method stub
 		
 	}

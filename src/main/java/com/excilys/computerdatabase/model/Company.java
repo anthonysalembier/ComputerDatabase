@@ -2,15 +2,20 @@ package com.excilys.computerdatabase.model;
 
 public class Company implements ICompany {
 	
-	private int id;
+	private long id;
 	private String name;
 	
 	public Company() {
-		// TODO
+		
+	}
+	
+	public Company(long id, String name) {
+		this.id = id;
+		this.name= name;
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -22,7 +27,7 @@ public class Company implements ICompany {
 	}
 
 	@Override
-	public void setId(int id) {
+	public void setId(long id) {
 		// TODO Auto-generated method stub
 		
 	}

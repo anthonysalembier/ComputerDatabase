@@ -12,7 +12,7 @@ public enum ComputerDAO {
 	 * @return an ArrayList of IComputer
 	 */
 	public List<IComputer> getAllComputers() {
-		// TODO
+//		ComputerDatabaseConnection.INSTANCE.createConnection(dbURL, username, password);
 		return null;
 	}
 	
