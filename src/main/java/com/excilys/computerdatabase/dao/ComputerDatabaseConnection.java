@@ -21,7 +21,6 @@ public enum ComputerDatabaseConnection {
 			System.out.println("... Driver instancied ...");
 		} catch (InstantiationException | IllegalAccessException
 				| ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -32,9 +31,7 @@ public enum ComputerDatabaseConnection {
 				System.out.println("... Connection success ...");
 			}
 		} catch (SQLException e) {
-			if (connection == null) {
-				System.out.println("... Connection failed ...");
-			}
+            System.out.println("... Connection failed ...");
 			e.printStackTrace();
 		}
 		return connection;
@@ -51,28 +48,9 @@ public enum ComputerDatabaseConnection {
 				System.out.println("... Connection success ...");
 			}
 		} catch (SQLException e) {
-			if (connection == null) {
-				System.out.println("... Connection failed ...");
-			}
+            System.out.println("... Connection failed ...");
 			e.printStackTrace();
 		}
 		return connection;
 	}
-
-//	public Connection getConnection() {
-//		return connection;
-//	}
-//
-//	/**
-//	 * Close the connection
-//	 */
-//	public void closeConnection() {
-//		try {
-//			connection.close();
-//			System.out.println("... Connection closed ...");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 }

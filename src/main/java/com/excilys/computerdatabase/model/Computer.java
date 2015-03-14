@@ -10,69 +10,74 @@ public class Computer implements IComputer {
 	private Timestamp introducedDate;
 	private Timestamp discontinuedDate;
 	private long companyId;
-	
-	public Computer(String name, LocalDate introducedDate, Company company) {
-		// TODO
+
+    public Computer() {
+
+    }
+
+    public Computer(long id, String name, Timestamp introducedDate, long companyId) {
+        this.id = id;
+        this.name = name;
+        this.introducedDate = introducedDate;
+        this.companyId = companyId;
+    }
+
+	public Computer(long id, String name, Timestamp introducedDate, Timestamp discontinuedDate, long companyId) {
+		this.id = id;
+        this.name = name;
+        this.introducedDate = introducedDate;
+        this.discontinuedDate = discontinuedDate;
+        this.companyId = companyId;
 	}
 
 	@Override
 	public long getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	public Timestamp getIntroducedDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return introducedDate;
 	}
 
 	@Override
 	public Timestamp getDiscontinuedDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return discontinuedDate;
 	}
 
 	@Override
 	public long getCompanyId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return companyId;
 	}
 
 	@Override
 	public void setId(long id) {
-		// TODO Auto-generated method stub
-		
+		this.id = id;
 	}
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
-		
+		this.name = name;
 	}
 
 	@Override
-	public void setIntroducedDate(LocalDate date) {
-		// TODO Auto-generated method stub
-		
+	public void setIntroducedDate(Timestamp date) {
+		this.introducedDate = date;
 	}
 
 	@Override
-	public void setDiscontinuedDate(LocalDate date) {
-		// TODO Auto-generated method stub
-		
+	public void setDiscontinuedDate(Timestamp date) {
+		this.discontinuedDate = date;
 	}
 
 	@Override
 	public void setCompanyId(long id) {
-		// TODO Auto-generated method stub
-		
+		this.companyId = id;
 	}
 	
 	public String toString() {

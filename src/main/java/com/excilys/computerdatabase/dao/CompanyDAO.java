@@ -30,14 +30,14 @@ public enum CompanyDAO {
 	public List<ICompany> getAllCompanies() {
 		List<ICompany> companies = new ArrayList<>();
 		
-		ResultSet resultSet = getResults("SELECT * FROM company");
+		ResultSet resultSet = getResults("SELECT * FROM company;");
 
 		// Construction of objects from query result
 		try {
 			if (resultSet != null) {
 				while (resultSet.next()) {
-					companies.add(new Company(resultSet.getLong(ID), resultSet
-							.getString(NAME)));
+					companies.add(new Company(resultSet.getLong(ID),
+                                              resultSet.getString(NAME)));
 				}
 			}
 		} catch (SQLException e) {
@@ -55,7 +55,7 @@ public enum CompanyDAO {
 	 */
 	public ICompany getCompanyById(int id) {
 		ICompany company = new Company();
-		ResultSet resultSet = getResults("SELECT * FROM company WHERE id=" + id);
+		ResultSet resultSet = getResults("SELECT * FROM company WHERE id=" + id + ";");
 		
 		// Construction of objects from query result
 		try {
@@ -69,15 +69,10 @@ public enum CompanyDAO {
 			e.printStackTrace();
 		}
 		return company;
-
 	}
 
 	/**
 	 * Create a connection to a database with a login and a password
-	 * 
-	 * @param dbUrl
-	 * @param login
-	 * @param password
 	 */
 	private void setConnection() {
 		if (dbUrl.equals("") || login.equals("") || password.equals("")) {

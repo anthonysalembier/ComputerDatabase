@@ -19,9 +19,9 @@ public interface IComputer {
 	
 	public void setName(String name);
 	
-	public void setIntroducedDate(LocalDate date);
+	public void setIntroducedDate(Timestamp date);
 	
-	public void setDiscontinuedDate(LocalDate date);
+	public void setDiscontinuedDate(Timestamp date);
 	
 	public void setCompanyId(long id);
 
