@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,161 +9,215 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.model.ICompany;
 import com.excilys.computerdatabase.model.IComputer;
+import com.excilys.computerdatabase.util.ComputerDatabaseConnection;
 
 public enum ComputerDAO {
 	INSTANCE;
 
-    /*
-     * The columns names of the company table
-     */
-    private final String ID = "id";
-    private final String NAME = "name";
-    private final String INTRODUCED = "introduced";
-    private final String DISCONTINUED = "discontinued";
-    private final String COMPANY_ID = "company_id";
+	/*
+	 * The columns names of the company table
+	 */
+	private final String ID = "id";
+	private final String NAME = "name";
+	private final String INTRODUCED = "introduced";
+	private final String DISCONTINUED = "discontinued";
+	private final String COMPANY_ID = "company_id";
 
-    private Connection connection;
-    private String dbUrl = "";
-    private String login = "";
-    private String password = "";
-	
+	private Connection connection;
+	private String dbUrl = "";
+	private String login = "";
+	private String password = "";
+
 	/**
 	 * Get a list of all computers
+	 * 
 	 * @return an ArrayList of IComputer
 	 */
 	public List<IComputer> getAllComputers() {
-        List<IComputer> computers = new ArrayList<>();
+		List<IComputer> computers = new ArrayList<>();
+		String query = "SELECT * FROM computer;";
 
-        ResultSet resultSet = getResults("SELECT * FROM computer;");
+		setConnection();
 
-        if (resultSet != null) {
-            try {
-                while (resultSet.next()) {
-                    computers.add((new Computer(resultSet.getLong(ID),
-                                                resultSet.getString(NAME),
-                                                resultSet.getTimestamp(INTRODUCED),
-                                                resultSet.getTimestamp(DISCONTINUED),
-                                                resultSet.getLong(COMPANY_ID))));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+		try (final Statement s = connection.createStatement()) {
+			System.out.println("... Getting all computers ...");
 
-        return computers;
+			try (final ResultSet rs = s.executeQuery(query)) {
+				if (rs != null) {
+					while (rs.next()) {
+						computers.add(new Computer(rs.getLong(ID), rs
+								.getString(NAME), rs.getTimestamp(INTRODUCED),
+								rs.getTimestamp(DISCONTINUED), rs
+										.getLong(COMPANY_ID)));
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		closeConnection();
+
+		return computers;
 	}
-	
+
 	/**
 	 * Find a computer by its ID
+	 * 
 	 * @param id
 	 * @return an IComputer
 	 */
-	public IComputer getComputerById(int id) {
+	public IComputer getComputerById(long id) {
 		IComputer computer = new Computer();
+		String query = "SELECT * FROM computer WHERE id = ?;";
 
-        ResultSet resultSet = getResults("SELECT * FROM computer WHERE id=" + id +";");
+		setConnection();
 
-        if (resultSet != null) {
-            try {
-                computer.setId(resultSet.getLong(ID));
-                computer.setName(resultSet.getString(NAME));
-                computer.setIntroducedDate(resultSet.getTimestamp(INTRODUCED));
-                computer.setDiscontinuedDate(resultSet.getTimestamp(DISCONTINUED));
-                computer.setCompanyId(resultSet.getLong(COMPANY_ID));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return computer;
+		try (final PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setLong(1, id);
+
+			try (final ResultSet rs = ps.executeQuery()) {
+				if (rs != null) {
+					while (rs.next()) {
+						computer.setId(rs.getLong(ID));
+						computer.setName(rs.getString(NAME));
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		closeConnection();
+
+		return computer;
 	}
-	
+
 	/**
 	 * Delete a computer
+	 * 
 	 * @param id
 	 */
-	public void deleteComputer(int id) {
-		ResultSet resultSet = getResults("DELETE FROM computer WHERE id=" + id + ";");
+	public void deleteComputer(long id) {
+		String query = "DELETE FROM computer WHERE id = ?;";
+
+		setConnection();
+
+		try (final PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setLong(1, id);
+			int deletedRows = ps.executeUpdate();
+			System.out.println(deletedRows + " row(s) has been deleted.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		closeConnection();
 	}
-	
-	
+
 	/**
 	 * Add a computer
+	 * 
 	 * @param computer
 	 */
 	public void addComputer(IComputer computer) {
-        String values;
-        values = computer.getId() + ", ";
-        values += "'" + computer.getName() + "', ";
-        values += computer.getIntroducedDate() + ", ";
-        values += computer.getDiscontinuedDate() + ", ";
-        values += computer.getCompanyId();
+		String query = "INSERT INTO computer VALUES(?, ?, ?, ?, ?);";
 
-		ResultSet resultSet = getResults("INSERT INTO computer VALUES(" + values + ");");
+		setConnection();
+
+		try (final PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setLong(1, computer.getId());
+			ps.setString(2, computer.getName());
+			ps.setTimestamp(3, computer.getIntroducedDate());
+			ps.setTimestamp(4, computer.getDiscontinuedDate());
+			ps.setLong(5, computer.getCompanyId());
+
+			int addedRows = ps.executeUpdate();
+			System.out.println(addedRows + " row(s) has been added.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		closeConnection();
 	}
-	
-	
+
 	/**
 	 * Update informations of a computer
+	 * 
 	 * @param computer
 	 */
 	public void updateComputer(long id, IComputer computer) {
-        String set;
-        set = ID + "=" + computer.getId() + ", ";
-        set += NAME + "='" + computer.getName() + "', ";
-        set += INTRODUCED + "=" + computer.getIntroducedDate() + ", ";
-        set += DISCONTINUED + "=" + computer.getDiscontinuedDate() + ", ";
-        set += COMPANY_ID + "=" + computer.getCompanyId();
+		String query = "UPDATE computer SET id = ?, name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
 
-        ResultSet resultSet = getResults("UPDATE computer SET " + set + "WHERE " + ID + "=" + id + ";");
+		setConnection();
+
+		try (final PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setLong(1, computer.getId());
+			ps.setString(2, computer.getName());
+			ps.setTimestamp(3, computer.getIntroducedDate());
+			ps.setTimestamp(4, computer.getDiscontinuedDate());
+			ps.setLong(5, computer.getCompanyId());
+			ps.setLong(6, computer.getCompanyId());
+
+			int updatedRows = ps.executeUpdate();
+			System.out.println(updatedRows + " row(s) has been updated.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		closeConnection();
 	}
 
-    private void setConnection() {
-        if (dbUrl.equals("") || login.equals("") || password.equals("")) {
-            throw new IllegalStateException(
-                    "Url, login and password must be setted");
-        }
-        connection = ComputerDatabaseConnection.INSTANCE.createConnection(
-                dbUrl, login, password);
-    }
+	/**
+	 * Set the connection to the database.
+	 */
+	private void setConnection() {
+		if (dbUrl.equals("") || login.equals("") || password.equals("")) {
+			throw new IllegalStateException(
+					"Url, login and password must be setted");
+		}
+		connection = ComputerDatabaseConnection.INSTANCE.createConnection(
+				dbUrl, login, password);
+	}
 
-    public void setDbUrl(String dbUrl) {
-        this.dbUrl = dbUrl;
-    }
+	/**
+	 * Close the connection to the database.
+	 */
+	private void closeConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+	/**
+	 * Set the database URL.
+	 * This must be done before trying to connect to the database.
+	 * @param dbUrl
+	 */
+	public void setDbUrl(String dbUrl) {
+		this.dbUrl = dbUrl;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	/**
+	 * Set the login to connect to the database.
+	 * This must be done before trying to connect to the database.
+	 * @param login
+	 */
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-    /**
-     * Connect to the given database, send the query and return the result
-     * @param query
-     * @return a ResultSet
-     */
-    private ResultSet getResults(String query) {
-        ResultSet resultSet = null;
-
-        // Connection and query sending
-        try {
-            setConnection();
-
-            Statement statement = connection.createStatement();
-
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return resultSet;
-    }
+	/**
+	 * Set the password to connect to the database.
+	 * This must be done before trying to connect to the database.
+	 * @param password
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

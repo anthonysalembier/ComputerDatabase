@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.ICompany;
+import com.excilys.computerdatabase.util.ComputerDatabaseConnection;
 
 public enum CompanyDAO {
 	INSTANCE;
@@ -29,21 +31,27 @@ public enum CompanyDAO {
 	 */
 	public List<ICompany> getAllCompanies() {
 		List<ICompany> companies = new ArrayList<>();
-		
-		ResultSet resultSet = getResults("SELECT * FROM company;");
+		String query = "SELECT * FROM company;";
 
-		// Construction of objects from query result
-		try {
-			if (resultSet != null) {
-				while (resultSet.next()) {
-					companies.add(new Company(resultSet.getLong(ID),
-                                              resultSet.getString(NAME)));
+		setConnection();
+		
+		try (final Statement s = connection.createStatement()){
+			System.out.println("... Getting all companies ...");
+			
+			try (final ResultSet rs = s.executeQuery(query)) {
+				if (rs != null) {
+					while (rs.next()) {
+						companies.add(new Company(rs.getLong(ID),
+	                                              rs.getString(NAME)));
+					}
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
+		closeConnection();
+		
 		return companies;
 	}
 
@@ -53,21 +61,29 @@ public enum CompanyDAO {
 	 * @param id
 	 * @return an ICompany
 	 */
-	public ICompany getCompanyById(int id) {
+	public ICompany getCompanyById(long id) {
 		ICompany company = new Company();
-		ResultSet resultSet = getResults("SELECT * FROM company WHERE id=" + id + ";");
+		String query = "SELECT * FROM company WHERE id = ?;";
 		
-		// Construction of objects from query result
-		try {
-			if (resultSet != null) {
-				while (resultSet.next()) {
-					company.setId(resultSet.getLong(ID));
-					company.setName(resultSet.getString(NAME));
+		setConnection();
+		
+		try (final PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setLong(1, id);
+			
+			try (final ResultSet rs = ps.executeQuery()) {
+				if (rs != null) {
+					while (rs.next()) {
+						company.setId(rs.getLong(ID));
+						company.setName(rs.getString(NAME));
+					}
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		closeConnection();
+		
 		return company;
 	}
 
@@ -82,6 +98,14 @@ public enum CompanyDAO {
 		connection = ComputerDatabaseConnection.INSTANCE.createConnection(
 				dbUrl, login, password);
 	}
+	
+	private void closeConnection() {
+    	try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
 
 	public void setDbUrl(String dbUrl) {
 		this.dbUrl = dbUrl;

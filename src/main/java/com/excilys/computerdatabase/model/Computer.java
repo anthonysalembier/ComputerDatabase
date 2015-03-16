@@ -81,17 +81,21 @@ public class Computer implements IComputer {
 	}
 	
 	public String toString() {
-		String result = "Computer Id : " + id;
-		result += "\nComputer name : " + name;
-		result += "\nIntroduced date : " + introducedDate;
-		if (discontinuedDate == null) {
-			result += "\nDiscontinued date : none";
-		} else {
-			result += "\nDiscontinued date : " + discontinuedDate;
-		}
-		result += "\nComputer manufacturer id : " + companyId;
+		StringBuilder result = new StringBuilder(150);
 		
-		return result;
+		result.append("Computer [id:");
+		result.append(id);
+		result.append(" ; name:");
+		result.append(name);
+		result.append(" ; introducedDate:");
+		result.append(introducedDate);
+		result.append(" ; discontinuedDate:");
+		result.append(discontinuedDate);
+		result.append(" ; companyId:");
+		result.append(companyId);
+		result.append("]");
+		
+		return result.toString();
 	}
 
 }

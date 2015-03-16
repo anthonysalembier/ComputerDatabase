@@ -33,5 +33,17 @@ public class Company implements ICompany {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String toString() {
+		StringBuilder result = new StringBuilder(150);
+		
+		result.append("Company [id:");
+		result.append(id);
+		result.append(" ; name:");
+		result.append(name);
+		result.append("]");
+		
+		return result.toString();
+	}
 
 }

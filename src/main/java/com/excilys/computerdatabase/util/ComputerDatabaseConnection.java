@@ -1,4 +1,4 @@
-package com.excilys.computerdatabase.dao;
+package com.excilys.computerdatabase.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,19 +16,12 @@ public enum ComputerDatabaseConnection {
 		Connection connection = null;
 		
 		// Driver instanciation
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			System.out.println("... Driver instancied ...");
-		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		// Driver doesn't need to be instancied with JDBC4
 		
 		// Connection creation
 		try {
 			connection = DriverManager.getConnection(dbURL, login, password);
 			if (connection != null) {
-				System.out.println("... Connection success ...");
 			}
 		} catch (SQLException e) {
             System.out.println("... Connection failed ...");
@@ -45,7 +38,6 @@ public enum ComputerDatabaseConnection {
 		try {
 			connection = DriverManager.getConnection(dbURL);
 			if (connection != null) {
-				System.out.println("... Connection success ...");
 			}
 		} catch (SQLException e) {
             System.out.println("... Connection failed ...");
