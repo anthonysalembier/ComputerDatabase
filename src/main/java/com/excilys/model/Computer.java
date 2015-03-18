@@ -77,8 +77,7 @@ public class Computer {
 	}
 	
 	public boolean equals(Computer comp) {
-		return this.id == comp.id
-				&& this.name.equals(comp.name)
+		return this.name.equals(comp.name)
 				&& this.introduced.equals(comp.introduced)
 				&& this.discontinued.equals(comp.discontinued)
 				&& this.company.equals(comp.company);
