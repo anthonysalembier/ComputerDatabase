@@ -44,7 +44,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				computerNameColumn = properties.getProperty("computerName");
 				introducedColumn = properties.getProperty("introduced");
 				discontinuedColumn = properties.getProperty("discontinued");
-				computerCompanyIdColumn = properties.getProperty("companyId");
+				computerCompanyIdColumn = properties.getProperty("computerCompanyId");
 				companyIdColumn = properties.getProperty("companyId");
 				
 			} catch (IOException e) {
@@ -109,7 +109,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final String sql = "SELECT * "
 						+ " FROM " + computerTable + " cpt"
 						+ " LEFT OUTER JOIN " + companyTable + " cpy ON cpt." + computerCompanyIdColumn + " = cpy." + companyIdColumn 
-						+ " WHERE cpt." + computerIdColumn + " = " + id;
+						+ " WHERE cpt." + computerIdColumn + " = ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 				.getInstance().prepareStatement(sql)) {
@@ -131,8 +131,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final String sql = "INSERT INTO " + computerTable + " VALUES (?, ?, ?, ?, ?)";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql,
-						Statement.RETURN_GENERATED_KEYS)) {
+				.getInstance().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			pStatement.setObject(1, null);
 			if (entity.getName() != null) {
 				pStatement.setString(2, entity.getName());
@@ -162,10 +161,13 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void update(Computer entity) throws DAOException {
-		final String sql = "UPDATE " + computerTable + " SET " + computerNameColumn + " = ?, " + introducedColumn + " = ?, "
-				+ discontinuedColumn + " = ?, " + computerCompanyIdColumn + " = ? WHERE " + computerIdColumn + " = ?";
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+		final String sql = "UPDATE " + computerTable + 
+							" SET " + computerNameColumn + " = ?, " + 
+							introducedColumn + " = ?, " + 
+							discontinuedColumn + " = ?, " + 
+							computerCompanyIdColumn + " = ? " + 
+							"WHERE " + computerIdColumn + " = ?";
+		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE.getInstance().prepareStatement(sql)) {
 			if (entity.getName() != null) {
 				pStatement.setString(1, entity.getName());
 			}
@@ -195,7 +197,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void delete(Long id) throws DAOException {
-		final String sql = "DELETE FROM " + computerTable + " WHERE " + id + " = ?";
+		final String sql = "DELETE FROM " + computerTable + " WHERE " + computerIdColumn + " = ?";
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 				.getInstance().prepareStatement(sql)) {
 			pStatement.setLong(1, id);

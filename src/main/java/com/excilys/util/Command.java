@@ -26,12 +26,14 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
-			System.out.println("Welcome to the computer database program !\n");
 			System.out.println("List of commands : \n");
+			System.out.println("List all computers    : getAllComputers");
+			System.out.println("Display one computer  : getByIdComputer");
+			System.out.println("Update a computer     : updateComputer");
+			System.out.println("Create a new computer : createComputer");
+			System.out.println("Delete a computer     : deleteComputer");
+			System.out.println("List all companies    : getAllCompanies");
 			System.out.println("Quit : exit");
-			System.out.println("List all computers: getAllComputers");
-			System.out.println("List all companies: getAllCompanies");
-			System.out.println("Display one computer : ");
 		}
 	},
 	
@@ -84,8 +86,7 @@ public enum Command {
 			}
 			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
-			ctx.setComputers(Arrays.asList(ComputerService.INSTANCE.getById(ctx
-					.getComputerId())));
+			ctx.setComputers(Arrays.asList(ComputerService.INSTANCE.getById(ctx.getComputerId())));
 			for (Computer c : ctx.getComputers()) {
 				System.out.println(c);
 			}
@@ -161,7 +162,7 @@ public enum Command {
 				throw new IllegalArgumentException();
 			}
 			ctx.getScanner().setExit(true);
-			System.out.println("Good bye !");
+			System.out.println("\nGood bye !\n");
 		}
 
 	};
