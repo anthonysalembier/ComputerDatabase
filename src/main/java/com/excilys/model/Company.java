@@ -25,4 +25,15 @@ public class Company {
 		return "Company [id=" + id + ", name=" + name + "]";
 	}
 	
+	@Override
+	public int hashCode() {
+		int hash = (int)(this.id ^ (this.id >>> 32));
+		hash += this.name.hashCode();
+		return 113 * 131 + hash;
+	}
+	
+	public boolean equals(Company comp) {
+		return this.id == comp.id
+				&& this.name.equals(comp.name);
+	}
 }
