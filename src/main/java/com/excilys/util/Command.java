@@ -33,7 +33,8 @@ public enum Command {
 			System.out.println("Create a new computer : createComputer");
 			System.out.println("Delete a computer     : deleteComputer");
 			System.out.println("List all companies    : getAllCompanies");
-			System.out.println("Quit : exit");
+			System.out.println("Quit : exit\n");
+			System.out.println("Date format : yyyy-MM-dd");
 		}
 	},
 	
@@ -105,9 +106,14 @@ public enum Command {
 				throw new IllegalArgumentException();
 			}
 			final Computer computer = new Computer();
-			populate(ctx, computer);
-			ctx.setNewComputer(computer);
-			ComputerService.INSTANCE.create(ctx.getNewComputer());
+			if (populate(ctx, computer)) {
+				ctx.setNewComputer(computer);
+				ComputerService.INSTANCE.create(ctx.getNewComputer());
+				System.out.println("Computer created.");
+			} else {
+				System.out.println("Computer creation failed.");
+			}
+			
 		}
 
 	},
@@ -125,10 +131,13 @@ public enum Command {
 			System.out.println("Identifier : ");
 			final Computer computer = ComputerService.INSTANCE.getById(Long
 					.valueOf(ctx.getScanner().getNextToken()));
-			populate(ctx, computer);
-			ctx.setNewComputer(computer);
-			ComputerService.INSTANCE.update(ctx.getNewComputer());
-			System.out.println("UPDATED");
+			if (populate(ctx, computer)) {
+				ctx.setNewComputer(computer);
+				ComputerService.INSTANCE.update(ctx.getNewComputer());
+				System.out.println("Computer updated.");
+			} else {
+				System.out.println("Update failed.");
+			}
 		}
 
 	},
@@ -184,7 +193,7 @@ public enum Command {
 	/*
 	 * Populate a computer model from answers given by the user.
 	 */
-	private static void populate(ComputerDatabaseContext ctx, Computer computer) {
+	private static boolean populate(ComputerDatabaseContext ctx, Computer computer) {
 		System.out.println("Name : ");
 		if (ctx.getScanner().hasNextToken()) {
 			computer.setName(ctx.getScanner().getNextToken());
@@ -194,13 +203,15 @@ public enum Command {
 			final String tok = ctx.getScanner().getNextToken();
 			final StringBuilder sb = new StringBuilder();
 			sb.append(tok).append(" ").append("00:00:00");
-			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
-					.toString())) {
-				DateTimeFormatter formatter = DateTimeFormatter
-						.ofPattern("yyyy-MM-dd HH:mm:ss");
+			
+			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb.toString())) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
 						formatter);
 				computer.setIntroduced(dateTime);
+			} else {
+				System.out.println("Invalid date.");
+				return false;
 			}
 		}
 		System.out.println("Discontinued :");
@@ -208,13 +219,14 @@ public enum Command {
 			final String tok = ctx.getScanner().getNextToken();
 			final StringBuilder sb = new StringBuilder();
 			sb.append(tok).append(" ").append("00:00:00");
-			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
-					.toString())) {
-				DateTimeFormatter formatter = DateTimeFormatter
-						.ofPattern("yyyy-MM-dd HH:mm:ss");
-				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
-						formatter);
+			
+			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb.toString())) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(), formatter);
 				computer.setDiscontinued(dateTime);
+			} else {
+				System.out.println("Invalid format.");
+				return false;
 			}
 		}
 		System.out.println("Company : ");
@@ -225,6 +237,8 @@ public enum Command {
 				e.printStackTrace();
 			}
 		}
+		
+		return true;
 	}
 
 	/**

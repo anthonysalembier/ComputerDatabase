@@ -59,10 +59,10 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final ComputerMapper computerMapper = new ComputerMapper();
 		
 		final String sql = "SELECT * "
-				+ " FROM " + computerTable + " cpt " 
-				+ "LEFT OUTER JOIN " + companyTable + " cpy "
-				+ "ON cpt." + computerCompanyIdColumn + " = cpy." + computerIdColumn 
-				+ " ORDER BY cpt." + computerIdColumn;
+						+ "FROM " + computerTable + " cpt " 
+						+ "LEFT OUTER JOIN " + companyTable + " cpy "
+						+ "ON cpt." + computerCompanyIdColumn + " = cpy." + computerIdColumn 
+						+ " ORDER BY cpt." + computerIdColumn;
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql)) {
@@ -82,10 +82,10 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
 		final String sql = "SELECT * "
-						+ "FROM " + computerTable + " cpt "
-						+ "LEFT OUTER JOIN " + companyTable + " cpy " 
-						+ "ON cpt." + computerCompanyIdColumn + " = cpy." + companyIdColumn 
-						+ " ORDER BY cpt." + computerNameColumn;
+						+ "FROM " + computerTable + " cpt " 
+						+ "LEFT OUTER JOIN " + companyTable + " cpy "
+						+ "ON cpt." + computerCompanyIdColumn + " = cpy." + computerIdColumn 
+						+ " ORDER BY cpt." + computerIdColumn;
 		
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql)) {
