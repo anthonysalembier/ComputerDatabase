@@ -27,13 +27,26 @@ public class Company {
 	
 	@Override
 	public int hashCode() {
-		int hash = (int)(this.id ^ (this.id >>> 32));
-		hash += this.name.hashCode();
-		return 113 * 131 + hash;
+		final int prime = 113;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 	
-	public boolean equals(Company comp) {
-		return this.id == comp.id
-				&& this.name.equals(comp.name);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Company other = (Company) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 }

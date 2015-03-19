@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.dbunit.IDatabaseTester;
@@ -18,9 +19,9 @@ import org.junit.Test;
 
 import com.excilys.exception.DAOException;
 import com.excilys.model.Company;
+import com.excilys.model.Computer;
 
-
-public class CompanyDAOTest {
+public class ComputerDAOTest {
 	
 	private static final String JDBC_DRIVER = org.h2.Driver.class.getName();
 	private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
@@ -77,64 +78,60 @@ public class CompanyDAOTest {
 	}
 	
 	@Test
-	public void getAllCompaniesShouldReturnAllCompaniesInDB() throws DAOException {
+	public void getAllComputersShouldReturnAllComputersInDB() throws DAOException {
 		// GIVEN
-		final int nbOfCompaniesInDataset = 3;
+		final int nbOfComputersInDataset = 3;
 		
-		final Company company01InTheDataset = new Company();
-		company01InTheDataset.setId(666);
-		company01InTheDataset.setName("CompanyTest01");
+		Company company01 = new Company();
+		company01.setId(666);
+		company01.setName("CompanyTest01");
+		
+		final Computer computer01InTheDataset = new Computer();
+		computer01InTheDataset.setId(666);
+		computer01InTheDataset.setName("ComputerTest01");
+		computer01InTheDataset.setIntroduced(LocalDateTime.of(2001, 01, 01, 00, 00, 00));
+		computer01InTheDataset.setDiscontinued(LocalDateTime.of(2001, 01, 01, 00, 00, 00));
+		computer01InTheDataset.setCompany(company01);
 
-		final Company company02InTheDataset = new Company();
-		company02InTheDataset.setId(667);
-		company02InTheDataset.setName("CompanyTest02");
+		final Computer computer02InTheDataset = new Computer();
+		computer02InTheDataset.setId(667);
+		computer02InTheDataset.setName("ComputerTest02");
 
-		final Company company03InTheDataset = new Company();
-		company03InTheDataset.setId(668);
-		company03InTheDataset.setName("CompanyTest03");
+		final Computer computer03InTheDataset = new Computer();
+		computer03InTheDataset.setId(668);
+		computer03InTheDataset.setName("ComputerTest03");
 
-		final Company company04InTheDataset = new Company();
-		company04InTheDataset.setId(0);
-		company04InTheDataset.setName("CompanyTest02");
+		final Computer computer04InTheDataset = new Computer();
+		computer04InTheDataset.setId(669);
+		computer04InTheDataset.setName("ComputerTest04");
 
-		final Company company01NotInTheDataset = new Company();
-		company01NotInTheDataset.setId(0);
-		company01NotInTheDataset.setName("DoesNotExist");
+		final Computer computer05InTheDataset = new Computer();
+		computer05InTheDataset.setId(670);
+		computer05InTheDataset.setName("ComputerTest05");
+
+		final Computer computer06InTheDataset = new Computer();
+		computer06InTheDataset.setId(0);
+		computer06InTheDataset.setName("ComputerTest02");
+
+		final Computer computerNotInTheDataset = new Computer();
+		computerNotInTheDataset.setId(0);
+		computerNotInTheDataset.setName("DoesNotExist");
 		
 		// WHEN
-		List<Company> companies = CompanyDAO.INSTANCE.getAll();
+		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
 		
 		// THEN
-		assertThat(companies.size()).isEqualTo(nbOfCompaniesInDataset);
+		assertThat(computers.size()).isEqualTo(nbOfComputersInDataset);
 		
-		assertThat(companies).contains(company01InTheDataset);
-		assertThat(companies).contains(company02InTheDataset);
-		assertThat(companies).contains(company03InTheDataset);
-		assertThat(companies).contains(company04InTheDataset);
+		assertThat(computers).contains(computer01InTheDataset);
+		assertThat(computers).contains(computer02InTheDataset);
+		assertThat(computers).contains(computer03InTheDataset);
+		assertThat(computers).contains(computer04InTheDataset);
 		
-		assertThat(companies).doesNotContain(company01NotInTheDataset);
+		assertThat(computers).doesNotContain(computerNotInTheDataset);
 		
 	}
 	
-	@Test
-	public void getCompanyByIdShouldReturnTheCorrectCompanyInDB() throws DAOException {
-		// GIVEN
-		final long id = 666;
-		
-		final Company companyInTheDataset = new Company();
-		companyInTheDataset.setId(id);
-		companyInTheDataset.setName("CompanyTest01");
-
-		final Company companyNotInTheDataset = new Company();
-		companyNotInTheDataset.setId(0);
-		companyNotInTheDataset.setName("DoesNotExist");
-		
-		// WHEN
-		Company company = CompanyDAO.INSTANCE.getById(id);
-		
-		// THEN
-		assertThat(company).isEqualTo(companyInTheDataset);
-		assertThat(company).isNotEqualTo(companyNotInTheDataset);
-	}
 	
+
 }
