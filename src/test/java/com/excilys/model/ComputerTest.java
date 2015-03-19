@@ -1,12 +1,28 @@
 package com.excilys.model;
 
-import java.time.LocalDateTime;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.*;
 
-import junit.framework.TestCase;
+import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-public class ComputerTest extends TestCase {
+public class ComputerTest {
+	
+	@Test
+	public void setIdShouldReturnCorrectId() {
+		//GIVEN
+		final Computer computer = new Computer();
+		final long computerId = 1L;
+		
+		//WHEN
+		computer.setId(computerId);
+		
+		//THEN
+		assertThat(computer.getId()).isEqualTo(computerId);
+	}
 	
 	@Test
 	public void testEquals() {

@@ -68,19 +68,47 @@ public class Computer {
 	
 	@Override
 	public int hashCode() {
-		int hash = (int)(this.id ^ (this.id >>> 32));
-		hash += this.name.hashCode();
-		hash += this.introduced.hashCode();
-		hash += this.discontinued.hashCode();
-		hash += this.company.hashCode();
-		return 113 * 131 + hash;
+		final int prime = 131;
+		int result = 1;
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		result = prime * result
+				+ ((discontinued == null) ? 0 : discontinued.hashCode());
+		result = prime * result
+				+ ((introduced == null) ? 0 : introduced.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 	
-	public boolean equals(Computer comp) {
-		return this.name.equals(comp.name)
-				&& this.introduced.equals(comp.introduced)
-				&& this.discontinued.equals(comp.discontinued)
-				&& this.company.equals(comp.company);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Computer other = (Computer) obj;
+		if (company == null) {
+			if (other.company != null)
+				return false;
+		} else if (!company.equals(other.company))
+			return false;
+		if (discontinued == null) {
+			if (other.discontinued != null)
+				return false;
+		} else if (!discontinued.equals(other.discontinued))
+			return false;
+		if (introduced == null) {
+			if (other.introduced != null)
+				return false;
+		} else if (!introduced.equals(other.introduced))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 }

@@ -1,0 +1,14 @@
+<dataset>
+	<company id="666" name="CompanyTest01" />
+
+	<computer id="666" name="ComputerTest01" introduced="2001-01-01 00:00:00"
+		discontinued="2001-01-01 00:00:00" company_id="666" />
+	<computer id="667" name="ComputerTest02" introduced="2001-01-01 00:00:00"
+		discontinued="2001-01-01 00:00:00" company_id="666" />
+	<computer id="668" name="ComputerTest03" introduced="2001-01-01 00:00:00"
+		discontinued="2001-01-01 00:00:00" company_id="666" />
+	<computer id="669" name="ComputerTest04" introduced="2001-01-01 00:00:00"
+		discontinued="2001-01-01 00:00:00" company_id="666" />
+	<computer id="670" name="ComputerTest05" introduced="2001-01-01 00:00:00"
+		discontinued="2001-01-01 00:00:00" company_id="666" />
+</dataset>
