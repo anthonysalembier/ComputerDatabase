@@ -16,6 +16,7 @@ import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import com.excilys.exception.DAOException;
 import com.excilys.model.Computer;
@@ -27,7 +28,19 @@ public class CompanyDAOTest {
 	private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
-	
+
+	/**
+	 * Setting the environment into test to tell the JDBC connector to connect to the test DB
+	 */
+	@BeforeClass
+	public static void setEnvProperty() {
+		System.setProperty("env", "test");
+	}
+
+	/**
+	 * Running schema to set up the test DB
+	 * @throws Exception
+	 */
 	@BeforeClass
 	public static void createSchema() throws Exception {
 		RunScript.execute(JDBC_URL, USER, PASSWORD, "schema.sql", Charset.forName("UTF8"), false);
@@ -79,6 +92,8 @@ public class CompanyDAOTest {
 		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
 		
 		// WHEN
+		System.out.println("PiPou");
+		assertThat("test").isEqualTo("test");
 		
 		// THEN
 		
