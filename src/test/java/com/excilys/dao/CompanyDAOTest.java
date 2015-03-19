@@ -1,5 +1,7 @@
 package com.excilys.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -16,10 +18,9 @@ import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import com.excilys.exception.DAOException;
-import com.excilys.model.Computer;
+import com.excilys.model.Company;
 
 
 public class CompanyDAOTest {
@@ -43,7 +44,7 @@ public class CompanyDAOTest {
 	 */
 	@BeforeClass
 	public static void createSchema() throws Exception {
-		RunScript.execute(JDBC_URL, USER, PASSWORD, "schema.sql", Charset.forName("UTF8"), false);
+		RunScript.execute(JDBC_URL, USER, PASSWORD, "classpath:scripts/schema.sql", Charset.forName("UTF8"), false);
 	}
 	
 
@@ -75,21 +76,13 @@ public class CompanyDAOTest {
 	 * @throws Exception
 	 */
 	private IDataSet readDataSet() throws Exception {
-		return new FlatXmlDataSetBuilder().build(new File("dataset.xml"));
+		return new FlatXmlDataSetBuilder().build(new File("src/test/resources/scripts/dataset.xml"));
 	}
 	
-	private DataSource dataSource() {
-		JdbcDataSource dataSource = new JdbcDataSource();
-		dataSource.setURL(JDBC_URL);
-		dataSource.setUser(USER);
-		dataSource.setPassword(PASSWORD);
-		return dataSource;
-	}
-
 	@Test
-	public void getAllComputersShouldReturnAllComputersInDB() throws DAOException {
+	public void getAllCompaniesShouldReturnAllCompaniesInDB() throws DAOException {
 		// GIVEN
-		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		List<Company> companies = CompanyDAO.INSTANCE.getAll();
 		
 		// WHEN
 		System.out.println("PiPou");
