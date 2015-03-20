@@ -61,9 +61,8 @@ public class CompanyDAOTest {
 	 * Import the test data set before each test case.
 	 * @throws Exception
 	 */
-	@Before
-	public void importDataSet() throws Exception {
-		IDataSet dataSet = readDataSet();
+	public void importDataSet(String path) throws Exception {
+		IDataSet dataSet = readDataSet(path);
 		cleanlyInsertDataset(dataSet);
 	}
 	
@@ -72,12 +71,14 @@ public class CompanyDAOTest {
 	 * @return a IDataSet that contains test data set
 	 * @throws Exception
 	 */
-	private IDataSet readDataSet() throws Exception {
-		return new FlatXmlDataSetBuilder().build(new File("src/test/resources/scripts/dataset.xml"));
+	private IDataSet readDataSet(String path) throws Exception {
+		return new FlatXmlDataSetBuilder().build(new File(path));
 	}
 	
 	@Test
-	public void getAllCompaniesShouldReturnAllCompaniesInDB() throws DAOException {
+	public void getAllCompaniesShouldReturnAllCompaniesInDB() throws Exception {
+		importDataSet("src/test/resources/scripts/datasets/companyDAO/getAllCompaniesDataset.xml");
+		
 		// GIVEN
 		final int nbOfCompaniesInDataset = 3;
 		
@@ -117,9 +118,11 @@ public class CompanyDAOTest {
 	}
 	
 	@Test
-	public void getCompanyByIdShouldReturnTheCorrectCompanyInDB() throws DAOException {
+	public void getCompanyByIdShouldReturnTheCorrectCompanyInDB() throws Exception {
+		importDataSet("src/test/resources/scripts/datasets/companyDAO/getCompanyByIdDataset.xml");
+		
 		// GIVEN
-		final long id = 666;
+		final long id = 111;
 		
 		final Company companyInTheDataset = new Company();
 		companyInTheDataset.setId(id);

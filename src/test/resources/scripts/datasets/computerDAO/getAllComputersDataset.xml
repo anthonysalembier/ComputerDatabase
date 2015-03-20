@@ -8,9 +8,7 @@
 	<computer id="667" name="ComputerTest02" introduced="2002-02-02 00:00:00"
 		discontinued="2002-02-02 00:00:00" company_id="666" />
 	<computer id="668" name="ComputerTest03" introduced="2003-03-03 00:00:00"
-		discontinued="2003-03-03 00:00:00" company_id="666" />
+		discontinued="2003-03-03 00:00:00" company_id="667" />
 	<computer id="669" name="ComputerTest04" introduced="2004-04-04 00:00:00"
-		discontinued="2004-04-04 00:00:00" company_id="666" />
-	<computer id="670" name="ComputerTest05" introduced="2005-05-05 00:00:00"
-		discontinued="2005-05-05 00:00:00" company_id="666" />
+		discontinued="2004-04-04 00:00:00" company_id="668" />
 </dataset>

@@ -17,15 +17,15 @@ public class ComputerMapper implements Mapper<Computer> {
 
 	private Properties properties;
 
-	private String computer;
-	private String company;
-	private String computerId;
-	private String companyId;
-	private String computerName;
-	private String companyName;
+	private String computerTable;
+	private String companyTable;
+	private String computerIdColumn;
+	private String companyIdColumn;
+	private String computerNameColumn;
+	private String companyNameColumn;
 	private String introduced;
 	private String discontinued;
-	private String computerCompanyId;
+	private String computerCompanyIdColumn;
 
 	public ComputerMapper() {
 		properties = new Properties();
@@ -33,15 +33,15 @@ public class ComputerMapper implements Mapper<Computer> {
 		try (InputStream input = CompanyDAO.class.getClassLoader()
 				.getResourceAsStream("tableConfig.properties")) {
 			properties.load(input);
-			computer = properties.getProperty("computer");
-			company = properties.getProperty("company");
-			computerId = properties.getProperty("computerId");
-			companyId = properties.getProperty("companyId");
-			computerName = properties.getProperty("computerName");
-			companyName = properties.getProperty("companyName");
+			computerTable = properties.getProperty("computer");
+			companyTable = properties.getProperty("company");
+			computerIdColumn = properties.getProperty("computerId");
+			companyIdColumn = properties.getProperty("companyId");
+			computerNameColumn = properties.getProperty("computerName");
+			companyNameColumn = properties.getProperty("companyName");
 			introduced = properties.getProperty("introduced");
 			discontinued = properties.getProperty("discontinued");
-			computerCompanyId = properties.getProperty("computerCompanyId");
+			computerCompanyIdColumn = properties.getProperty("computerCompanyId");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -55,26 +55,26 @@ public class ComputerMapper implements Mapper<Computer> {
 		}
 		final Computer computer = new Computer();
 		
-		computer.setId(res.getLong("cpt." + computerId));
+		computer.setId(res.getLong(computerTable + "." + computerIdColumn));
 		
-		computer.setName(res.getString("cpt." + computerName));
+		computer.setName(res.getString(computerTable + "." + computerNameColumn));
 		
-		Timestamp introduced = res.getTimestamp("introduced");
+		Timestamp introduced = res.getTimestamp(this.introduced);
 		if (introduced != null) {
 			computer.setIntroduced(introduced.toLocalDateTime());
 		}
 		
-		Timestamp discontinued = res.getTimestamp("discontinued");
+		Timestamp discontinued = res.getTimestamp(this.discontinued);
 		if (discontinued != null) {
 			computer.setDiscontinued(discontinued.toLocalDateTime());
 		}
 		
 		Company company;
-		long companyId = res.getLong("cpy." + this.companyId);
+		long companyId = res.getLong(companyTable + "." + this.companyIdColumn);
 		if (companyId > 0) {
 			company = new Company();
 			company.setId(companyId);
-			String companyName = res.getString("cpy." + this.companyName);
+			String companyName = res.getString(companyTable + "." + this.companyNameColumn);
 			if (companyName != null) {
 				company.setName(companyName);
 			}

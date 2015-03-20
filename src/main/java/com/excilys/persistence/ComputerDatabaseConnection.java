@@ -31,10 +31,12 @@ public enum ComputerDatabaseConnection {
 	private void loadConfigFile() throws IOException {
 		if (properties == null) {
 			properties = new Properties();
-			if (System.getProperty("env").equals("test")) {
-				try (final InputStream is = ComputerDatabaseConnection.class.getClassLoader().getResourceAsStream("testConfig.properties")) {
-					properties.load(is);
-					url = properties.getProperty("url");
+			if (System.getProperty("env") != null) {
+				if (System.getProperty("env").equals("test")) {
+					try (final InputStream is = ComputerDatabaseConnection.class.getClassLoader().getResourceAsStream("testConfig.properties")) {
+						properties.load(is);
+						url = properties.getProperty("url");
+					}
 				}
 			} else {
 				try (final InputStream is = ComputerDatabaseConnection.class.getClassLoader().getResourceAsStream("config.properties")) {

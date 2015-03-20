@@ -58,11 +58,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
 		
-		final String sql = "SELECT * "
-						+ "FROM " + computerTable + " cpt " 
-						+ "LEFT OUTER JOIN " + companyTable + " cpy "
-						+ "ON cpt." + computerCompanyIdColumn + " = cpy." + computerIdColumn 
-						+ " ORDER BY cpt." + computerIdColumn;
+		final String sql = "SELECT *"
+						+ " FROM " + computerTable 
+						+ " LEFT OUTER JOIN " + companyTable
+						+ " ON " + computerTable + "." + computerCompanyIdColumn + " = " + companyTable + "." + companyIdColumn 
+						+ " ORDER BY " + computerTable + "." + computerIdColumn;
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql)) {
@@ -81,11 +81,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	public List<Computer> getAll(Page page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * "
-						+ "FROM " + computerTable + " cpt " 
-						+ "LEFT OUTER JOIN " + companyTable + " cpy "
-						+ "ON cpt." + computerCompanyIdColumn + " = cpy." + computerIdColumn 
-						+ " ORDER BY cpt." + computerIdColumn;
+		final String sql = "SELECT *"
+						+ " FROM " + computerTable 
+						+ " LEFT OUTER JOIN " + companyTable
+						+ " ON " + computerTable + "." + computerCompanyIdColumn + " = " + companyTable + "." + companyIdColumn 
+						+ " ORDER BY " + computerTable + "." + computerIdColumn;
 		
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql)) {
@@ -105,11 +105,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	@Override
 	public Computer getById(Long id) throws DAOException {
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * "
-						+ "FROM " + computerTable + " cpt "
-						+ "LEFT OUTER JOIN " + companyTable + " cpy "
-						+ "ON cpt." + computerCompanyIdColumn + " = cpy." + companyIdColumn 
-						+ " WHERE cpt." + computerIdColumn + " = ?";
+		final String sql = "SELECT *"
+						+ " FROM " + computerTable
+						+ " LEFT OUTER JOIN " + companyTable
+						+ " ON " + computerTable + "." + computerCompanyIdColumn + " = " + companyTable + "." + companyIdColumn 
+						+ " WHERE " + computerTable + "." + computerIdColumn + " = ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql)) {
