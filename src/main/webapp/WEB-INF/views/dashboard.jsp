@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<!DOCTYPE html>
 <html>
 <head>
 <title>Computer Database</title>
@@ -13,9 +15,10 @@
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
-		</div>
+	<div class="container">
+		<a class="navbar-brand" href="dashboard.html"> Application -
+			Computer Database </a>
+	</div>
 	</header>
 
 	<section id="main">
@@ -68,28 +71,21 @@
 			</thead>
 			<!-- Browse attribute computers -->
 			<tbody id="results">
-			
-			
-				<tr>
-					<td class="editMode"><input type="checkbox" name="cb"
-						class="cb" value="0"></td>
-					<td><a href="editComputer.html" onclick="">MacBook Pro</a></td>
-					<td>2006-01-10</td>
-					<td></td>
-					<td>Apple Inc.</td>
-
-				</tr>
-				<tr>
-					<td class="editMode"><input type="checkbox" name="cb"
-						class="cb" value="0"></td>
-					<td><a href="editComputer.html" onclick="">Connection
-							Machine</a></td>
-					<td>1987-01-01</td>
-					<td></td>
-					<td>Thinking Machines</td>
-
-				</tr>
-
+				<c:forEach var="i" begin="0" end="9">
+					<tr>
+						<td class="editMode">
+							<input type="checkbox" name="cb" class="cb" value="0">
+						</td>
+						<td>
+							<a href="editComputer.html" onclick="">
+								<c:out value="i"/>
+							</a>
+						</td>
+						<td>2006-01-10</td>
+						<td></td>
+						<td>Apple Inc.</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -116,9 +112,9 @@
 			<button type="button" class="btn btn-default">100</button>
 		</div>
 	</footer>
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/dashboard.js"></script>
 
 </body>
 </html>

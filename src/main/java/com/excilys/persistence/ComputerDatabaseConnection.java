@@ -11,7 +11,7 @@ import com.excilys.exception.PersistenceException;
 
 public enum ComputerDatabaseConnection {
 	INSTANCE;
-
+	
 	private Properties properties;
 	private String url;
 
@@ -19,11 +19,10 @@ public enum ComputerDatabaseConnection {
 		Connection connection = null;
 
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			loadConfigFile();
-			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(url, properties);
-		} catch (SQLException | IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (SQLException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			throw new PersistenceException(e.getMessage());
 		}
 

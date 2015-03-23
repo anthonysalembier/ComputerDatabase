@@ -28,17 +28,6 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Computer> computers = null;
 		
-		try {
-			computers = ComputerService.INSTANCE.getAll();
-			computers.stream()
-				.forEach(System.out::println);
-			/*for(Computer c : computers) {
-				System.out.println(c);
-			}*/
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-		
 		request.getServletContext().setAttribute("computers", computers);
 		request.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
