@@ -1,18 +1,20 @@
 package com.excilys.controller;
 
 import java.io.IOException;
+import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.exception.ServiceException;
+import com.excilys.model.Computer;
+import com.excilys.service.ComputerService;
+
 /**
  * Servlet implementation class ServletController
  */
-@WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +26,21 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/dynamic/dashboard.jsp").forward(request, response);
+		List<Computer> computers = null;
+		
+		try {
+			computers = ComputerService.INSTANCE.getAll();
+			computers.stream()
+				.forEach(System.out::println);
+			/*for(Computer c : computers) {
+				System.out.println(c);
+			}*/
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		
+		request.getServletContext().setAttribute("computers", computers);
+		request.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
 
 	/**

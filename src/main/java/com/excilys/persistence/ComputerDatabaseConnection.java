@@ -20,8 +20,10 @@ public enum ComputerDatabaseConnection {
 
 		try {
 			loadConfigFile();
+			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(url, properties);
-		} catch (SQLException | IOException e) {
+		} catch (SQLException | IOException | ClassNotFoundException e) {
+			e.printStackTrace();
 			throw new PersistenceException(e.getMessage());
 		}
 

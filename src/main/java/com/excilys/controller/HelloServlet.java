@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/hello")
 public class HelloServlet extends HttpServlet {
 	
 	public HelloServlet() {
@@ -18,7 +17,7 @@ public class HelloServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getServletContext().getRequestDispatcher("/WEB-INF/views/index.jsp").forward(request, response);
+		request.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 	}
 	
 	@Override

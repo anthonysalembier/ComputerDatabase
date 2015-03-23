@@ -7,6 +7,7 @@ import com.excilys.exception.DAOException;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Company;
 
+
 public enum CompanyService {
 	INSTANCE;
 
