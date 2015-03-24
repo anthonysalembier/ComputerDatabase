@@ -5,26 +5,47 @@
     	version="3.0">
 
 	<display-name>computerdatabase</display-name>
-	
-	<servlet>
-		<servlet-name>index</servlet-name>
-		<servlet-class>com.excilys.controller.HelloServlet</servlet-class>
-	</servlet>
-	
+		
 	<servlet>
 		<servlet-name>dashboard</servlet-name>
 		<servlet-class>com.excilys.controller.DashboardServlet</servlet-class>
 	</servlet>
 	
-	<servlet-mapping>
-		<servlet-name>index</servlet-name>
-		<url-pattern>/index</url-pattern>
-	</servlet-mapping>
+	<servlet>
+		<servlet-name>editComputer</servlet-name>
+		<servlet-class>com.excilys.controller.EditComputerServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>addComputer</servlet-name>
+		<servlet-class>com.excilys.controller.AddComputerServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>deleteComputer</servlet-name>
+		<servlet-class>com.excilys.controller.DeleteComputerServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>dashboard</servlet-name>
 		<url-pattern>/dashboard</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>editComputer</servlet-name>
+		<url-pattern>/edit</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>addComputer</servlet-name>
+		<url-pattern>/add</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>deleteComputer</servlet-name>
+		<url-pattern>/delete</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

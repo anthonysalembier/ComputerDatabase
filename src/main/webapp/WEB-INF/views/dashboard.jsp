@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -23,7 +24,7 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">121 Computers found</h1>
+		<h1 id="homeTitle"><c:out value="${ fn:length(computers) }" /> computers found</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -35,7 +36,7 @@
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="addComputer.html">Add
+				<a class="btn btn-success" id="addComputer" href="add">Add
 					Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 					onclick="$.fn.toggleEditMode();">Edit</a>
 			</div>
@@ -71,19 +72,25 @@
 			</thead>
 			<!-- Browse attribute computers -->
 			<tbody id="results">
-				<c:forEach var="i" begin="0" end="9">
+				<c:forEach var="computer" items="${ computers }">
 					<tr>
 						<td class="editMode">
 							<input type="checkbox" name="cb" class="cb" value="0">
 						</td>
 						<td>
-							<a href="editComputer.html" onclick="">
-								${i}
+							<a href="edit?id=${ computer.id }" onclick="">
+								<c:out value="${ computer.name }" />
 							</a>
 						</td>
-						<td>2006-01-10</td>
-						<td></td>
-						<td>Apple Inc.</td>
+						<td>
+							<c:out value="${ computer.introduced }" />
+						</td>
+						<td>
+							<c:out value="${ computer.discontinued }" />
+						</td>
+						<td>
+							<c:out value="${ computer.company.name }" />
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
