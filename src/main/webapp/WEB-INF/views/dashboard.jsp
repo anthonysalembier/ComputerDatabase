@@ -78,7 +78,7 @@
 						</td>
 						<td>
 							<a href="editComputer.html" onclick="">
-								<c:out value="i"/>
+								${i}
 							</a>
 						</td>
 						<td>2006-01-10</td>
