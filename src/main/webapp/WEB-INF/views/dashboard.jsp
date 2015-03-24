@@ -114,10 +114,17 @@
 		</ul>
 
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<button type="button" class="btn btn-default">10</button>
-			<button type="button" class="btn btn-default">50</button>
-			<button type="button" class="btn btn-default">100</button>
+			<button type="button" class="btn btn-default" value="10">
+				10
+			</button>
+			<button type="button" class="btn btn-default">
+				50
+			</button>
+			<button type="button" class="btn btn-default">
+				100
+			</button>
 		</div>
+	</div>
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

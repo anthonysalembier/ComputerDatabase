@@ -130,26 +130,39 @@ public class ComputerDAOTest {
 		computer05InTheDataset.setDiscontinued(LocalDateTime.of(2001, 01, 01, 00, 00, 00));
 		computer05InTheDataset.setCompany(company01);
 
-		final Computer computerNotInTheDataset = new Computer();
-		computerNotInTheDataset.setId(0L);
-		computerNotInTheDataset.setName("DoesNotExist");
-		computerNotInTheDataset.setIntroduced(LocalDateTime.of(2000, 11, 11, 00, 00, 00));
-		computerNotInTheDataset.setDiscontinued(LocalDateTime.of(2000, 11, 11, 00, 00, 00));
-		computerNotInTheDataset.setCompany(company01);
-
-		
 		// WHEN
 		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
 		
 		// THEN
 		assertThat(computers.size()).isEqualTo(nbOfComputersInDataset);
 		
-		assertThat(computers).contains(computer01InTheDataset);
-		assertThat(computers).contains(computer02InTheDataset);
-		assertThat(computers).contains(computer03InTheDataset);
-		assertThat(computers).contains(computer04InTheDataset);
-		assertThat(computers).contains(computer05InTheDataset);
+		assertThat(computers).contains(computer01InTheDataset,
+									computer02InTheDataset,
+									computer03InTheDataset,
+									computer04InTheDataset,
+									computer05InTheDataset);
+	}
+	
+	@Test
+	public void getAllComputersShouldReturnOnlyComputersInDB() throws Exception {
+		importDataSet("src/test/resources/scripts/datasets/computerDAO/getAllComputersDataset.xml");
 		
+		// GIVEN
+		Company company01 = new Company();
+		company01.setId(666);
+		company01.setName("CompanyTest01");
+
+		final Computer computerNotInTheDataset = new Computer();
+		computerNotInTheDataset.setId(0L);
+		computerNotInTheDataset.setName("DoesNotExist");
+		computerNotInTheDataset.setIntroduced(LocalDateTime.of(2000, 11, 11, 00, 00, 00));
+		computerNotInTheDataset.setDiscontinued(LocalDateTime.of(2000, 11, 11, 00, 00, 00));
+		computerNotInTheDataset.setCompany(company01);
+		
+		// WHEN
+		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+				
+		// THEN
 		assertThat(computers).doesNotContain(computerNotInTheDataset);
 	}
 	
@@ -171,19 +184,11 @@ public class ComputerDAOTest {
 		computerInTheDataset.setDiscontinued(LocalDateTime.of(2001, 01, 01, 00, 00, 00));
 		computerInTheDataset.setCompany(company01);
 		
-		final Computer computerNotInTheDataset = new Computer();
-		computerNotInTheDataset.setId(0L);
-		computerNotInTheDataset.setName("DoesNotExist");
-		computerNotInTheDataset.setIntroduced(LocalDateTime.of(2000, 11, 11, 00, 00, 00));
-		computerNotInTheDataset.setDiscontinued(LocalDateTime.of(2000, 11, 11, 00, 00, 00));
-		computerNotInTheDataset.setCompany(company01);
-		
 		// WHEN
 		Computer computer = ComputerDAO.INSTANCE.getById(id);
 		
 		// THEN
 		assertThat(computer).isEqualTo(computerInTheDataset);
-		assertThat(computer).isNotEqualTo(computerNotInTheDataset);
 	}
 	
 	@Test

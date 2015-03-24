@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -76,5 +77,19 @@ public enum CompanyDAO implements DAO<Company, Long> {
 				throw new DAOException(e.getMessage());
 		}
 		return null;
+	}
+	
+	@Override
+	public int count() throws DAOException {
+		final String sql = "SELECT COUNT(*) FROM " + company;
+		try (final Statement state = ComputerDatabaseConnection.INSTANCE.getInstance().createStatement()) {
+            final ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException | PersistenceException e) {
+            throw new DAOException(e);
+		}
+        return 0;
 	}
 }

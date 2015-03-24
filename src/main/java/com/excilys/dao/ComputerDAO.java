@@ -52,7 +52,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			}
 		}
 	}
-
+	
 	@Override
 	public List<Computer> getAll() throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
@@ -80,26 +80,25 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	
 	public List<Computer> getAll(Page page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
-		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT *"
-						+ " FROM " + computerTable 
-						+ " LEFT OUTER JOIN " + companyTable
-						+ " ON " + computerTable + "." + computerCompanyIdColumn + " = " + companyTable + "." + companyIdColumn 
-						+ " ORDER BY " + computerTable + "." + computerIdColumn;
-		
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql)) {
-			try (final ResultSet rs = pStatement.executeQuery(String.format(page.getProperties(), page.getSort(), page.getSize(),
-					page.getOffset()))) {
-				while (rs.next()) {
-					computers.add(computerMapper.rowMap(rs));
-				}
-			}
-		} catch (SQLException | PersistenceException e) {
-			throw new DAOException(e.getMessage());
-		}
+        final ComputerMapper computerMapper = new ComputerMapper();
+        final String sql = "SELECT * FROM computer LEFT OUTER JOIN company"
+                + " ON computer.company_id = company.id"
+                + " ORDER BY ? ? LIMIT ? OFFSET ?";
 
-		return computers;
+        try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE.getInstance().prepareStatement(sql)) {
+            pStatement.setString(1, page.getProperties());
+            pStatement.setString(2, page.getSort().toString());
+            pStatement.setInt(3, page.getSize());
+            pStatement.setInt(4, page.getOffset());
+            final ResultSet rs = pStatement.executeQuery();
+            while (rs.next()) {
+                computers.add(computerMapper.rowMap(rs));
+            }
+        } catch (SQLException | PersistenceException e) {
+            throw new DAOException(e);
+        }
+
+        return computers;
 	}
 
 	@Override
@@ -206,6 +205,20 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
 		}
+	}
+	
+	@Override
+	public int count() throws DAOException {
+		final String sql = "SELECT COUNT(*) FROM " + computerTable;
+		try (final Statement state = ComputerDatabaseConnection.INSTANCE.getInstance().createStatement()) {
+            final ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException | PersistenceException e) {
+            throw new DAOException(e);
+		}
+        return 0;
 	}
 
 }

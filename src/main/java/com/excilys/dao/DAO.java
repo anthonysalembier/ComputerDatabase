@@ -62,4 +62,10 @@ public interface DAO<T, I extends Serializable> {
 	default void delete(I id) throws DAOException {
 		throw new UnsupportedOperationException(); 
 	}
+	
+	/**
+	 * Count the total number of entities
+	 * @throws DAOException
+	 */
+	int count() throws DAOException;
 }

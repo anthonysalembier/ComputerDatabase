@@ -11,9 +11,23 @@ import com.excilys.exception.PersistenceException;
 
 public enum ComputerDatabaseConnection {
 	INSTANCE;
-	
+
 	private Properties properties;
 	private String url;
+
+	private ComputerDatabaseConnection() {
+		try {
+			if (System.getProperty("env") != null) {
+				if (System.getProperty("env").equals("test")) {
+					Class.forName("org.h2.Driver").newInstance();
+				}
+			} else {
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+			}
+		} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Connection getInstance() throws PersistenceException {
 		Connection connection = null;
@@ -28,7 +42,8 @@ public enum ComputerDatabaseConnection {
 			}
 			loadConfigFile();
 			connection = DriverManager.getConnection(url, properties);
-		} catch (SQLException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch (SQLException | IOException | InstantiationException
+				| IllegalAccessException | ClassNotFoundException e) {
 			throw new PersistenceException(e.getMessage());
 		}
 
@@ -40,13 +55,17 @@ public enum ComputerDatabaseConnection {
 			properties = new Properties();
 			if (System.getProperty("env") != null) {
 				if (System.getProperty("env").equals("test")) {
-					try (final InputStream is = ComputerDatabaseConnection.class.getClassLoader().getResourceAsStream("testConfig.properties")) {
+					try (final InputStream is = ComputerDatabaseConnection.class
+							.getClassLoader().getResourceAsStream(
+									"testConfig.properties")) {
 						properties.load(is);
 						url = properties.getProperty("url");
 					}
 				}
 			} else {
-				try (final InputStream is = ComputerDatabaseConnection.class.getClassLoader().getResourceAsStream("config.properties")) {
+				try (final InputStream is = ComputerDatabaseConnection.class
+						.getClassLoader().getResourceAsStream(
+								"config.properties")) {
 					properties.load(is);
 					url = properties.getProperty("url");
 				}
