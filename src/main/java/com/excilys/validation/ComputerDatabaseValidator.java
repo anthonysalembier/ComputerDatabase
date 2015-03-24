@@ -2,8 +2,7 @@ package com.excilys.validation;
 
 import org.apache.commons.validator.routines.DateValidator;
 
-public enum ComputerDatabaseValidator {
-	INSTANCE;
+public class ComputerDatabaseValidator {
 	
 	/**
 	 * Validate date.
@@ -11,7 +10,7 @@ public enum ComputerDatabaseValidator {
 	 * @param inputString The input string
 	 * @return True, if successful
 	 */
-	public boolean validateDate(String inputString) {
+	public static boolean validateDate(String inputString) {
 //		SimpleDateFormat format = new java.text.SimpleDateFormat(
 //				"yyyy-MM-dd HH:mm:ss");
 //		try {
