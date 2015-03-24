@@ -19,7 +19,13 @@ public enum ComputerDatabaseConnection {
 		Connection connection = null;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			if (System.getProperty("env") != null) {
+				if (System.getProperty("env").equals("test")) {
+					Class.forName("org.h2.Driver").newInstance();
+				}
+			} else {
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+			}
 			loadConfigFile();
 			connection = DriverManager.getConnection(url, properties);
 		} catch (SQLException | IOException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
