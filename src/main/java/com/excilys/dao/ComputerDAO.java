@@ -92,9 +92,9 @@ public enum ComputerDAO implements DAO<Computer, Long> {
         sql.append(" LEFT OUTER JOIN ").append(companyTable); 
         sql.append(" ON ").append(computerTable).append(".").append(companyIdColumn);
         sql.append(" = ");
-        sql.append(companyTable).append(companyIdColumn);
+        sql.append(companyTable).append(".").append(companyIdColumn);
         sql.append(" ORDER BY ? ? LIMIT ? OFFSET ?");
-
+        
         try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
         											.getInstance().prepareStatement(sql.toString())) {
             pStatement.setString(1, page.getProperties());

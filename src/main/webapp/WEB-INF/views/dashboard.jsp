@@ -3,7 +3,7 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle"><c:out value="${ fn:length(computers) }" /> computers found</h1>
+		<h1 id="homeTitle"><c:out value="${ total }" /> computers found</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
