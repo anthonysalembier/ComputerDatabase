@@ -9,11 +9,13 @@
 
 <div class="container text-center">
 	<ul class="pagination">
-		<li>
-			<a href="#" aria-label="Previous">
-				<span aria-hidden="true">&laquo;</span>
-			</a>
-		</li>
+		<c:if test="${ currentPage > 1 }">
+			<li>
+				<a href="#" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+		</c:if>
 		
 		<c:choose>
 			<c:when test="${ totalPages > 6}">
@@ -57,11 +59,13 @@
 			</c:otherwise>
 		</c:choose>
 	
-		<li>
-			<a href="#" aria-label="Next">
-				<span aria-hidden="true">&raquo;</span>
-			</a>
-		</li>
+		<c:if test="${ currentPage < totalPages }">
+			<li>
+				<a href="#" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</c:if>
 	</ul>
 
 	<div class="btn-group btn-group-sm pull-right" role="group">

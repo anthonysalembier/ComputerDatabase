@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.mapper.ComputerDTOMapper;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.ComputerService;
 import com.excilys.util.Page;
 import com.excilys.util.SimplePage;
@@ -24,7 +26,6 @@ public class DashboardServlet extends HttpServlet {
 	private ComputerService computerService = ComputerService.INSTANCE;
 
 	public DashboardServlet() {
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -69,7 +70,7 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("maxPages", maxPages);
         
         // List of computers
-        request.setAttribute("computers", computerService.getAll(p));
+        request.setAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getAll(p)));
         
         // The current page
         request.setAttribute("currentPage", pge);
@@ -83,7 +84,6 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

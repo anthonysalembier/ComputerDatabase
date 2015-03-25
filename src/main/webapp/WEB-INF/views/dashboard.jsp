@@ -69,7 +69,7 @@
 							<c:out value="${ computer.discontinued }" />
 						</td>
 						<td>
-							<c:out value="${ computer.company.name }" />
+							<c:out value="${ computer.companyName }" />
 						</td>
 					</tr>
 				</c:forEach>
