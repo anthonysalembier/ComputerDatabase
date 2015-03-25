@@ -1,4 +1,4 @@
-package com.excilys.persistence;
+package com.excilys.connection;
 
 import java.io.IOException;
 import java.io.InputStream;

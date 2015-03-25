@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.excilys.connection.ComputerDatabaseConnection;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.PersistenceException;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
-import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.util.Page;
 
 public enum ComputerDAO implements DAO<Computer, Long> {

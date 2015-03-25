@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.excilys.connection.ComputerDatabaseConnection;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.PersistenceException;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
-import com.excilys.persistence.ComputerDatabaseConnection;
 
 public enum CompanyDAO implements DAO<Company, Long> {
 	INSTANCE;
