@@ -10,6 +10,8 @@ import com.excilys.model.Computer;
 
 public class ComputerDTOMapper {
 
+	private static final String REGEX_DATE_FORMAT = "dd/MM/yy";
+
 	public static ComputerDTO getComputerDTO(Computer c) {
 		ComputerDTO computer = new ComputerDTO();
 		
@@ -17,7 +19,7 @@ public class ComputerDTOMapper {
 		
 		computer.setName(c.getName());
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(REGEX_DATE_FORMAT);
 		
 		LocalDateTime introDate = c.getIntroduced();
 		if (introDate != null) {

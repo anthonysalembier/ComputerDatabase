@@ -52,13 +52,6 @@ public interface Page {
      */
     Sort getSort();
 
-//	/**
-//	 * Returns the {@link Page} requesting the previous {@link Page}.
-//	 *
-//	 * @return previous page
-//	 */
-//	Page getPrevious();
-
     /**
      * @param sort Current sort
      * @pre sort != null

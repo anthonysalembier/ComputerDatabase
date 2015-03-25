@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.mapper.ComputerDTOMapper;
-import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.ComputerService;
 import com.excilys.util.Page;
 import com.excilys.util.SimplePage;
@@ -18,15 +17,9 @@ import com.excilys.util.SimplePage;
  */
 public class DashboardServlet extends HttpServlet {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 110834506145935418L;
 	
 	private ComputerService computerService = ComputerService.INSTANCE;
-
-	public DashboardServlet() {
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

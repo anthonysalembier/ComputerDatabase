@@ -23,7 +23,6 @@ public class ComputerMapper implements Mapper<Computer> {
 	private String companyNameColumn;
 	private String introduced;
 	private String discontinued;
-	private String computerCompanyIdColumn;
 
 	public ComputerMapper() {
 		properties = new Properties();
@@ -39,7 +38,6 @@ public class ComputerMapper implements Mapper<Computer> {
 			companyNameColumn = properties.getProperty("companyName");
 			introduced = properties.getProperty("introduced");
 			discontinued = properties.getProperty("discontinued");
-			computerCompanyIdColumn = properties.getProperty("computerCompanyId");
 
 		} catch (IOException e) {
 			e.printStackTrace();

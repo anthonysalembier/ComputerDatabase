@@ -23,7 +23,6 @@ public enum CompanyDAO implements DAO<Company, Long> {
 	
 	private String company;
 	private String id;
-	private String name;
 	
 	private CompanyDAO() {
 		if (properties == null) {
@@ -33,7 +32,6 @@ public enum CompanyDAO implements DAO<Company, Long> {
 				properties.load(input);
 				company = properties.getProperty("company");
 				id = properties.getProperty("companyId");
-				name = properties.getProperty("companyName");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -45,9 +43,12 @@ public enum CompanyDAO implements DAO<Company, Long> {
 		final List<Company> companies = new ArrayList<>();
 		final CompanyMapper companyMapper = new CompanyMapper();
 
-		String sql = "SELECT * FROM " + company;
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM ");
+		sql.append(company);
+		
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql)) {
+													.getInstance().prepareStatement(sql.toString())) {
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				while (rs.next()) {
 					companies.add(companyMapper.rowMap(rs));
@@ -63,10 +64,13 @@ public enum CompanyDAO implements DAO<Company, Long> {
 	@Override
 	public Company getById(Long id) throws DAOException {
 		final CompanyMapper companyMapper = new CompanyMapper();
-		final String sql = "SELECT * FROM " + company + " WHERE " + id + " = ?";
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM ").append(company);
+		sql.append(" WHERE ").append(this.id).append(" = ?");
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql)) {
+													.getInstance().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				if (rs.first()) {

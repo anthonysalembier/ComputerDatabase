@@ -11,9 +11,6 @@ import com.excilys.service.ComputerService;
 
 public class EditComputerServlet extends HttpServlet {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4527396020461013483L;
 	
 	private ComputerService computerService = ComputerService.INSTANCE;
