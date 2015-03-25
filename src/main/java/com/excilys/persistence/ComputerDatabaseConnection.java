@@ -15,32 +15,12 @@ public enum ComputerDatabaseConnection {
 	private Properties properties;
 	private String url;
 
-	private ComputerDatabaseConnection() {
-		try {
-			if (System.getProperty("env") != null) {
-				if (System.getProperty("env").equals("test")) {
-					Class.forName("org.h2.Driver").newInstance();
-				}
-			} else {
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-			}
-		} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public Connection getInstance() throws PersistenceException {
 		Connection connection = null;
 
 		try {
-			if (System.getProperty("env") != null) {
-				if (System.getProperty("env").equals("test")) {
-					Class.forName("org.h2.Driver").newInstance();
-				}
-			} else {
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-			}
 			loadConfigFile();
+			Class.forName(properties.getProperty("driver")).newInstance();
 			connection = DriverManager.getConnection(url, properties);
 		} catch (SQLException | IOException | InstantiationException
 				| IllegalAccessException | ClassNotFoundException e) {
