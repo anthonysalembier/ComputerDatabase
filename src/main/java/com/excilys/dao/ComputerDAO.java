@@ -149,7 +149,14 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 																	Statement.RETURN_GENERATED_KEYS)) {
 			pStatement.setObject(1, null);
 			if (entity.getName() != null) {
-				pStatement.setString(2, entity.getName());
+				String name = entity.getName().trim();
+				if (!name.isEmpty()) {
+					pStatement.setString(2, name);
+				} else {
+					throw new SQLException();
+				}
+			} else {
+				throw new SQLException();
 			}
 			if (entity.getIntroduced() != null) {
 				pStatement.setTimestamp(3,
@@ -187,7 +194,14 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql.toString())) {
 			if (entity.getName() != null) {
-				pStatement.setString(1, entity.getName());
+				String name = entity.getName().trim();
+				if (!name.isEmpty()) {
+					pStatement.setString(1, name);
+				} else {
+					throw new SQLException();
+				}
+			} else {
+				throw new SQLException();
 			}
 			if (entity.getIntroduced() != null) {
 				pStatement.setTimestamp(2,

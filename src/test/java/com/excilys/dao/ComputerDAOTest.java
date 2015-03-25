@@ -7,13 +7,13 @@ import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.assertj.core.api.Fail;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.tools.RunScript;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -192,6 +192,20 @@ public class ComputerDAOTest {
 	}
 	
 	@Test
+	public void getByIdShouldReturnNothingIfIdNotInDB() throws Exception {
+		importDataSet("src/test/resources/scripts/datasets/computerDAO/getComputerByIdDataset.xml");
+		
+		// GIVEN
+		final long id = 0L;
+		
+		// WHEN
+		Computer computer = ComputerDAO.INSTANCE.getById(id);
+		
+		// THEN
+		assertThat(computer).isNull();
+	}
+	
+	@Test
 	public void createComputerShouldAddTheComputerInDB() throws Exception {
 		importDataSet("src/test/resources/scripts/datasets/computerDAO/createComputerDataset.xml");
 		
@@ -213,6 +227,50 @@ public class ComputerDAOTest {
 		// THEN
 		assertThat(computers.size()).isEqualTo(1);
 		assertThat(computers).contains(computer);
+		
+		// CLEAN
+		ComputerDAO.INSTANCE.delete(computers.get(0).getId());
+	}
+	
+	@Test
+	public void createComputerShouldNotAddAnIncorrectComputerInDB() throws Exception {
+		importDataSet("src/test/resources/scripts/datasets/computerDAO/createComputerDataset.xml");
+		
+		//GIVEN
+		Company company01 = new Company();
+		company01.setId(666L);
+		company01.setName("CompanyTest01");
+		
+		final Computer computer01 = new Computer();
+		computer01.setName(null);
+		computer01.setIntroduced(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer01.setDiscontinued(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer01.setCompany(company01);
+		
+		final Computer computer02 = new Computer();
+		computer02.setName("");
+		computer02.setIntroduced(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer02.setDiscontinued(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer02.setCompany(company01);
+		
+		final Computer computer03 = new Computer();
+		computer03.setName(" ");
+		computer03.setIntroduced(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer03.setDiscontinued(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer03.setCompany(company01);
+		
+		try {
+			// WHEN
+			ComputerDAO.INSTANCE.create(computer01);
+			ComputerDAO.INSTANCE.create(computer02);
+			ComputerDAO.INSTANCE.create(computer03);
+			
+			// THEN KO
+			Fail.shouldHaveThrown(DAOException.class);
+		} catch (DAOException e) {
+			// THEN OK
+		}
+		
 	}
 	
 	@Test
@@ -243,6 +301,45 @@ public class ComputerDAOTest {
 	}
 	
 	@Test
+	public void updateComputerShouldNotUpdateIfIncorrectComputer() throws Exception {
+		importDataSet("src/test/resources/scripts/datasets/computerDAO/updateComputerDataset.xml");
+		
+		// GIVEN
+		Company company01 = new Company();
+		company01.setId(666L);
+		company01.setName("CompanyTest01");
+
+		final Computer computer01 = new Computer();
+		computer01.setName(null);
+		computer01.setIntroduced(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer01.setDiscontinued(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer01.setCompany(company01);
+		
+		final Computer computer02 = new Computer();
+		computer02.setName("");
+		computer02.setIntroduced(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer02.setDiscontinued(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer02.setCompany(company01);
+		
+		final Computer computer03 = new Computer();
+		computer03.setName(" ");
+		computer03.setIntroduced(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer03.setDiscontinued(LocalDateTime.of(2010, 10, 10, 00, 00, 00));
+		computer03.setCompany(company01);
+		
+		try {
+			// WHEN
+			ComputerDAO.INSTANCE.update(computer01);
+			ComputerDAO.INSTANCE.update(computer02);
+			ComputerDAO.INSTANCE.update(computer03);
+		
+			Fail.shouldHaveThrown(DAOException.class);
+		} catch (DAOException e) {
+			// THEN OK
+		}
+	}
+	
+	@Test
 	public void deleteComputerShouldDeleteTheComputerInDB() throws Exception {
 		importDataSet("src/test/resources/scripts/datasets/computerDAO/deleteComputerDataset.xml");
 		
@@ -254,6 +351,21 @@ public class ComputerDAOTest {
 		
 		// THEN
 		assertThat(computers.size()).isEqualTo(0);
+	}
+	
+	@Test
+	public void deleteAnIncorrectComputerShouldDoNothing() throws Exception {
+		importDataSet("src/test/resources/scripts/datasets/computerDAO/deleteComputerDataset.xml");
+		
+		// GIVEN
+		
+		
+		// WHEN
+		ComputerDAO.INSTANCE.delete(0L);
+		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		
+		// THEN
+		assertThat(computers.size()).isEqualTo(1);
 	}
 	
 	
