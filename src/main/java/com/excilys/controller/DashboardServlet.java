@@ -54,13 +54,27 @@ public class DashboardServlet extends HttpServlet {
         if (totalEntities % entitiesByPage != 0) {
             ++maxPages;
         }
+        
+        // Pages number
         request.setAttribute("totalPages", maxPages);
         maxPages = Math.min(maxPages, pge + entitiesByPage - 1);
+        
+        // The Page object
         request.setAttribute("page", p);
+        
+        // Elements number by page
         request.setAttribute("sizePage", entitiesByPage);
+        
+        // Max page buttons number
         request.setAttribute("maxPages", maxPages);
+        
+        // List of computers
         request.setAttribute("computers", computerService.getAll(p));
+        
+        // The current page
         request.setAttribute("currentPage", pge);
+        
+        // Number of found entities
         request.setAttribute("total", totalEntities);
         getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
