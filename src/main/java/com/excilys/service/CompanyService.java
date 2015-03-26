@@ -13,6 +13,10 @@ public enum CompanyService {
 	public List<Company> getAll() {
 		return dao.getAll();
 	}
+	
+	public Company getById(Long id) {
+		return dao.getById(id);
+	}
 
 	public int count() {
 		return dao.count();

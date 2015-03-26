@@ -22,10 +22,10 @@
 	</properties>
 
 	<dependencies>
-	
+
 		<!-- MySQL Database -->
 		<dependency>
-			<scope>runtime</scope>
+			<scope>provided</scope>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>

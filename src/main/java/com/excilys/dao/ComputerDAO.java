@@ -67,7 +67,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		sql.append(" = ");
 		sql.append(companyTable).append(".").append(companyIdColumn);
 		sql.append(" ORDER BY ");
-		sql.append(computerTable).append(".").append(computerIdColumn);
+		sql.append(computerTable).append(".").append(computerNameColumn);
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql.toString())) {

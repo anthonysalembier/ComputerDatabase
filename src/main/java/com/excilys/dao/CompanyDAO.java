@@ -23,6 +23,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 	
 	private String company;
 	private String id;
+	private String name;
 	
 	private CompanyDAO() {
 		if (properties == null) {
@@ -32,6 +33,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 				properties.load(input);
 				company = properties.getProperty("company");
 				id = properties.getProperty("companyId");
+				name = properties.getProperty("companyName");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -46,6 +48,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
 		sql.append(company);
+		sql.append(" ORDER BY ").append(name);
 		
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 													.getInstance().prepareStatement(sql.toString())) {

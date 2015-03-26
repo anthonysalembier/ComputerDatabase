@@ -63,10 +63,12 @@
 							</a>
 						</td>
 						<td>
-							<c:out value="${ computer.introduced }" />
+							<fmt:parseDate value="${ computer.introduced }" var="introducedDate" pattern="yyyy-MM-dd" />
+	                		<fmt:formatDate value="${ introducedDate }" type="Date" dateStyle="short" />
 						</td>
 						<td>
-							<c:out value="${ computer.discontinued }" />
+							<fmt:parseDate value="${ computer.discontinued }" var="introducedDate" pattern="yyyy-MM-dd" />
+	                		<fmt:formatDate value="${ discontinuedDate }" type="Date" dateStyle="short" />
 						</td>
 						<td>
 							<c:out value="${ computer.companyName }" />
@@ -81,7 +83,7 @@
 
 	<footer class="navbar-fixed-bottom">
 		<p:pages totalPages="${ totalPages }" page="${ page.page }" pageCount="${ maxPages }"
-				 pageSize="${ page.size }" url="/dashboard" previous="${ page.previous }"/>
+				 pageSize="${ page.size }" url="dashboard" previous="${ page.previous }"/>
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

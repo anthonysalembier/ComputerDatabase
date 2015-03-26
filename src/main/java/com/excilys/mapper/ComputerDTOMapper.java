@@ -10,7 +10,7 @@ import com.excilys.model.Computer;
 
 public class ComputerDTOMapper {
 
-	private static final String REGEX_DATE_FORMAT = "dd/MM/yy";
+	private static final String REGEX_DATE_FORMAT = "yyyy-MM-dd";
 
 	public static ComputerDTO getComputerDTO(Computer c) {
 		ComputerDTO computer = new ComputerDTO();
