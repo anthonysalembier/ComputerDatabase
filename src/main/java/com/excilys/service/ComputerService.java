@@ -50,4 +50,8 @@ public enum ComputerService {
 	public int count() {
 		return dao.count();
 	}
+	
+	public void startTransaction() {
+		
+	}
 }
