@@ -22,7 +22,7 @@
 		</div>
 	</div>
 
-	<form id="deleteForm" action="#" method="POST">
+	<form id="deleteForm" action="delete" method="POST">
 		<input type="hidden" name="selection" value="">
 	</form>
 
@@ -55,7 +55,7 @@
 				<c:forEach var="computer" items="${ computers }">
 					<tr>
 						<td class="editMode">
-							<input type="checkbox" name="cb" class="cb" value="0">
+							<input type="checkbox" name="cb" class="cb" value="${ computer.id }">
 						</td>
 						<td>
 							<a href="edit?id=${ computer.id }" onclick="">
@@ -85,6 +85,7 @@
 		<p:pages totalPages="${ totalPages }" page="${ page.page }" pageCount="${ maxPages }"
 				 pageSize="${ page.size }" url="dashboard" previous="${ page.previous }"/>
 	</footer>
+	
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>

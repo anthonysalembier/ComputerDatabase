@@ -8,9 +8,10 @@
                         id: <c:out value="${ computer.id }" />
                     </div>
                     <h1>Edit Computer</h1>
-                    <form action="edit" method="POST">
+                    <form id="editForm" action="edit" method="POST">
                         <input name="computerId" type="hidden" value="${ computer.id }"/>
                         <fieldset>
+                        	<div class="form-group" id="errors"></div>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
                                 <input type="text" class="form-control" id="computerName"
@@ -60,5 +61,9 @@
             </div>
         </div>
     </section>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/validation.js"></script>
     
 <%@ include file="footer.jsp" %>

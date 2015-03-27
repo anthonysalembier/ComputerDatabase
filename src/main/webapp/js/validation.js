@@ -34,4 +34,28 @@ $(document).ready(function () {
 		}
 	});
 	
+	$("#editForm").validate({
+		onkeyup : false,
+        onfocusout : function(element) { $(element).valid(); },
+        errorElement : "div",
+        errorPlacement : function(error, element) {
+            error.appendTo("div#errors");
+        }, 
+		rules : {
+			"computerName" : {
+				required : true,
+				minlength : 2,
+				regex : "^[a-zA-Z]"
+			}
+		},
+		
+		messages : {
+			"computerName" : {
+				required : "The name is required.",
+				minlength : "Name minimum length is 2.",
+				regex : "Wrong name format."
+			}
+		}
+	});
+	
 })
