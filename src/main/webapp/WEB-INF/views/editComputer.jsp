@@ -8,9 +8,8 @@
                         id: <c:out value="${ computer.id }" />
                     </div>
                     <h1>Edit Computer</h1>
-
                     <form action="edit" method="POST">
-                        <input type="hidden" value="0"/>
+                        <input name="computerId" type="hidden" value="${ computer.id }"/>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -37,7 +36,7 @@
                                 	<c:forEach var="company" items="${ companies }">
                                 		<c:choose>
 	                                		<c:when test="${ company.id == computer.companyId }">
-		                                		<option value="company.id" selected>
+		                                		<option value="${ company.id }" selected>
 		                                			${ company.name }
 		                                		</option>
 	                                		</c:when>

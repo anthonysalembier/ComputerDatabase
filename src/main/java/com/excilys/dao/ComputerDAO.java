@@ -86,15 +86,15 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	public List<Computer> getAll(Page page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
         final ComputerMapper computerMapper = new ComputerMapper();
-
+        
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT * FROM ").append(computerTable);
         sql.append(" LEFT OUTER JOIN ").append(companyTable); 
-        sql.append(" ON ").append(computerTable).append(".").append(companyIdColumn);
+        sql.append(" ON ");
+        sql.append(computerTable).append(".").append(computerCompanyIdColumn);
         sql.append(" = ");
         sql.append(companyTable).append(".").append(companyIdColumn);
         sql.append(" ORDER BY ? ? LIMIT ? OFFSET ?");
-        
         try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
         											.getInstance().prepareStatement(sql.toString())) {
             pStatement.setString(1, page.getProperties());

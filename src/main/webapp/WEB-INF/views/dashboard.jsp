@@ -64,11 +64,11 @@
 						</td>
 						<td>
 							<fmt:parseDate value="${ computer.introduced }" var="introducedDate" pattern="yyyy-MM-dd" />
-	                		<fmt:formatDate value="${ introducedDate }" type="Date" dateStyle="short" />
+	                		<fmt:formatDate value="${ introducedDate }" type="Date" dateStyle="short" pattern="dd/MM/yyyy" />
 						</td>
 						<td>
-							<fmt:parseDate value="${ computer.discontinued }" var="introducedDate" pattern="yyyy-MM-dd" />
-	                		<fmt:formatDate value="${ discontinuedDate }" type="Date" dateStyle="short" />
+							<fmt:parseDate value="${ computer.discontinued }" var="discontinuedDate" pattern="yyyy-MM-dd" />
+	                		<fmt:formatDate value="${ discontinuedDate }" type="Date" dateStyle="short" pattern="dd/MM/yyyy" />
 						</td>
 						<td>
 							<c:out value="${ computer.companyName }" />

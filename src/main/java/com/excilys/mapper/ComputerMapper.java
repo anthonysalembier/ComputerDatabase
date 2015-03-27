@@ -66,11 +66,11 @@ public class ComputerMapper implements Mapper<Computer> {
 		}
 		
 		Company company;
-		long companyId = res.getLong(companyTable + "." + this.companyIdColumn);
+		long companyId = res.getLong(companyTable + "." + companyIdColumn);
 		if (companyId > 0) {
 			company = new Company();
 			company.setId(companyId);
-			String companyName = res.getString(companyTable + "." + this.companyNameColumn);
+			String companyName = res.getString(companyTable + "." + companyNameColumn);
 			if (companyName != null) {
 				company.setName(companyName);
 			}

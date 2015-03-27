@@ -50,6 +50,8 @@ public class EditComputerServlet extends HttpServlet {
 
 		Computer computer = new Computer();
 		
+		computer.setId(Long.valueOf(request.getParameter("computerId")));
+		
 		computer.setName(request.getParameter("computerName"));
 		
 		LocalDateTime introducedDate = null;
