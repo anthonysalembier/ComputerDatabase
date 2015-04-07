@@ -10,6 +10,16 @@ public class ComputerDatabaseContext {
 	private List<Company> companies;
 	private Computer newComputer;
 	private long computerId;
+	private long companyId;
+	
+	public long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+
 	private ComputerDatabaseScanner scanner;
 	
 

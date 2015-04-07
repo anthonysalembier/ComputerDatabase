@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.connection.ComputerDatabaseConnection;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.PersistenceException;
@@ -21,9 +24,13 @@ public enum CompanyDAO implements DAO<Company, Long> {
 	
 	private Properties properties;
 	
-	private String company;
-	private String id;
-	private String name;
+	private String companyTable;
+	private String computerTable;
+	private String computerCompanyId;
+	private String companyId;
+	private String companyName;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	
 	private ComputerDatabaseConnection connection = ComputerDatabaseConnection.INSTANCE;
 	
@@ -33,9 +40,11 @@ public enum CompanyDAO implements DAO<Company, Long> {
 			
 			try (InputStream input = CompanyDAO.class.getClassLoader().getResourceAsStream("tableConfig.properties")) {
 				properties.load(input);
-				company = properties.getProperty("company");
-				id = properties.getProperty("companyId");
-				name = properties.getProperty("companyName");
+				companyTable = properties.getProperty("company");
+				companyId = properties.getProperty("companyId");
+				companyName = properties.getProperty("companyName");
+				computerTable = properties.getProperty("computer");
+				computerCompanyId = properties.getProperty("computerCompanyId");
 			} catch (IOException e) {
 				throw new DAOException(e.getMessage());
 			}
@@ -49,8 +58,8 @@ public enum CompanyDAO implements DAO<Company, Long> {
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
-		sql.append(company);
-		sql.append(" ORDER BY ").append(name);
+		sql.append(companyTable);
+		sql.append(" ORDER BY ").append(companyName);
 		
 		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			try (final ResultSet rs = pStatement.executeQuery()) {
@@ -60,8 +69,6 @@ public enum CompanyDAO implements DAO<Company, Long> {
 			}
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
 
 		return companies;
@@ -72,8 +79,8 @@ public enum CompanyDAO implements DAO<Company, Long> {
 		final CompanyMapper companyMapper = new CompanyMapper();
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT * FROM ").append(company);
-		sql.append(" WHERE ").append(this.id).append(" = ?");
+		sql.append("SELECT * FROM ").append(companyTable);
+		sql.append(" WHERE ").append(this.companyId).append(" = ?");
 
 		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
@@ -83,16 +90,50 @@ public enum CompanyDAO implements DAO<Company, Long> {
 				}
 			}
 		} catch (SQLException | PersistenceException e) {
-				throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
+			throw new DAOException(e.getMessage());
 		}
 		return null;
 	}
 	
 	@Override
+	public void delete(Long id) {
+		StringBuffer deleteComputers = new StringBuffer();
+		StringBuffer deleteCompany = new StringBuffer();
+
+		deleteComputers.append("DELETE FROM ").append(computerTable);
+		deleteComputers.append(" WHERE ");
+		deleteComputers.append(computerCompanyId).append(" = ?");
+		
+		deleteCompany.append("DELETE FROM ").append(companyTable);
+		deleteCompany.append(" WHERE ");
+		deleteCompany.append(companyId).append(" = ?");
+		
+		try (final PreparedStatement delCptsStatement = connection.getInstance()
+														.prepareStatement(deleteComputers.toString());
+				final PreparedStatement delCpyStatement = connection.getInstance()
+														.prepareStatement(deleteCompany.toString())) {
+			connection.startTransaction();
+			
+			delCptsStatement.setLong(1, id);
+			delCptsStatement.execute();
+			
+			delCpyStatement.setLong(1, id);
+			delCpyStatement.execute();
+
+			connection.commit();
+
+			LOGGER.info("Company (id:{}) and all computers linked have successfully been deleted", id);
+		} catch (SQLException | PersistenceException e) {
+			connection.rollback();
+			throw new DAOException(e.getMessage());
+		} finally {
+			connection.endTransaction();
+		}
+	}
+	
+	@Override
 	public int count() {
-		final String sql = "SELECT COUNT(*) FROM " + company;
+		final String sql = "SELECT COUNT(*) FROM " + companyTable;
 		try (final Statement state = connection.getInstance().createStatement()) {
             final ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
@@ -100,8 +141,6 @@ public enum CompanyDAO implements DAO<Company, Long> {
             }
         } catch (SQLException | PersistenceException e) {
             throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
         return 0;
 	}

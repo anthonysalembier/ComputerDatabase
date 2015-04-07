@@ -160,6 +160,24 @@ public enum Command {
 
 	},
 	/**
+	 * Delete a company with all associated computers.
+	 */
+	DELETE_COMPANY("deleteCompany") {
+
+		@Override
+		public void execute(ComputerDatabaseContext ctx)
+				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
+			System.out.print("Identifier : ");
+			ctx.setCompanyId(Long.valueOf(ctx.getScanner().getNextToken()));
+			CompanyService.INSTANCE.delete(ctx.getCompanyId());
+			System.out.println("Deleted");
+		}
+
+	},
+	/**
 	 * Command to terminate a program.
 	 */
 	EXIT("exit") {
