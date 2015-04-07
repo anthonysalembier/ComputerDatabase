@@ -32,6 +32,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	private String computerCompanyIdColumn;
 	private String companyIdColumn;
 	
+	private ComputerDatabaseConnection connection = ComputerDatabaseConnection.INSTANCE;
+	
 	private ComputerDAO() {
 		if (properties == null) {
 			properties = new Properties();
@@ -49,13 +51,13 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				companyIdColumn = properties.getProperty("companyId");
 				
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new DAOException(e.getMessage());
 			}
 		}
 	}
 	
 	@Override
-	public List<Computer> getAll() throws DAOException {
+	public List<Computer> getAll() {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
 		
@@ -69,8 +71,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		sql.append(" ORDER BY ");
 		sql.append(computerTable).append(".").append(computerNameColumn);
 
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				while (rs.next()) {
 					computers.add(computerMapper.rowMap(rs));
@@ -78,12 +79,14 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
 
 		return computers;
 	}
 	
-	public List<Computer> getAll(Page page) throws DAOException {
+	public List<Computer> getAll(Page page) {
 		final List<Computer> computers = new ArrayList<>();
         final ComputerMapper computerMapper = new ComputerMapper();
         
@@ -95,8 +98,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
         sql.append(" = ");
         sql.append(companyTable).append(".").append(companyIdColumn);
         sql.append(" ORDER BY ? ? LIMIT ? OFFSET ?");
-        try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-        											.getInstance().prepareStatement(sql.toString())) {
+        
+        try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
             pStatement.setString(1, page.getProperties());
             pStatement.setString(2, page.getSort().toString());
             pStatement.setInt(3, page.getSize());
@@ -106,14 +109,16 @@ public enum ComputerDAO implements DAO<Computer, Long> {
                 computers.add(computerMapper.rowMap(rs));
             }
         } catch (SQLException | PersistenceException e) {
-            throw new DAOException(e);
-        }
+            throw new DAOException(e.getMessage());
+        } finally {
+			connection.close();
+		}
 
         return computers;
 	}
 
 	@Override
-	public Computer getById(Long id) throws DAOException {
+	public Computer getById(Long id) {
 		final ComputerMapper computerMapper = new ComputerMapper();
 		
 		StringBuffer sql = new StringBuffer(); 
@@ -124,8 +129,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		sql.append(companyTable).append(".").append(companyIdColumn);
 		sql.append(" WHERE ").append(computerTable).append(".").append(computerIdColumn).append(" = ?");
 
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				if (rs.first()) {
@@ -134,26 +138,27 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
 
 		return null;
 	}
 
 	@Override
-	public void create(Computer entity) throws DAOException {
+	public void create(Computer entity) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ").append(computerTable).append(" VALUES (?, ?, ?, ?, ?)");
 
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE.getInstance()
-													.prepareStatement(sql.toString(),
-																	Statement.RETURN_GENERATED_KEYS)) {
+		try (final PreparedStatement pStatement = connection.getInstance()
+													.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS)) {
 			pStatement.setObject(1, null);
 			if (entity.getName() != null) {
 				String name = entity.getName().trim();
 				if (!name.isEmpty()) {
 					pStatement.setString(2, name);
 				} else {
-					throw new SQLException();
+					throw new DAOException("Name is empty");
 				}
 			} else {
 				throw new SQLException();
@@ -178,11 +183,13 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			pStatement.execute();
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
 	}
 
 	@Override
-	public void update(Computer entity) throws DAOException {
+	public void update(Computer entity) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("UPDATE ").append(computerTable);
 		sql.append(" SET ").append(computerNameColumn).append(" = ?, ");
@@ -191,8 +198,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		sql.append(computerCompanyIdColumn).append(" = ? ");
 		sql.append("WHERE ").append(computerIdColumn).append(" = ?");
 		
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			if (entity.getName() != null) {
 				String name = entity.getName().trim();
 				if (!name.isEmpty()) {
@@ -224,35 +230,40 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			pStatement.execute();
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
 	}
 
 	@Override
-	public void delete(Long id) throws DAOException {
+	public void delete(Long id) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("DELETE FROM ").append(computerTable).append(" WHERE ").append(computerIdColumn).append(" = ?");
 		
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			pStatement.execute();
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
 	}
 	
 	@Override
-	public int count() throws DAOException {
+	public int count() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT COUNT(*) FROM ").append(computerTable);
 		
-		try (final Statement state = ComputerDatabaseConnection.INSTANCE.getInstance().createStatement()) {
+		try (final Statement state = connection.getInstance().createStatement()) {
             final ResultSet rs = state.executeQuery(sql.toString());
             while (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (SQLException | PersistenceException e) {
-            throw new DAOException(e);
+            throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
         return 0;
 	}

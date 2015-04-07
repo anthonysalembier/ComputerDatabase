@@ -25,6 +25,8 @@ public enum CompanyDAO implements DAO<Company, Long> {
 	private String id;
 	private String name;
 	
+	private ComputerDatabaseConnection connection = ComputerDatabaseConnection.INSTANCE;
+	
 	private CompanyDAO() {
 		if (properties == null) {
 			properties = new Properties();
@@ -35,13 +37,13 @@ public enum CompanyDAO implements DAO<Company, Long> {
 				id = properties.getProperty("companyId");
 				name = properties.getProperty("companyName");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new DAOException(e.getMessage());
 			}
 		}
 	}
 
 	@Override
-	public List<Company> getAll() throws DAOException {
+	public List<Company> getAll() {
 		final List<Company> companies = new ArrayList<>();
 		final CompanyMapper companyMapper = new CompanyMapper();
 
@@ -50,8 +52,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 		sql.append(company);
 		sql.append(" ORDER BY ").append(name);
 		
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				while (rs.next()) {
 					companies.add(companyMapper.rowMap(rs));
@@ -59,21 +60,22 @@ public enum CompanyDAO implements DAO<Company, Long> {
 			}
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
 
 		return companies;
 	}
 
 	@Override
-	public Company getById(Long id) throws DAOException {
+	public Company getById(Long id) {
 		final CompanyMapper companyMapper = new CompanyMapper();
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ").append(company);
 		sql.append(" WHERE ").append(this.id).append(" = ?");
 
-		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-													.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				if (rs.first()) {
@@ -82,20 +84,24 @@ public enum CompanyDAO implements DAO<Company, Long> {
 			}
 		} catch (SQLException | PersistenceException e) {
 				throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
 		return null;
 	}
 	
 	@Override
-	public int count() throws DAOException {
+	public int count() {
 		final String sql = "SELECT COUNT(*) FROM " + company;
-		try (final Statement state = ComputerDatabaseConnection.INSTANCE.getInstance().createStatement()) {
+		try (final Statement state = connection.getInstance().createStatement()) {
             final ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (SQLException | PersistenceException e) {
-            throw new DAOException(e);
+            throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
 		}
         return 0;
 	}
