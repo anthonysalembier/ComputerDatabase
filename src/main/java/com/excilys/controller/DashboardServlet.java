@@ -43,10 +43,19 @@ public class DashboardServlet extends HttpServlet {
             }
         }
         p = new SimplePage(currentPage, entitiesByPage);
-        final int totalEntities = computerService.count();
+        
+        String search = request.getParameter("search");
+        final int totalEntities;
+        if (search != null) {
+        	totalEntities = computerService.countByName(search);
+        } else {
+        	totalEntities = computerService.count();
+        }
+        
         int maxPages = (totalEntities / entitiesByPage);
-        if (totalEntities % entitiesByPage != 0) {
-            ++maxPages;
+        if (totalEntities % entitiesByPage != 0
+    		|| maxPages == 0) {
+            maxPages++;
         }
         
         // Pages number
@@ -63,7 +72,12 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("maxPages", maxPages);
         
         // List of computers
-        request.setAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getAll(p)));
+        if (search != null) {
+        	request.setAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getByName(search, p)));
+        	request.setAttribute("search", search);
+        } else {
+        	request.setAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getAll(p)));
+        }
         
         // The current page
         request.setAttribute("currentPage", pge);

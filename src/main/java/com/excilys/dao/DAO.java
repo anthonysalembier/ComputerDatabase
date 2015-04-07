@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.excilys.exception.DAOException;
+import com.excilys.util.Page;
 
 /**
  * @param <T> The entity to manage.
@@ -12,6 +13,7 @@ import com.excilys.exception.DAOException;
  *     getAll() != null && 0 <= getAll().size()
  */
 public interface DAO<T, I extends Serializable> {
+	
 	/**
 	 * Retrieve all entities.
 	 * 
@@ -19,6 +21,18 @@ public interface DAO<T, I extends Serializable> {
 	 * @throws DAOException
 	 */
 	List<T> getAll() throws DAOException;
+	
+	/**
+	 * Retrieve all entities at the asked page.
+	 * 
+	 * @param page the page wanted
+	 * @return Entities
+	 * @throws DAOException
+	 */
+	default List<T> getAll(Page page) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
+	
 	/**
 	 * Retrieve entity by its identifier.
 	 * 
@@ -28,6 +42,18 @@ public interface DAO<T, I extends Serializable> {
 	 * @throws DAOException
 	 */
 	T getById(I id) throws DAOException;
+	
+	/**
+	 * Retrieve entity by its name.
+	 * 
+	 * @pre name != null
+	 * @param name Name
+	 * @return The matching entity
+	 * @throws DAOException
+	 */
+	default List<T> getByName(String name, Page page) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * Create a new entity.
@@ -68,4 +94,14 @@ public interface DAO<T, I extends Serializable> {
 	 * @throws DAOException
 	 */
 	int count() throws DAOException;
+	
+	/**
+	 * Count the total number of entities
+	 * 
+	 * @param name Name
+	 * @throws DAOException
+	 */
+	default int countByName(String name) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 }

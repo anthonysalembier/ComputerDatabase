@@ -34,6 +34,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	private String discontinuedColumn;
 	private String computerCompanyIdColumn;
 	private String companyIdColumn;
+	private String companyNameColumn;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	
@@ -54,6 +55,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				discontinuedColumn = properties.getProperty("discontinued");
 				computerCompanyIdColumn = properties.getProperty("computerCompanyId");
 				companyIdColumn = properties.getProperty("companyId");
+				companyNameColumn = properties.getProperty("companyName");
 				
 			} catch (IOException e) {
 				throw new DAOException(e.getMessage());
@@ -148,6 +150,48 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		}
 
 		return null;
+	}
+	
+	@Override
+	public List<Computer> getByName(String name, Page page) {
+		final List<Computer> computers = new ArrayList<>();
+        final ComputerMapper computerMapper = new ComputerMapper();
+        
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * FROM ").append(computerTable);
+        sql.append(" LEFT JOIN ").append(companyTable); 
+        sql.append(" ON ");
+        sql.append(computerTable).append(".").append(computerCompanyIdColumn);
+        sql.append(" = ");
+        sql.append(companyTable).append(".").append(companyIdColumn);
+        sql.append(" WHERE ").append(computerTable).append(".").append(computerNameColumn);
+        sql.append(" LIKE ");
+        sql.append("?");
+        sql.append(" OR ");
+        sql.append(companyTable).append(".").append(companyNameColumn);
+        sql.append(" LIKE ");
+        sql.append("?");
+        
+        sql.append(" ORDER BY ? ? LIMIT ? OFFSET ?");
+        
+        try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+        	pStatement.setString(1, "%" + name + "%");
+        	pStatement.setString(2, "%" + name + "%");
+            pStatement.setString(3, page.getProperties());
+            pStatement.setString(4, page.getSort().toString());
+            pStatement.setInt(5, page.getSize());
+            pStatement.setInt(6, page.getOffset());
+            final ResultSet rs = pStatement.executeQuery();
+            while (rs.next()) {
+                computers.add(computerMapper.rowMap(rs));
+            }
+        } catch (SQLException | PersistenceException e) {
+            throw new DAOException(e.getMessage());
+        } finally {
+			connection.close();
+		}
+
+        return computers;
 	}
 
 	@Override
@@ -277,6 +321,41 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			connection.close();
 		}
         return 0;
+	}
+	
+	@Override
+	public int countByName(String name) {
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append("SELECT COUNT(*) FROM ").append(computerTable);
+        sql.append(" LEFT JOIN ").append(companyTable); 
+        sql.append(" ON ");
+        sql.append(computerTable).append(".").append(computerCompanyIdColumn);
+        sql.append(" = ");
+        sql.append(companyTable).append(".").append(companyIdColumn);
+        sql.append(" WHERE ").append(computerTable).append(".").append(computerNameColumn);
+        sql.append(" LIKE ");
+        sql.append("?");
+        sql.append(" OR ");
+        sql.append(companyTable).append(".").append(companyNameColumn);
+        sql.append(" LIKE ");
+        sql.append("?");
+		
+		try (final PreparedStatement pState = connection.getInstance().prepareStatement(sql.toString())) {
+			pState.setString(1, "%" + name + "%");
+        	pState.setString(2, "%" + name + "%");
+			
+            final ResultSet rs = pState.executeQuery();
+            
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException | PersistenceException e) {
+            throw new DAOException(e.getMessage());
+		} finally {
+			connection.close();
+		}
+		return 0;
 	}
 
 }
