@@ -1,6 +1,6 @@
 package com.excilys.exception;
 
-public class ServiceException extends Exception {
+public class ServiceException extends RuntimeException {
 	/**
 	 * 
 	 */

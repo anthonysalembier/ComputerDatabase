@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.connection.ComputerDatabaseConnection;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.PersistenceException;
@@ -31,6 +34,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	private String discontinuedColumn;
 	private String computerCompanyIdColumn;
 	private String companyIdColumn;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	
 	private ComputerDatabaseConnection connection = ComputerDatabaseConnection.INSTANCE;
 	
@@ -181,6 +186,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				pStatement.setLong(5, entity.getCompany().getId());
 			}
 			pStatement.execute();
+			
+			LOGGER.info("Computer successfully added");
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
 		} finally {
@@ -228,6 +235,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			}
 			pStatement.setLong(5, entity.getId());
 			pStatement.execute();
+			
+			LOGGER.info("Computer (id:{}) successfully updated", entity.getId());
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
 		} finally {
@@ -243,6 +252,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			pStatement.execute();
+			
+			LOGGER.info("Computer (id:{}) successfully deleted", id);
 		} catch (SQLException | PersistenceException e) {
 			throw new DAOException(e.getMessage());
 		} finally {

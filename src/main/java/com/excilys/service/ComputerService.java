@@ -3,6 +3,7 @@ package com.excilys.service;
 import java.util.List;
 
 import com.excilys.dao.ComputerDAO;
+import com.excilys.exception.ServiceException;
 import com.excilys.model.Computer;
 import com.excilys.util.Page;
 
@@ -30,12 +31,18 @@ public enum ComputerService {
 	}
 
 	public void create(Computer computer) {
+		if (computer.getName().isEmpty()) {
+			throw new ServiceException("Name can't be empty");
+		}
 		dao.create(computer);
 	}
 
 	public void update(Computer computer) {
 		if (computer == null) {
 			throw new IllegalArgumentException();
+		}
+		if (computer.getName().isEmpty()) {
+			throw new ServiceException("Name can't be empty");
 		}
 		dao.update(computer);
 	}
@@ -51,7 +58,4 @@ public enum ComputerService {
 		return dao.count();
 	}
 	
-	public void startTransaction() {
-		
-	}
 }
