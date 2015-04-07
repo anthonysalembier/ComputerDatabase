@@ -17,9 +17,9 @@ public class Main {
 		System.out.println("Update a computer     : updateComputer");
 		System.out.println("Create a new computer : createComputer");
 		System.out.println("Delete a computer     : deleteComputer");
-		System.out.println("Delete a company	  : deleteCompany");
+		System.out.println("Delete a company      : deleteCompany");
 		System.out.println("List all companies    : getAllCompanies");
-		System.out.println("Quit : exit\n");
+		System.out.println("Quit                  : exit\n");
 		System.out.println("Write your command :\n");
 		
 		while (!scanner.isExit()) {
