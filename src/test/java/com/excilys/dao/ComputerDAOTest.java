@@ -16,6 +16,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.h2.tools.RunScript;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.exception.DAOException;
 import com.excilys.model.Company;
@@ -27,6 +28,9 @@ public class ComputerDAOTest {
 	private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
+	
+	@Autowired
+	private static ComputerDAO computerDAO;
 
 	/**
 	 * Setting the environment into test to tell the JDBC connector to connect to the test DB
@@ -131,7 +135,7 @@ public class ComputerDAOTest {
 		computer05InTheDataset.setCompany(company01);
 
 		// WHEN
-		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		List<Computer> computers = computerDAO.getAll();
 		
 		// THEN
 		assertThat(computers.size()).isEqualTo(nbOfComputersInDataset);
@@ -160,7 +164,7 @@ public class ComputerDAOTest {
 		computerNotInTheDataset.setCompany(company01);
 		
 		// WHEN
-		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		List<Computer> computers = computerDAO.getAll();
 				
 		// THEN
 		assertThat(computers).doesNotContain(computerNotInTheDataset);
@@ -185,7 +189,7 @@ public class ComputerDAOTest {
 		computerInTheDataset.setCompany(company01);
 		
 		// WHEN
-		Computer computer = ComputerDAO.INSTANCE.getById(id);
+		Computer computer = computerDAO.getById(id);
 		
 		// THEN
 		assertThat(computer).isEqualTo(computerInTheDataset);
@@ -199,7 +203,7 @@ public class ComputerDAOTest {
 		final long id = 0L;
 		
 		// WHEN
-		Computer computer = ComputerDAO.INSTANCE.getById(id);
+		Computer computer = computerDAO.getById(id);
 		
 		// THEN
 		assertThat(computer).isNull();
@@ -221,15 +225,15 @@ public class ComputerDAOTest {
 		computer.setCompany(company01);
 		
 		// WHEN
-		ComputerDAO.INSTANCE.create(computer);
-		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		computerDAO.create(computer);
+		List<Computer> computers = computerDAO.getAll();
 		
 		// THEN
 		assertThat(computers.size()).isEqualTo(1);
 		assertThat(computers).contains(computer);
 		
 		// CLEAN
-		ComputerDAO.INSTANCE.delete(computers.get(0).getId());
+		computerDAO.delete(computers.get(0).getId());
 	}
 	
 	@Test
@@ -261,9 +265,9 @@ public class ComputerDAOTest {
 		
 		try {
 			// WHEN
-			ComputerDAO.INSTANCE.create(computer01);
-			ComputerDAO.INSTANCE.create(computer02);
-			ComputerDAO.INSTANCE.create(computer03);
+			computerDAO.create(computer01);
+			computerDAO.create(computer02);
+			computerDAO.create(computer03);
 			
 			// THEN KO
 			Fail.shouldHaveThrown(DAOException.class);
@@ -290,9 +294,9 @@ public class ComputerDAOTest {
 		computer01.setCompany(company01);
 
 		// WHEN
-		ComputerDAO.INSTANCE.update(computer01);
-		Computer computer02 = ComputerDAO.INSTANCE.getById(666L);
-		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		computerDAO.update(computer01);
+		Computer computer02 = computerDAO.getById(666L);
+		List<Computer> computers = computerDAO.getAll();
 		
 		// THEN
 		assertThat(computers).contains(computer01);
@@ -329,9 +333,9 @@ public class ComputerDAOTest {
 		
 		try {
 			// WHEN
-			ComputerDAO.INSTANCE.update(computer01);
-			ComputerDAO.INSTANCE.update(computer02);
-			ComputerDAO.INSTANCE.update(computer03);
+			computerDAO.update(computer01);
+			computerDAO.update(computer02);
+			computerDAO.update(computer03);
 		
 			Fail.shouldHaveThrown(DAOException.class);
 		} catch (DAOException e) {
@@ -346,8 +350,8 @@ public class ComputerDAOTest {
 		// GIVEN
 
 		// WHEN
-		ComputerDAO.INSTANCE.delete(666L);
-		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		computerDAO.delete(666L);
+		List<Computer> computers = computerDAO.getAll();
 		
 		// THEN
 		assertThat(computers.size()).isEqualTo(0);
@@ -361,8 +365,8 @@ public class ComputerDAOTest {
 		
 		
 		// WHEN
-		ComputerDAO.INSTANCE.delete(0L);
-		List<Computer> computers = ComputerDAO.INSTANCE.getAll();
+		computerDAO.delete(0L);
+		List<Computer> computers = computerDAO.getAll();
 		
 		// THEN
 		assertThat(computers.size()).isEqualTo(1);

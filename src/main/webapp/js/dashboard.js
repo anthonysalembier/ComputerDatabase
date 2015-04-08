@@ -24,6 +24,11 @@ $(function() {
 
 });
 
+// Tablesorter
+$(document).ready(function() {
+	$("#dashboard").tablesorter();
+});
+
 
 // Function setCheckboxValues
 (function ( $ ) {

@@ -2,13 +2,17 @@ package com.excilys.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.dao.CompanyDAO;
 import com.excilys.model.Company;
 
-public enum CompanyService {
-	INSTANCE;
+@Service
+public class CompanyService {
 	
-	private CompanyDAO dao = CompanyDAO.INSTANCE;
+	@Autowired
+	private CompanyDAO dao;
 
 	/**
 	 * @return a list of all companies.
@@ -22,7 +26,7 @@ public enum CompanyService {
 	 * @return the company referenced by the identifier.
 	 */
 	public Company getById(Long id) {
-		if (id <= 0) {
+		if (id < 0) {
 			throw new IllegalArgumentException();
 		}
 		return dao.getById(id);

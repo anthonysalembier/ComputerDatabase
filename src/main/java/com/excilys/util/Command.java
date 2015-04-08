@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.dao.CompanyDAO;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ServiceException;
@@ -19,6 +21,7 @@ import com.excilys.validation.ComputerDatabaseValidator;
  * Pattern command for the processing of actions.
  */
 public enum Command {
+	
 	/**
 	 * Show help
 	 */
@@ -49,7 +52,7 @@ public enum Command {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			ctx.setComputers(ComputerService.INSTANCE.getAll());
+			ctx.setComputers(computerService.getAll());
 			for (Computer c : ctx.getComputers()) {
 				System.out.println(c);
 			}
@@ -67,7 +70,7 @@ public enum Command {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			ctx.setCompanies(CompanyService.INSTANCE.getAll());
+			ctx.setCompanies(companyService.getAll());
 			for (Company c : ctx.getCompanies()) {
 				System.out.println(c);
 			}
@@ -87,7 +90,7 @@ public enum Command {
 			}
 			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
-			ctx.setComputers(Arrays.asList(ComputerService.INSTANCE.getById(ctx.getComputerId())));
+			ctx.setComputers(Arrays.asList(computerService.getById(ctx.getComputerId())));
 			for (Computer c : ctx.getComputers()) {
 				System.out.println(c);
 			}
@@ -108,7 +111,7 @@ public enum Command {
 			final Computer computer = new Computer();
 			if (populate(ctx, computer)) {
 				ctx.setNewComputer(computer);
-				ComputerService.INSTANCE.create(ctx.getNewComputer());
+				computerService.create(ctx.getNewComputer());
 				System.out.println("Computer created.");
 			} else {
 				System.out.println("Computer creation failed.");
@@ -129,11 +132,11 @@ public enum Command {
 				throw new IllegalArgumentException();
 			}
 			System.out.println("Identifier : ");
-			final Computer computer = ComputerService.INSTANCE.getById(Long
+			final Computer computer = computerService.getById(Long
 					.valueOf(ctx.getScanner().getNextToken()));
 			if (populate(ctx, computer)) {
 				ctx.setNewComputer(computer);
-				ComputerService.INSTANCE.update(ctx.getNewComputer());
+				computerService.update(ctx.getNewComputer());
 				System.out.println("Computer updated.");
 			} else {
 				System.out.println("Update failed.");
@@ -154,7 +157,7 @@ public enum Command {
 			}
 			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
-			ComputerService.INSTANCE.delete(ctx.getComputerId());
+			computerService.delete(ctx.getComputerId());
 			System.out.println("Deleted");
 		}
 
@@ -172,7 +175,7 @@ public enum Command {
 			}
 			System.out.print("Identifier : ");
 			ctx.setCompanyId(Long.valueOf(ctx.getScanner().getNextToken()));
-			CompanyService.INSTANCE.delete(ctx.getCompanyId());
+			companyService.delete(ctx.getCompanyId());
 			System.out.println("Deleted");
 		}
 
@@ -191,8 +194,17 @@ public enum Command {
 			ctx.getScanner().setExit(true);
 			System.out.println("\nGood bye !\n");
 		}
-
 	};
+	
+
+	@Autowired
+	private static ComputerService computerService;
+
+	@Autowired
+	private static CompanyService companyService;
+	
+	@Autowired
+	private static CompanyDAO companyDAO;
 
 	private static Map<String, Command> commands;
 	static {
@@ -250,7 +262,7 @@ public enum Command {
 		System.out.println("Company : ");
 		if (ctx.getScanner().hasNextToken()) {
 			try {
-				computer.setCompany(CompanyDAO.INSTANCE.getById(Long.valueOf(ctx.getScanner().getNextToken())));
+				computer.setCompany(companyDAO.getById(Long.valueOf(ctx.getScanner().getNextToken())));
 			} catch (NumberFormatException | DAOException e) {
 				e.printStackTrace();
 			}

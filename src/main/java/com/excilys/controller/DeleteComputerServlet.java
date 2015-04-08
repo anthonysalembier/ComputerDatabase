@@ -9,13 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.excilys.service.ComputerService;
 
+@Controller
 public class DeleteComputerServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = -117083031348700427L;
 	
-	private ComputerService computerService = ComputerService.INSTANCE;
+	@Autowired
+	private ComputerService computerService;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.CompanyDTOMapper;
@@ -19,6 +22,7 @@ import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
+@Controller
 public class EditComputerServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = -4527396020461013483L;
@@ -26,8 +30,10 @@ public class EditComputerServlet extends HttpServlet {
 	private static final String DEFAULT_TIME = " 00:00:00";
 	private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 	
-	private ComputerService computerService = ComputerService.INSTANCE;
-	private CompanyService companyService = CompanyService.INSTANCE;
+	@Autowired
+	private ComputerService computerService;
+	@Autowired
+	private CompanyService companyService;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

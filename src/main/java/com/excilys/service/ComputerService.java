@@ -2,14 +2,18 @@ package com.excilys.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.dao.ComputerDAO;
 import com.excilys.model.Computer;
 import com.excilys.util.Page;
 
-public enum ComputerService {
-	INSTANCE;
+@Service
+public class ComputerService {
 	
-	private ComputerDAO dao = ComputerDAO.INSTANCE;
+	@Autowired
+	private ComputerDAO dao;
 
 	public List<Computer> getAll() {
 		return dao.getAll();

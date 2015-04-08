@@ -12,6 +12,9 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.connection.ComputerDatabaseConnection;
 import com.excilys.exception.DAOException;
@@ -19,8 +22,8 @@ import com.excilys.exception.PersistenceException;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 
-public enum CompanyDAO implements DAO<Company, Long> {
-	INSTANCE;
+@Repository
+public class CompanyDAO implements DAO<Company, Long> {
 	
 	private Properties properties;
 	
@@ -30,11 +33,12 @@ public enum CompanyDAO implements DAO<Company, Long> {
 	private String companyId;
 	private String companyName;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
 	
-	private ComputerDatabaseConnection connection = ComputerDatabaseConnection.INSTANCE;
+	@Autowired
+	private ComputerDatabaseConnection connection;
 	
-	private CompanyDAO() {
+	public CompanyDAO() {
 		if (properties == null) {
 			properties = new Properties();
 			
@@ -68,6 +72,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 				}
 			}
 		} catch (SQLException | PersistenceException e) {
+			LOGGER.error("Error occurs while processing 'getAll()'");
 			throw new DAOException(e.getMessage());
 		}
 
@@ -90,11 +95,13 @@ public enum CompanyDAO implements DAO<Company, Long> {
 				}
 			}
 		} catch (SQLException | PersistenceException e) {
+			LOGGER.error("Error occurs while processing 'getById(Id:{})'", id);
 			throw new DAOException(e.getMessage());
 		}
 		return null;
 	}
 	
+	@Transactional
 	@Override
 	public void delete(Long id) {
 		StringBuffer deleteComputers = new StringBuffer();
@@ -125,6 +132,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 			LOGGER.info("Company (id:{}) and all computers linked have successfully been deleted", id);
 		} catch (SQLException | PersistenceException e) {
 			connection.rollback();
+			LOGGER.error("Error occurs while processing 'delete(Id:{})'", id);
 			throw new DAOException(e.getMessage());
 		} finally {
 			connection.endTransaction();
@@ -140,6 +148,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
                 return rs.getInt(1);
             }
         } catch (SQLException | PersistenceException e) {
+        	LOGGER.error("Error occurs while processing 'count()'");
             throw new DAOException(e.getMessage());
 		}
         return 0;

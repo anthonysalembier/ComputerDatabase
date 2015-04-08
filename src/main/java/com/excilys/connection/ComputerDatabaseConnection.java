@@ -6,12 +6,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import com.excilys.exception.PersistenceException;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
-public enum ComputerDatabaseConnection {
-	INSTANCE;
+@Component
+public class ComputerDatabaseConnection {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDatabaseConnection.class);
 
 	private static final ThreadLocal<Connection> CONNECTION = new ThreadLocal<Connection>() {
 		@Override
@@ -19,6 +25,7 @@ public enum ComputerDatabaseConnection {
 	        try {
 				return connectionPool.getConnection();
 			} catch (SQLException e) {
+				LOGGER.error("Error occurs while initiate local thread");
 				throw new PersistenceException(e);
 			}
 	    }
@@ -26,7 +33,7 @@ public enum ComputerDatabaseConnection {
 	private static BoneCP connectionPool = null;
 	private Properties properties;
 
-	ComputerDatabaseConnection() {
+	public ComputerDatabaseConnection() {
 		try {
 			loadConfigFile();
 		} catch (Exception e) {
@@ -58,6 +65,7 @@ public enum ComputerDatabaseConnection {
 			}
 		} catch (SQLException | InstantiationException | IllegalAccessException
 				| ClassNotFoundException e) {
+			LOGGER.error("Error occurs while trying to get a connection instance");
 			throw new PersistenceException(e);
 		}
 
@@ -74,6 +82,7 @@ public enum ComputerDatabaseConnection {
 			try {
 				connection.setAutoCommit(false);
 			} catch (SQLException e) {
+				LOGGER.error("Error occurs while starting a transaction");
 				throw new PersistenceException(e);
 			}
 		}
@@ -89,6 +98,7 @@ public enum ComputerDatabaseConnection {
 			try {
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
+				LOGGER.error("Error occurs while ending a transaction");
 				throw new PersistenceException(e);
 			}
 		}
@@ -103,6 +113,7 @@ public enum ComputerDatabaseConnection {
 			try {
 				connection.commit();
 			} catch (SQLException e) {
+				LOGGER.error("Error occurs while commiting a transaction");
 				throw new PersistenceException(e);
 			}
 		}
@@ -117,6 +128,7 @@ public enum ComputerDatabaseConnection {
 			try {
 				connection.rollback();
 			} catch (SQLException e) {
+				LOGGER.error("Error occurs while rollbacking a transaction");
 				throw new PersistenceException(e);
 			}
 		}
@@ -131,6 +143,7 @@ public enum ComputerDatabaseConnection {
 			try {
 				connection.close();
 			} catch (SQLException e) {
+				LOGGER.error("Error occurs while closing a transaction");
 				throw new PersistenceException(e);
 			}
 			CONNECTION.remove();

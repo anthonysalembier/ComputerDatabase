@@ -29,7 +29,7 @@
 
 	<div class="container" style="margin-top: 10px;">
 		<div>Page <c:out value="${ currentPage }" /> / <c:out value="${ totalPages }" /></div>
-		<table class="table table-striped table-bordered">
+		<table class="table table-striped table-bordered tablesorter" id="dashboard">
 			<thead>
 				<tr>
 					<!-- Variable declarations for passing labels as parameters -->
@@ -89,6 +89,8 @@
 	
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.tablesorter.min.js"></script>
+	
 	<script src="js/dashboard.js"></script>
 
 <%@ include file="footer.jsp" %>

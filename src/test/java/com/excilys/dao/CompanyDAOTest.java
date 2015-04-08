@@ -12,11 +12,10 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.tools.RunScript;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.excilys.exception.DAOException;
 import com.excilys.model.Company;
 
 
@@ -26,6 +25,9 @@ public class CompanyDAOTest {
 	private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
+	
+	@Autowired
+	private static CompanyDAO companyDAO;
 
 	/**
 	 * Setting the environment into test to tell the JDBC connector to connect to the test DB
@@ -103,7 +105,7 @@ public class CompanyDAOTest {
 		company01NotInTheDataset.setName("DoesNotExist");
 		
 		// WHEN
-		List<Company> companies = CompanyDAO.INSTANCE.getAll();
+		List<Company> companies = companyDAO.getAll();
 		
 		// THEN
 		assertThat(companies.size()).isEqualTo(nbOfCompaniesInDataset);
@@ -133,7 +135,7 @@ public class CompanyDAOTest {
 		companyNotInTheDataset.setName("DoesNotExist");
 		
 		// WHEN
-		Company company = CompanyDAO.INSTANCE.getById(id);
+		Company company = companyDAO.getById(id);
 		
 		// THEN
 		assertThat(company).isEqualTo(companyInTheDataset);

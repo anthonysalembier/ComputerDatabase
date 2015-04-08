@@ -13,6 +13,8 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.connection.ComputerDatabaseConnection;
 import com.excilys.exception.DAOException;
@@ -21,8 +23,8 @@ import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.util.Page;
 
-public enum ComputerDAO implements DAO<Computer, Long> {
-	INSTANCE;
+@Repository
+public class ComputerDAO implements DAO<Computer, Long> {
 	
 	private Properties properties;
 	
@@ -38,9 +40,10 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 	
-	private ComputerDatabaseConnection connection = ComputerDatabaseConnection.INSTANCE;
+	@Autowired
+	private ComputerDatabaseConnection connection;
 	
-	private ComputerDAO() {
+	public ComputerDAO() {
 		if (properties == null) {
 			properties = new Properties();
 			
@@ -58,6 +61,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				companyNameColumn = properties.getProperty("companyName");
 				
 			} catch (IOException e) {
+				// LOGGER.error("Error occurs while reading configuration file");
 				throw new DAOException(e.getMessage());
 			}
 		}
@@ -85,6 +89,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				}
 			}
 		} catch (SQLException | PersistenceException e) {
+			LOGGER.error("Error occurs while processing 'getAll()'");
 			throw new DAOException(e.getMessage());
 		} finally {
 			connection.close();
@@ -116,6 +121,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
                 computers.add(computerMapper.rowMap(rs));
             }
         } catch (SQLException | PersistenceException e) {
+        	LOGGER.error("Error occurs while processing 'getAll(Page)'");
             throw new DAOException(e.getMessage());
         } finally {
 			connection.close();
@@ -144,6 +150,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				}
 			}
 		} catch (SQLException | PersistenceException e) {
+			LOGGER.error("Error occurs while processing 'getById(Id:{})'", id);
 			throw new DAOException(e.getMessage());
 		} finally {
 			connection.close();
@@ -186,6 +193,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
                 computers.add(computerMapper.rowMap(rs));
             }
         } catch (SQLException | PersistenceException e) {
+        	LOGGER.error("Error occurs while processing 'getByName(Name:{}, Page)'", name);
             throw new DAOException(e.getMessage());
         } finally {
 			connection.close();
@@ -233,6 +241,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			
 			LOGGER.info("Computer successfully added");
 		} catch (SQLException | PersistenceException e) {
+			LOGGER.error("Error occurs while processing 'create(Computer)'");
 			throw new DAOException(e.getMessage());
 		} finally {
 			connection.close();
@@ -280,8 +289,9 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			pStatement.setLong(5, entity.getId());
 			pStatement.execute();
 			
-			LOGGER.info("Computer (id:{}) successfully updated", entity.getId());
+			LOGGER.info("Computer (Id:{}) successfully updated", entity.getId());
 		} catch (SQLException | PersistenceException e) {
+			LOGGER.error("Error occurs while processing 'update(Computer (Id:{})'", entity.getId());
 			throw new DAOException(e.getMessage());
 		} finally {
 			connection.close();
@@ -299,6 +309,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			
 			LOGGER.info("Computer (id:{}) successfully deleted", id);
 		} catch (SQLException | PersistenceException e) {
+			LOGGER.error("Error occurs while processing 'delete(Id:{})'", id);
 			throw new DAOException(e.getMessage());
 		} finally {
 			connection.close();
@@ -316,6 +327,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
                 return rs.getInt(1);
             }
         } catch (SQLException | PersistenceException e) {
+        	LOGGER.error("Error occurs while processing 'count()'");
             throw new DAOException(e.getMessage());
 		} finally {
 			connection.close();
@@ -351,6 +363,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
                 return rs.getInt(1);
             }
         } catch (SQLException | PersistenceException e) {
+        	LOGGER.error("Error occurs while processing 'countByName(Name:{})'", name);
             throw new DAOException(e.getMessage());
 		} finally {
 			connection.close();

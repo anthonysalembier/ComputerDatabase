@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.excilys.mapper.ComputerDTOMapper;
 import com.excilys.service.ComputerService;
 import com.excilys.util.Page;
@@ -15,12 +18,15 @@ import com.excilys.util.SimplePage;
 /**
  * Servlet implementation class ServletController
  */
-public class DashboardServlet extends HttpServlet {
-
+@Controller
+public class DashboardServlet extends AbstractServlet {
+	
 	private static final long serialVersionUID = 110834506145935418L;
 	
-	private ComputerService computerService = ComputerService.INSTANCE;
-
+	
+	@Autowired
+	private ComputerService computerService;
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
