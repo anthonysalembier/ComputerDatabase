@@ -42,6 +42,8 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	
 	@Autowired
 	private ComputerDatabaseConnection connection;
+	@Autowired
+	private ComputerMapper computerMapper;
 	
 	public ComputerDAO() {
 		if (properties == null) {
@@ -70,7 +72,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	@Override
 	public List<Computer> getAll() {
 		final List<Computer> computers = new ArrayList<>();
-		final ComputerMapper computerMapper = new ComputerMapper();
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ").append(computerTable);
@@ -100,7 +101,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	
 	public List<Computer> getAll(Page page) {
 		final List<Computer> computers = new ArrayList<>();
-        final ComputerMapper computerMapper = new ComputerMapper();
         
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT * FROM ").append(computerTable);
@@ -132,8 +132,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public Computer getById(Long id) {
-		final ComputerMapper computerMapper = new ComputerMapper();
-		
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("SELECT * FROM ").append(computerTable);
 		sql.append(" LEFT OUTER JOIN ").append(companyTable);
@@ -162,7 +160,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	@Override
 	public List<Computer> getByName(String name, Page page) {
 		final List<Computer> computers = new ArrayList<>();
-        final ComputerMapper computerMapper = new ComputerMapper();
         
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT * FROM ").append(computerTable);

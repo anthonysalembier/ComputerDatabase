@@ -7,10 +7,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.dao.CompanyDAO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
+@Component
 public class ComputerMapper implements Mapper<Computer> {
 
 	private Properties properties;
@@ -22,6 +25,9 @@ public class ComputerMapper implements Mapper<Computer> {
 	private String computerNameColumn;
 	private String companyNameColumn;
 	private String introduced;
+	
+	
+	
 	private String discontinued;
 
 	public ComputerMapper() {

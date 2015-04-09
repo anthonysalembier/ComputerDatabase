@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +20,7 @@ import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
 @Controller
-public class AddComputerServlet extends HttpServlet {
+public class AddComputerServlet extends AbstractServlet {
 	
 	private static final long serialVersionUID = -2669072685054281833L;
 	

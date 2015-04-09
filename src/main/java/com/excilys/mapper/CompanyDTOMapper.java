@@ -3,9 +3,12 @@ package com.excilys.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
 
+@Component
 public class CompanyDTOMapper {
 	
 	public static CompanyDTO getCompanyDTO (Company c) {

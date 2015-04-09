@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import com.excilys.service.ComputerService;
 
 @Controller
-public class DeleteComputerServlet extends HttpServlet {
+public class DeleteComputerServlet extends AbstractServlet {
 	
 	private static final long serialVersionUID = -117083031348700427L;
 	

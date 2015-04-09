@@ -3,8 +3,11 @@ package com.excilys.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.model.Company;
 
+@Component
 public class CompanyMapper implements Mapper<Company> {
 
 	@Override

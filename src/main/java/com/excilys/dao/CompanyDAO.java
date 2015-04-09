@@ -37,6 +37,8 @@ public class CompanyDAO implements DAO<Company, Long> {
 	
 	@Autowired
 	private ComputerDatabaseConnection connection;
+	@Autowired
+	private CompanyMapper companyMapper;
 	
 	public CompanyDAO() {
 		if (properties == null) {
@@ -58,7 +60,6 @@ public class CompanyDAO implements DAO<Company, Long> {
 	@Override
 	public List<Company> getAll() {
 		final List<Company> companies = new ArrayList<>();
-		final CompanyMapper companyMapper = new CompanyMapper();
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
@@ -81,8 +82,6 @@ public class CompanyDAO implements DAO<Company, Long> {
 
 	@Override
 	public Company getById(Long id) {
-		final CompanyMapper companyMapper = new CompanyMapper();
-		
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM ").append(companyTable);
 		sql.append(" WHERE ").append(this.companyId).append(" = ?");
