@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.mapper.ComputerDTOMapper;
 import com.excilys.service.ComputerService;
@@ -19,10 +19,11 @@ public class DashboardController {
 	private ComputerService computerService;
 	
 	@RequestMapping(value="/dashboard", method=RequestMethod.GET)
-	public String dashboard(WebRequest request, Model model) {
+	public String dashboard(@RequestParam(required=false)  String page,
+							@RequestParam(required=false) String search,
+							@RequestParam(required=false) String size,
+							Model model) {
 		
-		String page = request.getParameter("page");		
-		String size = request.getParameter("size");
         Page p;
         int currentPage = 1, entitiesByPage = 10, pge = 1;
         if (page != null) {
@@ -40,7 +41,6 @@ public class DashboardController {
         }
         p = new SimplePage(currentPage, entitiesByPage);
         
-        String search = request.getParameter("search");
         final int totalEntities;
         if (search != null) {
         	totalEntities = computerService.countByName(search);

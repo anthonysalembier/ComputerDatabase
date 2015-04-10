@@ -14,21 +14,15 @@
                         	<div class="form-group" id="errors"></div>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName"
-                                		name="computerName" placeholder="Computer name"
-                                		value="${ computer.name }">
+                                <input type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name" value="${ computer.name }">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced"
-                                		name="introduced" placeholder="Introduced date"
-                                		value="${ computer.introduced }">
+                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="Introduced date" value="${ computer.introduced }">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued"
-                              			name="discontinued"	placeholder="Discontinued date"
-                              			value="${ computer.discontinued }">
+                                <input type="date" class="form-control" id="discontinued" name="discontinued"	placeholder="Discontinued date" value="${ computer.discontinued }">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>

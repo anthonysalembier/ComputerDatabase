@@ -9,16 +9,17 @@
 				<form id="searchForm" action="dashboard" method="GET" class="form-inline">
 
 					<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name"
-							value="${ search }" />
-					<input type="submit" id="searchsubmit" value="Filter by name"
-							class="btn btn-primary" />
+							class="form-control" placeholder="Search name" value="${ search }" />
+					<input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="add">Add
-					Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();">Edit</a>
+				<a class="btn btn-success" id="addComputer" href="add">
+					Add Computer
+				</a>
+				<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
+					Edit
+				</a>
 			</div>
 		</div>
 	</div>
@@ -35,13 +36,15 @@
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
 
-					<th class="editMode" style="width: 60px; height: 22px;"><input
-						type="checkbox" id="selectall" /> <span
-						style="vertical-align: top;"> - <a href="#"
-							id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
-								class="fa fa-trash-o fa-lg"></i>
-						</a>
-					</span></th>
+					<th class="editMode" style="width: 60px; height: 22px;">
+						<input type="checkbox" id="selectall" />
+						<span style="vertical-align: top;">
+							 - 
+							<a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
+								<i class="fa fa-trash-o fa-lg"> </i>
+							</a>
+						</span>
+					</th>
 					<th>Computer name</th>
 					<th>Introduced date</th>
 					<!-- Table header for Discontinued Date -->
