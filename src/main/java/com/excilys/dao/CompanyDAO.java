@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.connection.ComputerDatabaseConnection;
 import com.excilys.exception.DAOException;
@@ -66,7 +65,7 @@ public class CompanyDAO implements DAO<Company, Long> {
 		sql.append(companyTable);
 		sql.append(" ORDER BY ").append(companyName);
 		
-		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				while (rs.next()) {
 					companies.add(companyMapper.rowMap(rs));
@@ -86,7 +85,7 @@ public class CompanyDAO implements DAO<Company, Long> {
 		sql.append("SELECT * FROM ").append(companyTable);
 		sql.append(" WHERE ").append(this.companyId).append(" = ?");
 
-		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				if (rs.first()) {
@@ -100,7 +99,6 @@ public class CompanyDAO implements DAO<Company, Long> {
 		return null;
 	}
 	
-	@Transactional
 	@Override
 	public void delete(Long id) {
 		StringBuffer deleteComputers = new StringBuffer();
@@ -114,11 +112,10 @@ public class CompanyDAO implements DAO<Company, Long> {
 		deleteCompany.append(" WHERE ");
 		deleteCompany.append(companyId).append(" = ?");
 		
-		try (final PreparedStatement delCptsStatement = connection.getInstance()
+		try (final PreparedStatement delCptsStatement = connection.getConnection()
 														.prepareStatement(deleteComputers.toString());
-				final PreparedStatement delCpyStatement = connection.getInstance()
+				final PreparedStatement delCpyStatement = connection.getConnection()
 														.prepareStatement(deleteCompany.toString())) {
-			connection.startTransaction();
 			
 			delCptsStatement.setLong(1, id);
 			delCptsStatement.execute();
@@ -126,22 +123,17 @@ public class CompanyDAO implements DAO<Company, Long> {
 			delCpyStatement.setLong(1, id);
 			delCpyStatement.execute();
 
-			connection.commit();
-
 			LOGGER.info("Company (id:{}) and all computers linked have successfully been deleted", id);
 		} catch (SQLException | PersistenceException e) {
-			connection.rollback();
 			LOGGER.error("Error occurs while processing 'delete(Id:{})'", id);
 			throw new DAOException(e.getMessage());
-		} finally {
-			connection.endTransaction();
 		}
 	}
 	
 	@Override
 	public int count() {
 		final String sql = "SELECT COUNT(*) FROM " + companyTable;
-		try (final Statement state = connection.getInstance().createStatement()) {
+		try (final Statement state = connection.getConnection().createStatement()) {
             final ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 return rs.getInt(1);

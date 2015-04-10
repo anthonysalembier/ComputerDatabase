@@ -87,10 +87,10 @@
 				 pageSize="${ page.size }" url="dashboard" previous="${ page.previous }"/>
 	</footer>
 	
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.tablesorter.min.js"></script>
+	<script src="<c:url value="/resources/js/jquery.min.js" />"></script>
+	<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+	<script src="<c:url value="/resources/js/jquery.tablesorter.min.js" />"></script>
 	
-	<script src="js/dashboard.js"></script>
+	<script src="<c:url value="/resources/js/dashboard.js" />"></script>
 
 <%@ include file="footer.jsp" %>

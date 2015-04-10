@@ -63,7 +63,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 				companyNameColumn = properties.getProperty("companyName");
 				
 			} catch (IOException e) {
-				// LOGGER.error("Error occurs while reading configuration file");
+				LOGGER.error("Error occurs while reading configuration file");
 				throw new DAOException(e.getMessage());
 			}
 		}
@@ -83,7 +83,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		sql.append(" ORDER BY ");
 		sql.append(computerTable).append(".").append(computerNameColumn);
 
-		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				while (rs.next()) {
 					computers.add(computerMapper.rowMap(rs));
@@ -92,10 +92,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException | PersistenceException e) {
 			LOGGER.error("Error occurs while processing 'getAll()'");
 			throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
-
 		return computers;
 	}
 	
@@ -111,7 +108,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
         sql.append(companyTable).append(".").append(companyIdColumn);
         sql.append(" ORDER BY ? ? LIMIT ? OFFSET ?");
         
-        try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+        try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
             pStatement.setString(1, page.getProperties());
             pStatement.setString(2, page.getSort().toString());
             pStatement.setInt(3, page.getSize());
@@ -123,8 +120,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
         } catch (SQLException | PersistenceException e) {
         	LOGGER.error("Error occurs while processing 'getAll(Page)'");
             throw new DAOException(e.getMessage());
-        } finally {
-			connection.close();
 		}
 
         return computers;
@@ -140,7 +135,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		sql.append(companyTable).append(".").append(companyIdColumn);
 		sql.append(" WHERE ").append(computerTable).append(".").append(computerIdColumn).append(" = ?");
 
-		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				if (rs.first()) {
@@ -150,8 +145,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException | PersistenceException e) {
 			LOGGER.error("Error occurs while processing 'getById(Id:{})'", id);
 			throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
 
 		return null;
@@ -178,7 +171,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
         
         sql.append(" ORDER BY ? ? LIMIT ? OFFSET ?");
         
-        try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+        try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
         	pStatement.setString(1, "%" + name + "%");
         	pStatement.setString(2, "%" + name + "%");
             pStatement.setString(3, page.getProperties());
@@ -192,8 +185,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
         } catch (SQLException | PersistenceException e) {
         	LOGGER.error("Error occurs while processing 'getByName(Name:{}, Page)'", name);
             throw new DAOException(e.getMessage());
-        } finally {
-			connection.close();
 		}
 
         return computers;
@@ -204,7 +195,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ").append(computerTable).append(" VALUES (?, ?, ?, ?, ?)");
 
-		try (final PreparedStatement pStatement = connection.getInstance()
+		try (final PreparedStatement pStatement = connection.getConnection()
 													.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS)) {
 			pStatement.setObject(1, null);
 			if (entity.getName() != null) {
@@ -240,8 +231,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException | PersistenceException e) {
 			LOGGER.error("Error occurs while processing 'create(Computer)'");
 			throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
 	}
 
@@ -255,7 +244,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		sql.append(computerCompanyIdColumn).append(" = ? ");
 		sql.append("WHERE ").append(computerIdColumn).append(" = ?");
 		
-		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
 			if (entity.getName() != null) {
 				String name = entity.getName().trim();
 				if (!name.isEmpty()) {
@@ -290,8 +279,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException | PersistenceException e) {
 			LOGGER.error("Error occurs while processing 'update(Computer (Id:{})'", entity.getId());
 			throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
 	}
 
@@ -300,7 +287,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("DELETE FROM ").append(computerTable).append(" WHERE ").append(computerIdColumn).append(" = ?");
 		
-		try (final PreparedStatement pStatement = connection.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
 			pStatement.setLong(1, id);
 			pStatement.execute();
 			
@@ -308,8 +295,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException | PersistenceException e) {
 			LOGGER.error("Error occurs while processing 'delete(Id:{})'", id);
 			throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
 	}
 	
@@ -318,7 +303,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT COUNT(*) FROM ").append(computerTable);
 		
-		try (final Statement state = connection.getInstance().createStatement()) {
+		try (final Statement state = connection.getConnection().createStatement()) {
             final ResultSet rs = state.executeQuery(sql.toString());
             while (rs.next()) {
                 return rs.getInt(1);
@@ -326,8 +311,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
         } catch (SQLException | PersistenceException e) {
         	LOGGER.error("Error occurs while processing 'count()'");
             throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
         return 0;
 	}
@@ -350,7 +333,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
         sql.append(" LIKE ");
         sql.append("?");
 		
-		try (final PreparedStatement pState = connection.getInstance().prepareStatement(sql.toString())) {
+		try (final PreparedStatement pState = connection.getConnection().prepareStatement(sql.toString())) {
 			pState.setString(1, "%" + name + "%");
         	pState.setString(2, "%" + name + "%");
 			
@@ -362,8 +345,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
         } catch (SQLException | PersistenceException e) {
         	LOGGER.error("Error occurs while processing 'countByName(Name:{})'", name);
             throw new DAOException(e.getMessage());
-		} finally {
-			connection.close();
 		}
 		return 0;
 	}

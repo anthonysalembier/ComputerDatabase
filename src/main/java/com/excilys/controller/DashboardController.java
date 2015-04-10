@@ -1,38 +1,28 @@
 package com.excilys.controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 
 import com.excilys.mapper.ComputerDTOMapper;
 import com.excilys.service.ComputerService;
 import com.excilys.util.Page;
 import com.excilys.util.SimplePage;
 
-/**
- * Servlet implementation class ServletController
- */
 @Controller
-public class DashboardServlet extends AbstractServlet {
-	
-	private static final long serialVersionUID = 110834506145935418L;
-	
+public class DashboardController {
 	
 	@Autowired
 	private ComputerService computerService;
 	
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = request.getParameter("page");
-        String size = request.getParameter("size");
+	@RequestMapping(value="/dashboard", method=RequestMethod.GET)
+	public String dashboard(WebRequest request, Model model) {
+		
+		String page = request.getParameter("page");		
+		String size = request.getParameter("size");
         Page p;
         int currentPage = 1, entitiesByPage = 10, pge = 1;
         if (page != null) {
@@ -65,38 +55,33 @@ public class DashboardServlet extends AbstractServlet {
         }
         
         // Pages number
-        request.setAttribute("totalPages", maxPages);
+        model.addAttribute("totalPages", maxPages);
         maxPages = Math.min(maxPages, pge + entitiesByPage - 1);
         
         // The Page object
-        request.setAttribute("page", p);
+        model.addAttribute("page", p);
         
         // Elements number by page
-        request.setAttribute("sizePage", entitiesByPage);
+        model.addAttribute("sizePage", entitiesByPage);
         
         // Max page buttons number
-        request.setAttribute("maxPages", maxPages);
+        model.addAttribute("maxPages", maxPages);
         
         // List of computers
         if (search != null) {
-        	request.setAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getByName(search, p)));
-        	request.setAttribute("search", search);
+        	model.addAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getByName(search, p)));
+        	model.addAttribute("search", search);
         } else {
-        	request.setAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getAll(p)));
+        	model.addAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getAll(p)));
         }
         
         // The current page
-        request.setAttribute("currentPage", pge);
+        model.addAttribute("currentPage", pge);
         
         // Number of found entities
-        request.setAttribute("total", totalEntities);
-        getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+        model.addAttribute("total", totalEntities);
+        
+        return "dashboard";
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
+	
 }

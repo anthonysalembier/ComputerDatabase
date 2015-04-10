@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.dao.CompanyDAO;
 import com.excilys.model.Company;
@@ -36,6 +37,7 @@ public class CompanyService {
 	 * Delete the company referenced by the identifier.
 	 * @param id Identifier
 	 */
+	@Transactional
 	public void delete(Long id) {
 		if (id <= 0) {
 			throw new IllegalArgumentException();
