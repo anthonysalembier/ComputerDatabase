@@ -41,26 +41,26 @@ public class AddController {
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(@RequestParam(required=true) String computerName,
-					  @RequestParam(required=false) String introduced,
-					  @RequestParam(required=false) String discontinued,
+					  @RequestParam(required=false) String introducedString,
+					  @RequestParam(required=false) String disconstinuedString,
 					  @RequestParam(required=false) String companyId) {
 		Computer computer = new Computer();
 		
 		computer.setName(computerName);
 		
 		LocalDateTime introducedDate = null;
-		if ((introduced != null) && (!introduced.isEmpty())) {
-			introduced += DEFAULT_TIME;
+		if ((introducedString != null) && (!introducedString.isEmpty())) {
+			introducedString += DEFAULT_TIME;
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-			introducedDate = LocalDateTime.parse(introduced, formatter);
+			introducedDate = LocalDateTime.parse(introducedString, formatter);
 		}
 		computer.setIntroduced(introducedDate);
 		
 		LocalDateTime discontinuedDate = null;
-		if ((discontinued != null) && (!discontinued.isEmpty())) {
-			discontinued += DEFAULT_TIME;
+		if ((disconstinuedString != null) && (!disconstinuedString.isEmpty())) {
+			disconstinuedString += DEFAULT_TIME;
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-			discontinuedDate = LocalDateTime.parse(discontinued, formatter);
+			discontinuedDate = LocalDateTime.parse(disconstinuedString, formatter);
 		}
 		computer.setDiscontinued(discontinuedDate);
 		

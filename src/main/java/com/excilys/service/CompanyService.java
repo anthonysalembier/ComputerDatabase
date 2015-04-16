@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.exception.ServiceException;
-import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.repository.CompanyRepository;
 
@@ -17,9 +16,6 @@ public class CompanyService {
 	
 	@Autowired
 	private CompanyRepository repo;
-	
-	@Autowired
-	private CompanyMapper companyMapper;
 	
 	/**
 	 * @return a list of all companies.

@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.excilys.dao.CompanyDAO;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Company;
@@ -203,9 +202,6 @@ public enum Command {
 	@Autowired
 	private static CompanyService companyService;
 	
-	@Autowired
-	private static CompanyDAO companyDAO;
-
 	private static Map<String, Command> commands;
 	static {
 		commands = new HashMap<>();
@@ -262,7 +258,8 @@ public enum Command {
 		System.out.println("Company : ");
 		if (ctx.getScanner().hasNextToken()) {
 			try {
-				computer.setCompany(companyDAO.getById(Long.valueOf(ctx.getScanner().getNextToken())));
+				CompanyService companyService = new CompanyService();
+				computer.setCompany(companyService.getById(Long.valueOf(ctx.getScanner().getNextToken())));
 			} catch (NumberFormatException | DAOException e) {
 				e.printStackTrace();
 			}

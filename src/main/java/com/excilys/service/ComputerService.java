@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.excilys.exception.ServiceException;
-import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.repository.ComputerRepository;
 
@@ -18,9 +17,6 @@ public class ComputerService {
 	@Autowired
 	private ComputerRepository repo;
 	
-	@Autowired
-	private ComputerMapper computerMapper;
-
 	public List<Computer> getAll() {
 		List<Computer> computers = new LinkedList<>();
 		for (Computer c : repo.findAll()) {
