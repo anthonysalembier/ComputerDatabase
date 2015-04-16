@@ -86,8 +86,8 @@
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<p:pages totalPages="${ totalPages }" page="${ page.page }" pageCount="${ maxPages }"
-				 pageSize="${ page.size }" url="dashboard" previous="${ page.previous }"/>
+		<p:pages totalPages="${ totalPages }" page="${ page.pageNumber }" pageCount="${ maxPages }"
+				 pageSize="${ page.pageSize }" url="dashboard"/>
 	</footer>
 	
 	<script src="<c:url value="/resources/js/jquery.min.js" />"></script>

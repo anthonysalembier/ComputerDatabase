@@ -1,7 +1,23 @@
 package com.excilys.model;
 
-public class Company {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="company")
+public class Company implements Serializable {
+	
+	private static final long serialVersionUID = 6179212814426138643L;
+
+	@Id
+	@Column(name="id")
 	private long id;
+	
+	@Column(name="name")
 	private String name;
 	
 	public long getId() {

@@ -1,75 +1,101 @@
 package com.excilys.service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.excilys.dao.ComputerDAO;
+import com.excilys.exception.ServiceException;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
-import com.excilys.util.Page;
+import com.excilys.repository.ComputerRepository;
 
 @Service
 public class ComputerService {
 	
 	@Autowired
-	private ComputerDAO dao;
+	private ComputerRepository repo;
+	
+	@Autowired
+	private ComputerMapper computerMapper;
 
 	public List<Computer> getAll() {
-		return dao.getAll();
+		List<Computer> computers = new LinkedList<>();
+		for (Computer c : repo.findAll()) {
+			computers.add(c);
+		}
+		
+		return computers;
 	}
 
-	public List<Computer> getAll(Page page) {
+	public List<Computer> getAll(Pageable page) {
 		if (page == null) {
-			throw new IllegalArgumentException();
+			throw new ServiceException("Pageable argument is null");
 		}
-		return dao.getAll(page);
+		
+		List<Computer> computers = new LinkedList<>();
+		for (Computer c : repo.findAll(page)) {
+			computers.add(c);
+		}
+		
+		return computers;
 	}
 
 	public Computer getById(long id) {
 		if (id <= 0) {
-			throw new IllegalArgumentException();
+			throw new ServiceException("Id is less than 0");
 		}
-		return dao.getById(id);
+		return repo.findOne(id);
 	}
 	
-	public List<Computer> getByName(String name, Page page) {
-		if (name == null) {
-			throw new IllegalArgumentException();
+	public List<Computer> getByName(String name, Pageable page) {
+		if (name == null || page == null) {
+			throw new ServiceException("Argument is null");
 		}
-		return dao.getByName(name, page);
+		
+		List<Computer> computers = new LinkedList<>();
+		for (Computer c : repo.findByNameContainingOrCompanyNameContaining(name, name, page)) {
+			computers.add(c);
+		}
+		
+		return computers;
 	}
 
 	public void create(Computer computer) {
 		if (computer.getName().isEmpty()) {
-			throw new IllegalArgumentException();
+			throw new ServiceException("Computer argument is null");
 		}
-		dao.create(computer);
+		repo.save(computer);
 	}
 
 	public void update(Computer computer) {
 		if (computer == null) {
-			throw new IllegalArgumentException();
+			throw new ServiceException("Computer argument is null");
 		}
 		if (computer.getName().isEmpty()) {
-			throw new IllegalArgumentException();
+			throw new ServiceException("Computer name is empty");
 		}
-		dao.update(computer);
+		repo.save(computer);
 	}
 
 	public void delete(long id) {
 		if (id <= 0) {
-			throw new IllegalArgumentException();
+			throw new ServiceException("Id is less than 0");
 		}
-		dao.delete(id);
+		repo.delete(id);
 	}
 
-	public int count() {
-		return dao.count();
+	public long count() {
+		return repo.count();
 	}
 	
 	public int countByName(String name) {
-		return dao.countByName(name);
+		if (name == null) {
+			throw new ServiceException("Argument is null");
+		}
+		return repo.countByNameContainingOrCompanyNameContaining(name, name);
 	}
 	
 }

@@ -1,13 +1,48 @@
 package com.excilys.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Computer {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
+@Entity
+@Table(name="computer")
+public class Computer implements Serializable {
+	
+	private static final long serialVersionUID = 6111680208456002875L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
 	private long id;
+	
+	@Column(name="name")
 	private String name;
+	
+	@Column(name="introduced")
+	@Type(type="com.excilys.mapper.LocalDateMapper")
 	private LocalDateTime introduced;
+
+	@Column(name="discontinued")
+	@Type(type="com.excilys.mapper.LocalDateMapper")
 	private LocalDateTime discontinued;
+	
+	@ManyToOne
 	private Company company;
+	
+	public Computer() {}
+	
+	public Computer(String name) {
+		this.name = name;
+	}
 	
 	public long getId() {
 		return id;

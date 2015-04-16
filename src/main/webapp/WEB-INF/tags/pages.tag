@@ -4,7 +4,6 @@
 <%@ attribute name="pageCount" required="true" type="java.lang.Integer"%>
 <%@ attribute name="pageSize" required="true" type="java.lang.Integer"%>
 <%@ attribute name="url" required="true"%>
-<%@ attribute name="previous" required="true"%>
 <%@ attribute name="totalPages" required="true" type="java.lang.Integer"%>
 
 <div class="container text-center">

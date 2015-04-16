@@ -170,6 +170,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
         sql.append("?");
         
         sql.append(" ORDER BY ? ? LIMIT ? OFFSET ?");
+        //                    3 4       5        6
         
         try (final PreparedStatement pStatement = connection.getConnection().prepareStatement(sql.toString())) {
         	pStatement.setString(1, "%" + name + "%");

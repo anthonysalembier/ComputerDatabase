@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 /**
  * A simple page without information about entities.
  */
@@ -129,11 +131,6 @@ public class SimplePage implements Page {
     }
 
     @Override
-    public Sort getSort() {
-        return sort;
-    }
-
-    @Override
     public void setSort(Sort sort) {
         if (sort == null) {
             throw new IllegalArgumentException();
@@ -198,5 +195,46 @@ public class SimplePage implements Page {
             this.properties = Arrays.asList(properties);
         }
     }
+
+	@Override
+	public int getPageNumber() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getPageSize() {
+		return getPage();
+	}
+
+	@Override
+	public org.springframework.data.domain.Sort getSort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pageable next() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pageable previousOrFirst() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pageable first() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasPrevious() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

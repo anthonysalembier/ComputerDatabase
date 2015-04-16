@@ -1,5 +1,9 @@
 package com.excilys.util;
 
+import org.springframework.data.domain.Pageable;
+
+
+
 
 /**
  * @inv
@@ -8,7 +12,7 @@ package com.excilys.util;
  *     getSize() >= 0
  *     getSort() != null
  */
-public interface Page {
+public interface Page extends Pageable {
     /**
      * Default property on which apply the sorting
      */
@@ -50,7 +54,7 @@ public interface Page {
     /**
      * @return Current sort
      */
-    Sort getSort();
+    org.springframework.data.domain.Sort getSort();
 
     /**
      * @param sort Current sort

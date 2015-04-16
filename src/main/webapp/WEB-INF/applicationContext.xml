@@ -2,21 +2,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
 				        http://www.springframework.org/schema/beans/spring-beans.xsd
 				        http://www.springframework.org/schema/context
 				        http://www.springframework.org/schema/context/spring-context.xsd
 						http://www.springframework.org/schema/tx
-			        	http://www.springframework.org/schema/tx/spring-tx.xsd"
-	xmlns:tx="http://www.springframework.org/schema/tx">
+			        	http://www.springframework.org/schema/tx/spring-tx.xsd
+					    http://www.springframework.org/schema/data/jpa
+					    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+					    http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+					    
+    <context:annotation-config/>
 
     <!-- Indicate packages to scan order by depth -->
     <context:property-placeholder location="classpath:config.properties" />
+    <context:component-scan base-package="com.excilys.model"/>
     <context:component-scan base-package="com.excilys.mapper"/>
     <context:component-scan base-package="com.excilys.connection"/>
     <context:component-scan base-package="com.excilys.dao"/>
     <context:component-scan base-package="com.excilys.service"/>
-    <context:component-scan base-package="com.excilys.controller"/>
     
     <!-- Load BD configuration file -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" >
@@ -26,12 +33,32 @@
 		<property name="password" value="${password}" />
 	</bean>
 	
-	<!-- DataSource bean -->
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
+    <!-- Data Spring JPA -->
+	<jpa:repositories base-package="com.excilys.repository" />
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.excilys.model" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="true" />
+				<property name="showSql" value="false" />
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+				<property name="database" value="MYSQL" />
+			</bean>
+		</property>
 	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="jpaDialect">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+		</property>
+	</bean>
+     
 	<!-- Tell Spring the project is annotation driven for the datasource -->
-	<tx:annotation-driven transaction-manager="txManager" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
 	
 </beans>
