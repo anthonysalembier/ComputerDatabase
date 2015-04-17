@@ -73,4 +73,9 @@ public class DashboardController {
         return "dashboard";
 	}
 	
+//	@RequestMapping(value="/dashboard", method=RequestMethod.GET)
+//	public String changeLanguage() {
+//		return "dashboard";
+//	}
+	
 }

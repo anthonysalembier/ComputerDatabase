@@ -32,9 +32,9 @@ public class UpdateController {
 	private CompanyService companyService;
 	
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
-	public String editForm(@RequestParam(required=false) String id, Model model) {
+	public String editForm(@RequestParam(required=false) Long id, Model model) {
 		
-		ComputerDTO computer = ComputerDTOMapper.getComputerDTO(computerService.getById(Long.valueOf(id)));
+		ComputerDTO computer = ComputerDTOMapper.getComputerDTO(computerService.getById(id));
 		model.addAttribute("computer", computer);
 		
 		List<CompanyDTO> companies = CompanyDTOMapper.getCompanyListDTO(companyService.getAll());
@@ -44,15 +44,15 @@ public class UpdateController {
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
-	public String edit(@RequestParam(required=false) String computerId,
+	public String edit(@RequestParam(required=false) Long computerId,
 					   @RequestParam(required=true) String computerName,
 					   @RequestParam(required=false) String introduced,
 					   @RequestParam(required=false) String discontinued,
-					   @RequestParam(required=false) String companyId) {
+					   @RequestParam(required=false) Long companyId) {
 		
 		Computer computer = new Computer();
 		
-		computer.setId(Long.valueOf(computerId));
+		computer.setId(computerId);
 		
 		computer.setName(computerName);
 		
@@ -73,7 +73,7 @@ public class UpdateController {
 			discontinuedDate = LocalDateTime.parse(disconstinuedString, formatter);
 		}
 		computer.setDiscontinued(discontinuedDate);
-		Company company = companyService.getById(Long.valueOf(companyId));
+		Company company = companyService.getById(companyId);
 		computer.setCompany(company);
 		
 		computerService.update(computer);

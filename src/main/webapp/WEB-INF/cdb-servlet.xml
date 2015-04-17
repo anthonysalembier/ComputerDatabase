@@ -22,4 +22,23 @@
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:annotation-driven />
     
+    <!-- Spring i18n -->
+	<bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+ 
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="fr" />
+        <property name="cookieName" value="cdbLang" />
+        <property name="cookieMaxAge" value="3600" />
+    </bean>
+ 
+ 	<mvc:interceptors>
+	    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	        <property name="paramName" value="lang" />
+	    </bean>
+    </mvc:interceptors>
+    
 </beans>

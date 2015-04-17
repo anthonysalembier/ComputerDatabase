@@ -5,15 +5,12 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:jpa="http://www.springframework.org/schema/data/jpa"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-				        http://www.springframework.org/schema/beans/spring-beans.xsd
-				        http://www.springframework.org/schema/context
-				        http://www.springframework.org/schema/context/spring-context.xsd
-						http://www.springframework.org/schema/tx
-			        	http://www.springframework.org/schema/tx/spring-tx.xsd
-					    http://www.springframework.org/schema/data/jpa
-					    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-					    http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    					http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd
+					    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+				        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+					    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 					    
     <context:annotation-config/>
 
@@ -56,7 +53,7 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
 		</property>
 	</bean>
-     
+	
 	<!-- Tell Spring the project is annotation driven for the datasource -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	

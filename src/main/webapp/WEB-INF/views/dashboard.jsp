@@ -1,9 +1,9 @@
 <%@ include file="header.jsp" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="p" %>
-
+	
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle"><c:out value="${ total }" /> computers found</h1>
+		<h1 id="homeTitle"><c:out value="${ total }" /> <spring:message code="label.computersFound" /></h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="dashboard" method="GET" class="form-inline">
@@ -15,10 +15,10 @@
 			</div>
 			<div class="pull-right">
 				<a class="btn btn-success" id="addComputer" href="add">
-					Add Computer
+					<spring:message code="label.button.addComputer" />
 				</a>
 				<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
-					Edit
+					<spring:message code="label.button.editComputer" />
 				</a>
 			</div>
 		</div>
@@ -45,10 +45,10 @@
 							</a>
 						</span>
 					</th>
-					<th>Computer name</th>
-					<th>Introduced date</th>
+					<th><spring:message code="label.computerName" /></th>
+					<th><spring:message code="label.introducedDate" /></th>
 					<!-- Table header for Discontinued Date -->
-					<th>Discontinued date</th>
+					<th><spring:message code="label.discontinuedDate" /></th>
 					<!-- Table header for Company -->
 					<th>Company</th>
 
@@ -84,16 +84,10 @@
 		<div>Page <c:out value="${ currentPage }" /> / <c:out value="${ totalPages }" /></div>
 	</div>
 	</section>
-
+	
 	<footer class="navbar-fixed-bottom">
 		<p:pages totalPages="${ totalPages }" page="${ page.pageNumber }" pageCount="${ maxPages }"
 				 pageSize="${ page.pageSize }" url="dashboard"/>
 	</footer>
 	
-	<script src="<c:url value="/resources/js/jquery.min.js" />"></script>
-	<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
-	<script src="<c:url value="/resources/js/jquery.tablesorter.min.js" />"></script>
-	
-	<script src="<c:url value="/resources/js/dashboard.js" />"></script>
-
 <%@ include file="footer.jsp" %>

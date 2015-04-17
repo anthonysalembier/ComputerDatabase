@@ -34,3 +34,52 @@ label.error,div.error{
     font-weight:normal;
     color:#FF0000 !important;
 }
+
+#language-picker {
+	background-image: url(../img/flags/fr.png);
+	position: absolute;
+	top: inherit;
+	margin-left: 20px;
+	margin-top: 9px;
+	background-repeat: no-repeat;
+	background-size: 29px 30px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
+
+#language-picker > .language-selection {
+}
+
+#language-picker-content {
+	display: none;
+}
+
+.language-selection {
+	cursor: pointer;
+}
+
+.language-selection .select-lang {
+	background-repeat: no-repeat;
+	background-size: 27px 25px;
+	padding-left: 35px;
+	padding-top: 2px;
+	padding-bottom: 6px;
+	margin-bottom: 4px;
+}
+
+.language-selection .select-lang:hover {
+	background-color: #f7f7f7;
+}
+
+.language-selection #select-fr {
+	background-image: url(../img/flags/fr.png);
+}
+
+.language-selection #select-en {
+	background-image: url(../img/flags/en.png);
+}
+
+.title {
+	margin-left: 22px;
+}
