@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="cdb-modules">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/binding/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/console/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/webapp/src/main/webapp"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/persistence/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/service/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/webapp/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/core/src/main/java"/>
+        <property name="context-root" value="cdb-modules"/>
+        <property name="java-output-path" value="/cdb-modules/bin"/>
+    </wb-module>
+</project-modules>
