@@ -17,6 +17,7 @@
 	</parent>
 	
 	<dependencies>
+		<!-- Modules -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>core</artifactId>
@@ -27,6 +28,12 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>persistence</artifactId>
 			<version>1.0</version>
+		</dependency>
+			
+		<!-- Date validator -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -17,6 +17,7 @@
 	</parent>
 	
 	<dependencies>
+		<!-- Modules -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>service</artifactId>

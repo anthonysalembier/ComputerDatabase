@@ -21,7 +21,6 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<mysql.version>5.1.34</mysql.version>
 		<dbcp.version>2.1</dbcp.version>
 		<validator.version>1.4.1</validator.version>
 		<junit.version>4.12</junit.version>
@@ -31,7 +30,6 @@
 		<servlet-api.version>3.1.0</servlet-api.version>
 		<jstl.version>1.1.2</jstl.version>
 		<taglibs.version>1.1.2</taglibs.version>
-		<bonecp.version>0.8.0.RELEASE</bonecp.version>
 		<logback.version>1.1.3</logback.version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<springframework.version>4.1.6.RELEASE</springframework.version>
@@ -55,14 +53,6 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 					
-			<!-- MySQL Database -->
-			<dependency>
-				<scope>provided</scope>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql.version}</version>
-			</dependency>
-			
 			<!-- Connection Pool -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -151,19 +141,7 @@
 			
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-					
-			<dependency>
-				<groupId>org.springframework</groupId>
 				<artifactId>spring-tx</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jdbc</artifactId>
 				<version>${springframework.version}</version>
 			</dependency>
 			
@@ -191,129 +169,64 @@
 	
 	<dependencies>
 		<!-- Logging -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-			</dependency>
-					
-			<!-- MySQL Database -->
-			<dependency>
-				<scope>provided</scope>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-			</dependency>
-			
-			<!-- Connection Pool -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-dbcp2</artifactId>
-				<exclusions>
-			        <exclusion>
-			            <groupId>commons-logging</groupId>
-			            <artifactId>commons-logging</artifactId>
-			        </exclusion>
-			    </exclusions>
-			</dependency>
-			
-			<!-- Date validator -->
-			<dependency>
-				<groupId>commons-validator</groupId>
-				<artifactId>commons-validator</artifactId>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 				
-			</dependency>
-	
-			<!-- Tests -->
-			<dependency>
-				<scope>test</scope>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-			</dependency>
-	
-			<dependency>
-				<scope>test</scope>
-				<groupId>org.assertj</groupId>
-				<artifactId>assertj-core</artifactId>
-			</dependency>
-	
-			<dependency>
-				<scope>dbunit</scope>
-				<groupId>org.dbunit</groupId>
-				<artifactId>dbunit</artifactId>
-			</dependency>
-	
-			<dependency>
-				<scope>test</scope>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-			</dependency>
-	
-			<!-- Servlet stuff -->
-			<dependency>
-				<scope>provided</scope>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-			</dependency>
-	
-			<!-- Front stuff -->
-			<dependency>
-				<scope>runtime</scope>
-				<groupId>jstl</groupId>
-				<artifactId>jstl</artifactId>
-			</dependency>
-	
-			<dependency>
-				<scope>runtime</scope>
-				<groupId>taglibs</groupId>
-				<artifactId>standard</artifactId>
-			</dependency>
-			
-			<!-- Spring stuff -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<exclusions>
-			        <exclusion>
-			            <groupId>commons-logging</groupId>
-			            <artifactId>commons-logging</artifactId>
-			        </exclusion>
-			    </exclusions>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-			</dependency>
-					
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-tx</artifactId>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jdbc</artifactId>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.springframework.data</groupId>
-				<artifactId>spring-data-jpa</artifactId>
-			</dependency>
-			
-			<!-- Hibernate stuff -->
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-			</dependency>
+		<!-- Connection Pool -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<exclusions>
+		        <exclusion>
+		            <groupId>commons-logging</groupId>
+		            <artifactId>commons-logging</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<scope>dbunit</scope>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+		</dependency>
+
+		<dependency>
+			<scope>test</scope>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		
+		<!-- Spring stuff -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		
+		<!-- Hibernate stuff -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
