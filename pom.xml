@@ -37,6 +37,7 @@
 		<springframework.version>4.1.6.RELEASE</springframework.version>
 		<springdatajpa.version>1.8.0.RELEASE</springdatajpa.version>
 		<hibernatejpa.version>4.3.8.Final</hibernatejpa.version>
+		<mavenwar.version>2.6</mavenwar.version>
 	</properties>
 
 	<dependencyManagement>
@@ -316,7 +317,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>computerdatabase-multimodules</finalName>
+		<finalName>computerdatabase</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -326,6 +327,12 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			
+			<!-- WAR building -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${mavenwar.version}</version>
+            </plugin>
 		</plugins>
 	</build>
 </project>
