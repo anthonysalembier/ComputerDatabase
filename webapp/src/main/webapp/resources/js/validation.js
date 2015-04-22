@@ -15,8 +15,14 @@ $(document).ready(function () {
         onfocusout : function(element) { $(element).valid(); },
         errorElement : "div",
         errorPlacement : function(error, element) {
-            error.appendTo("div#errors");
-        }, 
+			if (element.attr("name") === "computerName") {
+				error.appendTo("div#error-name");
+			} else if (element.attr("name") === "introduced") {
+				error.appendTo("div#error-introduced");
+			} else if (element.attr("name") === "discontinued") {
+				error.appendTo("div#error-discontinued");
+			}
+		},
 		rules : {
 			"computerName" : {
 				required : true,
@@ -39,8 +45,14 @@ $(document).ready(function () {
         onfocusout : function(element) { $(element).valid(); },
         errorElement : "div",
         errorPlacement : function(error, element) {
-            error.appendTo("div#errors");
-        }, 
+			if (element.attr("name") === "computerName") {
+				error.appendTo("div#error-name");
+			} else if (element.attr("name") === "introduced") {
+				error.appendTo("div#error-introduced");
+			} else if (element.attr("name") === "discontinued") {
+				error.appendTo("div#error-discontinued");
+			}
+		}, 
 		rules : {
 			"computerName" : {
 				required : true,

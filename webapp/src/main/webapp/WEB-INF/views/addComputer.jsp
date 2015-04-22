@@ -12,22 +12,25 @@
                     <h1><spring:message code="label.title.addComputer" /></h1>
                     <form id="addForm" action="add" method="POST">
                         <fieldset>
-                 		    <div class="form-group" id="errors"></div>
                             <div class="form-group">
                                 <label for="computerName"><spring:message code="label.computerName" /></label>
+                 		    	<div id="error-name"></div>
                                 <input type="text" class="form-control" id="computerName"
                                 		name="computerName" placeholder="${ computerNameString }">
                             </div>
                             <div class="form-group">
                                 <label for="introduced"><spring:message code="label.introducedDate" /></label>
+                            	<div id="error-introduced"></div>
                                 <input type="date" class="form-control" id="introduced"
                                 		name="introduced" placeholder="${ introducedDateString }"
                                 		min="1970-01-02" max="2038-01-19">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued"><spring:message code="label.discontinuedDate" /></label>
+	                            <div id="error-discontinued"></div>
                                 <input type="date" class="form-control" id="discontinued"
-                                		name="discontinued" placeholder="${ discontinuedDateString }">
+                                		name="discontinued" placeholder="${ discontinuedDateString }"
+                                		min="1970-01-02" max="2038-01-19">
                             </div>
                             <div class="form-group">
                                 <label for="companyId"><spring:message code="label.company" /></label>

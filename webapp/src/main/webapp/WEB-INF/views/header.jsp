@@ -59,23 +59,16 @@
 			<c:when test="${ pageContext.request.userPrincipal.name != null }">
 				<form action="logout" method="POST">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					<button type="submit" class="btn btn-default btn-log">
+					<button type="submit" class="btn btn-danger btn-log">
 						<div class="glyphicon glyphicon-log-out"></div>
 						&nbsp;<spring:message code="label.button.logout" />
 					</button>
 				</form>
 			</c:when>
 		<c:otherwise>
-<!-- 			<div class="logout"> -->
-<%-- 				<a class="btn btn-default" href="<c:url value="j_spring_security_logout" />" > --%>
-<!-- 					<label class="glyphicon glyphicon-log-in"></label> -->
-<%-- 					&nbsp;<spring:message code="label.button.login" /> --%>
-<!-- 				</a> -->
-<!-- 			</div> -->
-			
 			<form action="login" method="POST">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				<button type="submit" class="btn btn-default btn-log">
+				<button type="submit" class="btn btn-success btn-log">
 					<div class="glyphicon glyphicon-log-in"></div>
 					&nbsp;<spring:message code="label.button.login" />
 				</button>
