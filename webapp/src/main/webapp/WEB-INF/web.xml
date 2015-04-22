@@ -1,11 +1,12 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-         					http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-    	version="3.0">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+         					 http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    	 version="3.0">
 
 	<display-name>computerdatabase</display-name>
 	
+	<!-- Servlets -->
 	<servlet>
         <servlet-name>cdb</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -17,32 +18,46 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 	
+	<!-- Context -->
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
-	    <param-value>WEB-INF/application-context.xml, classpath*:/*-context.xml</param-value>
+	    <param-value>WEB-INF/application-context.xml, classpath*:/*-context.xml, classpath*:/spring-security.xml</param-value>
 	</context-param>
 	
 	<listener>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
+	<!-- Spring Security -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+ 
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- Errors -->
 	<error-page>
 		<error-code>403</error-code>
-		<location>/WEB-inf/views/403.jsp</location>
+		<location>/WEB-INF/views/403.jsp</location>
 	</error-page>
 	
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-inf/views/404.jsp</location>
+		<location>/WEB-INF/views/404.jsp</location>
 	</error-page>
 	
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-inf/views/500.jsp</location>
+		<location>/WEB-INF/views/500.jsp</location>
 	</error-page>
-		
+
+	<!-- Welcome -->
 	<welcome-file-list>
-		<welcome-file>dashboard.jsp</welcome-file>
+		<welcome-file>/WEB-INF/views/dashboard.jsp</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

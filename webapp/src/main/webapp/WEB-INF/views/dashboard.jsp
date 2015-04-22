@@ -29,7 +29,7 @@
 	</form>
 
 	<div class="container" style="margin-top: 10px;">
-		<div>Page <c:out value="${ currentPage }" /> / <c:out value="${ totalPages }" /></div>
+		<div><spring:message code="label.page" /> <c:out value="${ currentPage }" /> / <c:out value="${ totalPages }" /></div>
 		<table class="table table-striped table-bordered tablesorter" id="dashboard">
 			<thead>
 				<tr>
@@ -81,7 +81,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<div>Page <c:out value="${ currentPage }" /> / <c:out value="${ totalPages }" /></div>
+		<div><spring:message code="label.page" /> <c:out value="${ currentPage }" /> / <c:out value="${ totalPages }" /></div>
 	</div>
 	</section>
 	

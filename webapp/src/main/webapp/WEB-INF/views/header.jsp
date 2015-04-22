@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <!DOCTYPE html>
 <html>
@@ -27,12 +26,6 @@
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand title" href="dashboard">
-				<spring:message code="label.title.header" />
-			</a>
-		</div>
-
 		<spring:message code='label.lang.select' var="selectLang" />		
 		
 		<div id="language-picker" title="${ selectLang }"
@@ -56,4 +49,37 @@
 			</form>
 		</div>
 		
+		<div class="container">
+			<a class="navbar-brand title" href="dashboard">
+				<spring:message code="label.title.header" />
+			</a>
+		</div>
+		
+		<c:choose>
+			<c:when test="${ pageContext.request.userPrincipal.name != null }">
+				<form action="logout" method="POST">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<button type="submit" class="btn btn-default btn-log">
+						<div class="glyphicon glyphicon-log-out"></div>
+						&nbsp;<spring:message code="label.button.logout" />
+					</button>
+				</form>
+			</c:when>
+		<c:otherwise>
+<!-- 			<div class="logout"> -->
+<%-- 				<a class="btn btn-default" href="<c:url value="j_spring_security_logout" />" > --%>
+<!-- 					<label class="glyphicon glyphicon-log-in"></label> -->
+<%-- 					&nbsp;<spring:message code="label.button.login" /> --%>
+<!-- 				</a> -->
+<!-- 			</div> -->
+			
+			<form action="login" method="POST">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<button type="submit" class="btn btn-default btn-log">
+					<div class="glyphicon glyphicon-log-in"></div>
+					&nbsp;<spring:message code="label.button.login" />
+				</button>
+			</form>
+		</c:otherwise>
+		</c:choose>
 	</header>
