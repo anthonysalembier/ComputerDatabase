@@ -85,11 +85,19 @@ $(document).ready(function() {
     $.fn.toggleEditMode = function() {
         if($(".editMode").is(":visible")) {
             $(".editMode").hide();
-            $("#editComputer").text("Edit");
+            if ($.cookie("cdbLang") === 'en') {
+            	$("#editComputer").text("Delete");
+            } else {
+            	$("#editComputer").text("Supprimer");
+            }
         }
         else {
             $(".editMode").show();
-            $("#editComputer").text("View");
+            if ($.cookie("cdbLang") === 'en') {
+            	$("#editComputer").text("View");
+            } else {
+            	$("#editComputer").text("Vue");
+            }
         }
         return this;
     };

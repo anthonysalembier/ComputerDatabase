@@ -57,5 +57,6 @@
     
     <script src="<c:url value="/resources/js/jquery.validate.min.js" />"></script>
     <script src="<c:url value="/resources/js/validation.js" />"></script>
+    <script src="<c:url value="/resources/js/edition.js" />"></script>
     
 <%@ include file="footer.jsp" %>

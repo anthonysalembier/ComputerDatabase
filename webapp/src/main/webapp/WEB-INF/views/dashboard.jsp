@@ -18,7 +18,7 @@
 					<spring:message code="label.button.addComputer" />
 				</a>
 				<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
-					<spring:message code="label.button.editComputer" />
+					<spring:message code="label.button.delete" />
 				</a>
 			</div>
 		</div>

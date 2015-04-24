@@ -106,3 +106,7 @@ label.error,div.error {
 .datepicker[readonly] {
 	background-color: white;
 }
+
+.editMode {
+	width : 70px;
+}
