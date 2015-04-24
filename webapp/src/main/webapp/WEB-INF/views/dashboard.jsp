@@ -28,7 +28,25 @@
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="hidden" name="selection" value="">
 	</form>
-
+	
+	<div id="confirm-delete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel"><spring:message code="label.modal.confirmDelete.title" /></h4>
+				</div>
+				<div class="modal-body">
+		        	<spring:message code="label.modal.confirmDelete.content" />
+				</div>
+				<div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="label.modal.confirmDelete.cancel" /></button>
+			        <button type="button" class="btn btn-danger" onclick="$.fn.deleteSelected();"><spring:message code="label.modal.confirmDelete.confirm" /></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="container" style="margin-top: 10px;">
 		<div><spring:message code="label.page" /> <c:out value="${ currentPage }" /> / <c:out value="${ totalPages }" /></div>
 		<table class="table table-striped table-bordered tablesorter" id="dashboard">
@@ -41,8 +59,8 @@
 						<input type="checkbox" id="selectall" />
 						<span style="vertical-align: top;">
 							 - 
-							<a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
-								<i class="fa fa-trash-o fa-lg"> </i>
+							<a id="deleteSelected" href="#" onclick="$.fn.askDelete()" >
+								 <i class="fa fa-trash-o fa-lg"> </i>
 							</a>
 						</span>
 					</th>
@@ -88,5 +106,7 @@
 		<p:pages totalPages="${ totalPages }" page="${ page.pageNumber }" pageCount="${ maxPages }"
 				 pageSize="${ page.pageSize }" url="dashboard"/>
 	</footer>
+	
+	<script src="<c:url value="/resources/js/dashboard.js" />"></script>
 	
 <%@ include file="footer.jsp" %>

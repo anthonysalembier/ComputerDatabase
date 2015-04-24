@@ -108,11 +108,15 @@ $(document).ready(function() {
 // Function delete selected: Asks for confirmation to delete selected computers, then submits it to the deleteForm
 (function ( $ ) {
     $.fn.deleteSelected = function() {
-        if (confirm("Are you sure you want to delete the selected computers?")) { 
-            $('#deleteForm input[name=selection]').setCheckboxValues('selection','cb');
-            $('#deleteForm').submit();
-        }
+        $('#deleteForm input[name=selection]').setCheckboxValues('selection','cb');
+        $('#deleteForm').submit();
     };
+}( jQuery ));
+
+( function ( $ ) {
+	$.fn.askDelete = function() {
+		$('#confirm-delete').modal('toggle');
+	}
 }( jQuery ));
 
 
@@ -125,7 +129,7 @@ $(document).keydown(function(e) {
         //DEL key
         case 46:
             if($(".editMode").is(":visible") && $(".cb:checked").length != 0) {
-                $.fn.deleteSelected();
+            	$('#confirm-delete').modal('toggle');
             }   
             break;
         //E key (CTRL+E will switch to edit mode)

@@ -23,7 +23,6 @@
 <script src="<c:url value="/resources/js/jquery.cookie.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.tablesorter.min.js" />"></script>
-<script src="<c:url value="/resources/js/dashboard.js" />"></script>
 <script src="<c:url value="/resources/js/main.js" />"></script>
 <script src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
 
