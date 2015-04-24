@@ -16,11 +16,6 @@
 
     <!-- Indicate packages to scan order by depth -->
     <context:property-placeholder location="classpath:config.properties" />
-<!--     <context:component-scan base-package="com.excilys.model"/> -->
-<!--     <context:component-scan base-package="com.excilys.mapper"/> -->
-<!--     <context:component-scan base-package="com.excilys.connection"/> -->
-<!--     <context:component-scan base-package="com.excilys.dao"/> -->
-<!--     <context:component-scan base-package="com.excilys.service"/> -->
     
     
     <!-- Load BD configuration file -->

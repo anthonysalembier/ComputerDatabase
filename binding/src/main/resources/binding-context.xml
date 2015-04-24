@@ -17,4 +17,11 @@
     <!-- Indicate packages to scan order by depth -->
     <context:component-scan base-package="com.excilys.mapper"/>
     
+    <!-- Spring i18n -->
+	<bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+    
 </beans>

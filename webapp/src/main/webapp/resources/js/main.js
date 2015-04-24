@@ -22,13 +22,44 @@ $(document).ready(function(){
         });
     });
     
-    // Display the flag of current language
+    // Change properties from the locale
+    $.dateFormat;
     if ($.cookie("cdbLang") === 'en') {
     	$("#language-picker").css("background-image", "url(resources/img/flags/en.png)")
+    	$.dateFormat = "yy-mm-dd";
+//    	$("#datepicker").datepicker("option", $.datepicker.regional[""]);
+//    	$("#datepicker").datepicker($.datepicker.regional[""]);
+//    	$.datepicker.setDefaults($.datepicker.regional[""]);
     } else {
     	$("#language-picker").css("background-image", "url(resources/img/flags/fr.png)")
+    	$.dateFormat = "dd-mm-yy";
+//    	$("#datepicker").datepicker("option", $.datepicker.regional["fr"]);
+//    	$("#datepicker").datepicker($.datepicker.regional["fr"]);
+//    	$.datepicker.setDefaults($.datepicker.regional["fr"]);
     }
     
+});
+
+// Datepicker
+$(function() {
+	$("#datepicker-introduced").datepicker({
+		minDate : new Date(1970, 1 - 1, 2),
+		maxDate : new Date(2038, 1 - 1, 19),
+		changeMonth: true,
+		changeYear: true,
+		showAnim : "fadeIn",
+		duration: "normal",
+		dateFormat : $.dateFormat
+	});
+	$("#datepicker-discontinued").datepicker({
+		minDate : new Date(1970, 1 - 1, 2),
+		maxDate : new Date(2038, 1 - 1, 19),
+		changeMonth : true,
+		changeYear : true,
+		showAnim : "fadeIn",
+		duration: "normal",
+		dateFormat : $.dateFormat
+	});
 });
 
 // Select language button

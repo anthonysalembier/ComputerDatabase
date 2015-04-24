@@ -28,11 +28,13 @@ input[type='checkbox'] {
     white-space: nowrap;
 }
 
-input.error{border:1px solid #FF0000 !important; }
+input.error {
+	border: 1px solid #FF0000 !important;
+}
 
-label.error,div.error{
-    font-weight:normal;
-    color:#FF0000 !important;
+label.error,div.error {
+    font-weight: normal;
+    color: #FF0000 !important;
 }
 
 #language-picker {
@@ -99,4 +101,8 @@ label.error,div.error{
 	position: absolute;
 	right: 15px;
   	top: 8px;
+}
+
+.datepicker[readonly] {
+	background-color: white;
 }

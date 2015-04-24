@@ -1,4 +1,6 @@
 <%@ include file="header.jsp" %>
+
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="th"%>
 	
 	<spring:message code='label.computerName' var="computerNameString" />
 	<spring:message code='label.introducedDate' var="introducedDateString" />
@@ -13,21 +15,25 @@
                         id: <c:out value="${ computer.id }" />
                     </div>
                     <h1><spring:message code="label.title.editComputer" /></h1>
-                    <form id="editForm" action="edit" method="POST">
-                        <input name="computerId" type="hidden" value="${ computer.id }"/>
+                    <th:form id="editForm" action="edit" method="POST" modelAttribute="computeDTO">
+                        <input id="id" name="id" type="hidden" value="${ computer.id }"/>
                         <fieldset>
-                        	<div class="form-group" id="errors"></div>
                             <div class="form-group">
-                                <label for="computerName"><spring:message code="label.computerName" /></label>
-                                <input type="text" class="form-control" id="computerName" name="computerName" placeholder="${ computerNameString }" value="${ computer.name }">
+                                <label for="name"><spring:message code="label.computerName" /></label>
+                                <div id="error-name"></div>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="${ computerNameString }" value="${ computer.name }">
                             </div>
                             <div class="form-group">
                                 <label for="introduced"><spring:message code="label.introducedDate" /></label>
-                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="${ introducedDateString }" value="${ computer.introduced }">
+                            	<div id="error-introduced"></div>
+                                <input type="text" class="form-control datepicker" id="datepicker-introduced"
+                                		name="introduced" placeholder="${ introducedDateString }" value="${ computer.introduced }" />
                             </div>
                             <div class="form-group">
                                 <label for="discontinued"><spring:message code="label.discontinuedDate" /></label>
-                                <input type="date" class="form-control" id="discontinued" name="discontinued"	placeholder="${ discontinuedDateString }" value="${ computer.discontinued }">
+                            	<div id="error-discontinued"></div>
+                                <input type="text" class="form-control datepicker" id="datepicker-discontinued"
+                                		name="discontinued" placeholder="${ discontinuedDateString }" value="${ computer.discontinued }" />
                             </div>
                             <div class="form-group">
                                 <label for="companyId"><spring:message code="label.company" /></label>
@@ -55,7 +61,7 @@
                             or
                             <a href="dashboard" class="btn btn-default"><spring:message code="label.button.cancel" /></a>
                         </div>
-                    </form>
+                    </th:form>
                 </div>
             </div>
         </div>

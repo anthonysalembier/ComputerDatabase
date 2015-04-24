@@ -25,6 +25,7 @@
 	</div>
 
 	<form id="deleteForm" action="delete" method="POST">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="hidden" name="selection" value="">
 	</form>
 
@@ -67,12 +68,10 @@
 							</a>
 						</td>
 						<td>
-							<fmt:parseDate value="${ computer.introduced }" var="introducedDate" pattern="yyyy-MM-dd" />
-	                		<fmt:formatDate value="${ introducedDate }" type="Date" dateStyle="short" pattern="dd/MM/yyyy" />
+							<c:out value="${ computer.introduced }" />
 						</td>
 						<td>
-							<fmt:parseDate value="${ computer.discontinued }" var="discontinuedDate" pattern="yyyy-MM-dd" />
-	                		<fmt:formatDate value="${ discontinuedDate }" type="Date" dateStyle="short" pattern="dd/MM/yyyy" />
+							<c:out value="${ computer.discontinued }"  />
 						</td>
 						<td>
 							<c:out value="${ computer.companyName }" />

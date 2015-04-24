@@ -1,20 +1,19 @@
 package com.excilys.controller;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.dto.CompanyDTO;
+import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.CompanyDTOMapper;
-import com.excilys.model.Company;
-import com.excilys.model.Computer;
+import com.excilys.mapper.ComputerDTOMapper;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
@@ -22,55 +21,38 @@ import com.excilys.service.ComputerService;
 @Controller
 public class AddController {
 	
-	private static final String DEFAULT_TIME = " 00:00:00";
-	private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	
 	@Autowired
 	private CompanyService companyService;
 	@Autowired
 	private ComputerService computerService;
+	@Autowired
+	private ComputerDTOMapper computerMapper;
+	@Autowired
+	private CompanyDTOMapper companyMapper;
 	
 	@RequestMapping(value="/add", method=RequestMethod.GET)
 	public String createForm(Model model) {
-		List<CompanyDTO> companies = CompanyDTOMapper.getCompanyListDTO(companyService.getAll());
+		List<CompanyDTO> companies = companyMapper.getCompanyListDTO(companyService.getAll());
 		model.addAttribute("companies", companies);
 		return "addComputer";
 	}
 	
-	
-	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(@RequestParam(required=true) String computerName,
-					  @RequestParam(required=false) String introducedString,
-					  @RequestParam(required=false) String disconstinuedString,
-					  @RequestParam(required=false) String companyId) {
-		Computer computer = new Computer();
+	public String add(ModelMap model, ComputerDTO computerDTO, BindingResult result) {
 		
-		computer.setName(computerName);
-		
-		LocalDateTime introducedDate = null;
-		if ((introducedString != null) && (!introducedString.isEmpty())) {
-			introducedString += DEFAULT_TIME;
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-			introducedDate = LocalDateTime.parse(introducedString, formatter);
+		if(result.hasErrors()) {
+			model.addAttribute("companies", companyMapper.getCompanyListDTO(companyService.getAll()));
+			model.addAttribute("computer", computerDTO);
+			return "add";
 		}
-		computer.setIntroduced(introducedDate);
 		
-		LocalDateTime discontinuedDate = null;
-		if ((disconstinuedString != null) && (!disconstinuedString.isEmpty())) {
-			disconstinuedString += DEFAULT_TIME;
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-			discontinuedDate = LocalDateTime.parse(disconstinuedString, formatter);
+		if (!computerDTO.getCompanyId().isEmpty() && Long.valueOf(computerDTO.getCompanyId()) > 0) {
+			computerDTO.setCompanyName(companyService.getById(Long.valueOf(computerDTO.getCompanyId())).getName());
 		}
-		computer.setDiscontinued(discontinuedDate);
 		
-		Company company = companyService.getById(Long.valueOf(companyId));
-		computer.setCompany(company);
+		computerService.create(computerMapper.getComputer(computerDTO));
 		
-		computerService.create(computer);
-		
-		return "redirect:dashboard";
-		
+		return "redirect:/dashboard";
 	}
 	
 	

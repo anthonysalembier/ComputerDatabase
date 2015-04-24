@@ -8,9 +8,9 @@
  
 
  	<http use-expressions="false">
-  		<intercept-url pattern="/edit**" access="ROLE_USER" />
-		<intercept-url pattern="/add**" access="ROLE_USER" />
-		<intercept-url pattern="/delete**" access="ROLE_USER" />
+  		<intercept-url pattern="/edit**" access="ROLE_ADMIN" />
+		<intercept-url pattern="/add**" access="ROLE_ADMIN, ROLE_USER" />
+		<intercept-url pattern="/delete**" access="ROLE_ADMIN" />
         <http-basic />
         <logout logout-success-url="/dashboard" />
         <csrf />
@@ -18,9 +18,9 @@
  
 	<authentication-manager>
 		<authentication-provider>
-			<user-service>
-				<user name="a" password="a" authorities="ROLE_USER" />
-	    	</user-service>
+				<jdbc-user-service data-source-ref="dataSource" role-prefix="ROLE_"
+				      users-by-username-query="select username,password, 1 from users where username=?"
+				      authorities-by-username-query="select a.username, b.name from users a,roles b, roles_users c where a.username =? and a.id=c.user_id and b.id=c.role_id " />
 	  	</authentication-provider>
  	</authentication-manager>
 </beans:beans>

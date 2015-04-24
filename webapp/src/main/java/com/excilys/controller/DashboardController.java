@@ -17,6 +17,8 @@ public class DashboardController {
 	
 	@Autowired
 	private ComputerService computerService;
+	@Autowired
+	private ComputerDTOMapper computerMapper;
 	
 	@RequestMapping(value="/dashboard", method=RequestMethod.GET)
 	public String dashboard(@RequestParam(required=false, defaultValue="1") int page,
@@ -58,10 +60,10 @@ public class DashboardController {
         
         // List of computers
         if (!search.isEmpty()) {
-        	model.addAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getByName(search, p)));
+        	model.addAttribute("computers", computerMapper.getComputerListDTO(computerService.getByName(search, p)));
         	model.addAttribute("search", search);
         } else {
-        	model.addAttribute("computers", ComputerDTOMapper.getComputerListDTO(computerService.getAll(p)));
+        	model.addAttribute("computers", computerMapper.getComputerListDTO(computerService.getAll(p)));
         }
         
         // The current page
@@ -72,10 +74,5 @@ public class DashboardController {
         
         return "dashboard";
 	}
-	
-//	@RequestMapping(value="/dashboard", method=RequestMethod.GET)
-//	public String changeLanguage() {
-//		return "dashboard";
-//	}
 	
 }

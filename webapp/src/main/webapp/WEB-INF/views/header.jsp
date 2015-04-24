@@ -12,9 +12,12 @@
 <meta charset="utf-8">
 
 <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet" media="screen" />
-<link href="<c:url value="/resources/css/font-awesome.css" />" rel="stylesheet" media="screen" />
+<link href="<c:url value="/resources/css/font-awesome.min.css" />" rel="stylesheet" media="screen" />
 <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet" media="screen" />
 <link href="<c:url value="/resources/css/blue/style.css" />" rel="stylesheet" media="screen" />
+<link href="<c:url value="/resources/css/jquery-ui.css" />" rel="stylesheet" media="screen" />
+<link href="<c:url value="/resources/css/jquery-ui.structure.css" />" rel="stylesheet" media="screen" />
+<link href="<c:url value="/resources/css/jquery-ui.theme.css" />" rel="stylesheet" media="screen" />
 
 <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.cookie.js" />"></script>
@@ -22,6 +25,7 @@
 <script src="<c:url value="/resources/js/jquery.tablesorter.min.js" />"></script>
 <script src="<c:url value="/resources/js/dashboard.js" />"></script>
 <script src="<c:url value="/resources/js/main.js" />"></script>
+<script src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
 
 </head>
 <body>

@@ -1,5 +1,7 @@
 <%@ include file="header.jsp" %>
 
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="th"%>
+
 	<spring:message code='label.computerName' var="computerNameString" />
 	<spring:message code='label.introducedDate' var="introducedDateString" />
 	<spring:message code='label.discontinuedDate' var="discontinuedDateString" />
@@ -10,27 +12,25 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1><spring:message code="label.title.addComputer" /></h1>
-                    <form id="addForm" action="add" method="POST">
+                    <th:form id="addForm" action="add" method="POST" modelAttribute="computerDTO">
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName"><spring:message code="label.computerName" /></label>
+                                <label for="bame"><spring:message code="label.computerName" /></label>
                  		    	<div id="error-name"></div>
-                                <input type="text" class="form-control" id="computerName"
-                                		name="computerName" placeholder="${ computerNameString }">
+                                <input type="text" class="form-control" id="name"
+                                		name="name" placeholder="${ computerNameString }">
                             </div>
                             <div class="form-group">
                                 <label for="introduced"><spring:message code="label.introducedDate" /></label>
                             	<div id="error-introduced"></div>
-                                <input type="date" class="form-control" id="introduced"
-                                		name="introduced" placeholder="${ introducedDateString }"
-                                		min="1970-01-02" max="2038-01-19">
+                                <input type="text" class="form-control datepicker" id="datepicker-introduced"
+                                		name="introduced" placeholder="${ introducedDateString }" />
                             </div>
                             <div class="form-group">
                                 <label for="discontinued"><spring:message code="label.discontinuedDate" /></label>
 	                            <div id="error-discontinued"></div>
-                                <input type="date" class="form-control" id="discontinued"
-                                		name="discontinued" placeholder="${ discontinuedDateString }"
-                                		min="1970-01-02" max="2038-01-19">
+                                <input type="text" class="form-control datepicker" id="datepicker-discontinued"
+                                		name="discontinued" placeholder="${ discontinuedDateString }" />
                             </div>
                             <div class="form-group">
                                 <label for="companyId"><spring:message code="label.company" /></label>
@@ -49,7 +49,7 @@
                             or
                             <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>
-                    </form>
+                    </th:form>
                 </div>
             </div>
         </div>
