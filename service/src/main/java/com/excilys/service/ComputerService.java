@@ -14,7 +14,7 @@ import com.excilys.repository.ComputerRepository;
 
 @Service
 @Transactional(rollbackFor=ServiceException.class)
-public class ComputerService {
+public class ComputerService implements IComputerService {
 	
 	@Autowired
 	private ComputerRepository repo;

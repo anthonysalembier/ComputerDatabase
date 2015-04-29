@@ -1,5 +1,6 @@
 package com.excilys.controller;
 
+import com.excilys.service.IComputerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ import com.excilys.service.ComputerService;
 public class DashboardController {
 	
 	@Autowired
-	private ComputerService computerService;
+	private IComputerService computerService;
 	@Autowired
 	private ComputerDTOMapper computerMapper;
 	
@@ -59,7 +60,7 @@ public class DashboardController {
         model.addAttribute("maxPages", maxPages);
         
         // List of computers
-        if (!search.isEmpty()) {
+        if (search != null && !search.isEmpty()) {
         	model.addAttribute("computers", computerMapper.getComputerListDTO(computerService.getByName(search, p)));
         	model.addAttribute("search", search);
         } else {

@@ -1,6 +1,9 @@
 package com.excilys.dto;
 
-public class ComputerDTO {
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+
+public class ComputerDTO implements Serializable {
 
 	private String id;
 	private String name;
@@ -13,7 +16,7 @@ public class ComputerDTO {
 	public ComputerDTO() {
 		
 	}
-	
+
 	public ComputerDTO(String id, String name, String introduced,
 						String discontinued, String companyId,
 						String companyName) {

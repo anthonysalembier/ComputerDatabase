@@ -2,6 +2,8 @@ package com.excilys.controller;
 
 import java.util.List;
 
+import com.excilys.service.ICompanyService;
+import com.excilys.service.IComputerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +24,9 @@ import com.excilys.service.ComputerService;
 public class UpdateController {
 	
 	@Autowired
-	private ComputerService computerService;
+	private IComputerService computerService;
 	@Autowired
-	private CompanyService companyService;
+	private ICompanyService companyService;
 	@Autowired
 	private ComputerDTOMapper computerMapper;
 	@Autowired

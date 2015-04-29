@@ -12,7 +12,7 @@ import com.excilys.model.Company;
 import com.excilys.repository.CompanyRepository;
 
 @Service
-public class CompanyService {
+public class CompanyService implements ICompanyService {
 	
 	@Autowired
 	private CompanyRepository repo;

@@ -2,6 +2,8 @@ package com.excilys.controller;
 
 import java.util.List;
 
+import com.excilys.service.ICompanyService;
+import com.excilys.service.IComputerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +24,9 @@ import com.excilys.service.ComputerService;
 public class AddController {
 	
 	@Autowired
-	private CompanyService companyService;
+	private ICompanyService companyService;
 	@Autowired
-	private ComputerService computerService;
+	private IComputerService computerService;
 	@Autowired
 	private ComputerDTOMapper computerMapper;
 	@Autowired
@@ -40,7 +42,7 @@ public class AddController {
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(ModelMap model, ComputerDTO computerDTO, BindingResult result) {
 		
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			model.addAttribute("companies", companyMapper.getCompanyListDTO(companyService.getAll()));
 			model.addAttribute("computer", computerDTO);
 			return "add";

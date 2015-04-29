@@ -6,7 +6,6 @@
 								 http://www.springframework.org/schema/security
 								 http://www.springframework.org/schema/security/spring-security-4.0.xsd">
  
-
  	<http use-expressions="false">
   		<intercept-url pattern="/edit**" access="ROLE_ADMIN" />
 		<intercept-url pattern="/add**" access="ROLE_ADMIN, ROLE_USER" />
@@ -19,8 +18,10 @@
 	<authentication-manager>
 		<authentication-provider>
 				<jdbc-user-service data-source-ref="dataSource" role-prefix="ROLE_"
-				      users-by-username-query="select username,password, 1 from users where username=?"
-				      authorities-by-username-query="select a.username, b.name from users a,roles b, roles_users c where a.username =? and a.id=c.user_id and b.id=c.role_id " />
+				      users-by-username-query="select username,password, 1 from users
+                                                where username=?"
+				      authorities-by-username-query="select a.username, b.name from users a,roles b, roles_users c
+                                                        where a.username =? and a.id=c.user_id and b.id=c.role_id " />
 	  	</authentication-provider>
  	</authentication-manager>
 </beans:beans>

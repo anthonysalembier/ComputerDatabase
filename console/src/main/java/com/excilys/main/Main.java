@@ -5,6 +5,8 @@ import com.excilys.util.ComputerDatabaseContext;
 import com.excilys.util.ComputerDatabaseScanner;
 
 public class Main {
+	
+	
 	public static void main(String[] args) throws Exception {
 		ComputerDatabaseScanner scanner = new ComputerDatabaseScanner();
 		ComputerDatabaseContext ctx = new ComputerDatabaseContext();
@@ -31,5 +33,7 @@ public class Main {
 				System.out.println("Invalid command.");
 			}
 		}
+		
+		
 	}
 }

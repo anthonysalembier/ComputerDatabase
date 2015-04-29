@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-			    http://maven.apache.org/maven-v4_0_0.xsd">
+			    		http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.excilys.cdbmodules</groupId>
@@ -24,17 +24,11 @@
 			<version>1.0</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>binding</artifactId>
-			<version>1.0</version>
-		</dependency>
-	
 		<!-- Servlet stuff -->
 		<dependency>
-			<scope>provided</scope>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	
 		<!-- Front stuff -->
@@ -53,17 +47,6 @@
 		<!-- Spring stuff -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<exclusions>
-		        <exclusion>
-		            <groupId>commons-logging</groupId>
-		            <artifactId>commons-logging</artifactId>
-		        </exclusion>
-		    </exclusions>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 		</dependency>
 		
@@ -71,13 +54,8 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
-		
+
 		<!-- Spring security -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>

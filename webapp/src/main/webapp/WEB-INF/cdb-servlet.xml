@@ -12,7 +12,7 @@
  
     <!-- Indicate packages to scan order by depth -->
     <context:component-scan base-package="com.excilys.controller"/>
-    
+
     <!-- Views folder scanner bean -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	    <property name="prefix" value="/WEB-INF/views/" />
