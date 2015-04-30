@@ -18,6 +18,7 @@
     <jaxrs:server id="cxfServer" address="/">
         <jaxrs:serviceBeans>
             <ref bean="computerWebService"/>
+            <ref bean="companyWebService"/>
         </jaxrs:serviceBeans>
         <jaxrs:extensionMappings>
             <entry key="json" value="application/json"/>

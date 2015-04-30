@@ -1,6 +1,5 @@
 package com.excilys.dto;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 public class ComputerDTO implements Serializable {
