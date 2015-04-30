@@ -4,39 +4,44 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerDTOMapper;
 import com.excilys.service.IComputerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Service
-public class ComputerWebService implements IComputerWebService {
+@RestController
+@RequestMapping("/computer")
+public class ComputerWebService {
 	
 	@Autowired
 	private IComputerService computerService;
     @Autowired
     private ComputerDTOMapper computerDTOMapper;
 
-    @Override
+    @RequestMapping("/get")
 	public List<ComputerDTO> getAll() {
 		return computerDTOMapper.getComputerListDTO(computerService.getAll());
 	}
 
-    @Override
-    public ComputerDTO getById(Long id) {
+    @RequestMapping("/{id}")
+    public ComputerDTO getById(@PathVariable Long id) {
         return computerDTOMapper.getComputerDTO(computerService.getById(id));
     }
 
-    @Override
+    @RequestMapping(value="/add", method= RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
     public void add(ComputerDTO computer) {
         // TODO
     }
 
-    @Override
+    @RequestMapping(value="/{id}", method= RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
     public void update(ComputerDTO computer) {
         // TODO
     }
 
-    @Override
+    @RequestMapping(value="/{id}", method= RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK)
     public void delete(Long id) {
         // TODO
     }

@@ -4,25 +4,28 @@ import com.excilys.dto.CompanyDTO;
 import com.excilys.mapper.CompanyDTOMapper;
 import com.excilys.service.ICompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Service
-public class CompanyWebService implements ICompanyWebService {
+@RestController
+@RequestMapping("/company")
+public class CompanyWebService {
 
     @Autowired
     private ICompanyService companyService;
     @Autowired
     private CompanyDTOMapper companyDTOMapper;
 
-    @Override
+    @RequestMapping("/get")
     public List<CompanyDTO> getAll() {
         return companyDTOMapper.getCompanyListDTO(companyService.getAll());
     }
 
-    @Override
-    public CompanyDTO getById(Long id) {
+    @RequestMapping("/{id}")
+    public CompanyDTO getById(@PathVariable Long id) {
         return companyDTOMapper.getCompanyDTO(companyService.getById(id));
     }
 }
