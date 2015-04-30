@@ -67,4 +67,30 @@ public class Company implements Serializable {
 			return false;
 		return true;
 	}
+
+    public static Builder builder(String name) {
+        return new Builder(name);
+    }
+
+    public static class Builder {
+        Company company;
+        private Builder(String name) {
+            company = new Company();
+            company.name = name;
+        }
+
+        public Builder id(Long id) {
+            company.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            company.name = name;
+            return this;
+        }
+
+        public Company build() {
+            return company;
+        }
+    }
 }

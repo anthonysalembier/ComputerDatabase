@@ -1,18 +1,10 @@
 package com.excilys.model;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="computer")
@@ -146,5 +138,46 @@ public class Computer implements Serializable {
 			return false;
 		return true;
 	}
+
+    public static Builder builder(String name) {
+        return new Builder(name);
+    }
+
+    public static class Builder {
+        private Computer computer;
+
+        private Builder(String name) {
+            computer = new Computer(name);
+        }
+
+        public Builder id(Long id) {
+            computer.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            computer.name = name;
+            return this;
+        }
+
+        public Builder introduced(LocalDateTime introduced) {
+            computer.introduced = introduced;
+            return this;
+        }
+
+        public Builder discontinued(LocalDateTime discontinued) {
+            computer.discontinued = discontinued;
+            return this;
+        }
+
+        public Builder company(Company company) {
+            computer.company = company;
+            return this;
+        }
+
+        public Computer build() {
+            return computer;
+        }
+    }
 
 }

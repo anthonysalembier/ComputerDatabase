@@ -25,11 +25,9 @@ public class CompanyDTOMapper {
 	}
 	
 	public Company getCompany(CompanyDTO companyDTO) {
-		Company company = new Company();
-		company.setId(Long.valueOf(companyDTO.getId()));
-		company.setName(companyDTO.getName());
-		
-		return company;
+		return Company.builder(companyDTO.getName())
+                .id(Long.valueOf(companyDTO.getId()))
+                .build();
 	}
 	
 	public List<Company> getCompanyList(List<CompanyDTO> companyDTOs) {

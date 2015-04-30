@@ -1,18 +1,17 @@
 package com.excilys.mapper;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Company;
+import com.excilys.model.Computer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.excilys.dto.ComputerDTO;
-import com.excilys.model.Company;
-import com.excilys.model.Computer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ComputerDTOMapper {
@@ -103,9 +102,9 @@ public class ComputerDTOMapper {
 		computer.setDiscontinued(discontinuedDate);
 		
 		if (!computerDTO.getCompanyId().isEmpty() && Long.valueOf(computerDTO.getCompanyId()) > 0) {
-			Company company = new Company();
-			company.setId(Long.valueOf(computerDTO.getCompanyId()));
-			company.setName(computerDTO.getCompanyName());
+			Company company = Company.builder(computerDTO.getCompanyName())
+                    .id(Long.valueOf(computerDTO.getCompanyId()))
+                    .build();
 			computer.setCompany(company);
 		}
 		
