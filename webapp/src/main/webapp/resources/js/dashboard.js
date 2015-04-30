@@ -36,30 +36,6 @@ $(document).ready(function() {
 	} else if (window.location.href.search("lang=en") !== -1) {
 		$("#lang-en").attr("selected", "selected")
 	}
-			
-	
-//    $('#polyglotLanguageSwitcher').polyglotLanguageSwitcher({
-//		effect: 'fade',
-//        testMode: true,
-//        onChange: function(evt){
-//            alert("The selected language is: ");
-//        }
-////        ,afterLoad: function(evt){
-////            alert("The selected language has been loaded");
-////        },
-////        beforeOpen: function(evt){
-////            alert("before open");
-////        },
-////        afterOpen: function(evt){
-////            alert("after open");
-////        },
-////        beforeClose: function(evt){
-////            alert("before close");
-////        },
-////        afterClose: function(evt){
-////            alert("after close");
-////        }
-//	});
 });
 
 
