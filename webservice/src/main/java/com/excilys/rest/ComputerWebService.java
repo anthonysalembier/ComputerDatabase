@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/computer")
+
 public class ComputerWebService {
 	
 	@Autowired
@@ -18,12 +19,12 @@ public class ComputerWebService {
     @Autowired
     private ComputerDTOMapper computerDTOMapper;
 
-    @RequestMapping("/get")
+    @RequestMapping(value="/get", produces="application/json")
 	public List<ComputerDTO> getAll() {
 		return computerDTOMapper.getComputerListDTO(computerService.getAll());
 	}
 
-    @RequestMapping("/{id}")
+    @RequestMapping(value="/{id}", produces="application/json")
     public ComputerDTO getById(@PathVariable Long id) {
         return computerDTOMapper.getComputerDTO(computerService.getById(id));
     }

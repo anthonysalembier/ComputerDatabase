@@ -19,12 +19,12 @@ public class CompanyWebService {
     @Autowired
     private CompanyDTOMapper companyDTOMapper;
 
-    @RequestMapping("/get")
+    @RequestMapping(value="/get", produces="application/json")
     public List<CompanyDTO> getAll() {
         return companyDTOMapper.getCompanyListDTO(companyService.getAll());
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping(value="/{id}", produces="application/json")
     public CompanyDTO getById(@PathVariable Long id) {
         return companyDTOMapper.getCompanyDTO(companyService.getById(id));
     }
