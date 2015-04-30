@@ -15,19 +15,19 @@
                     <th:form id="addForm" action="add" method="POST" modelAttribute="computerDTO">
                         <fieldset>
                             <div class="form-group">
-                                <label for="bame"><spring:message code="label.computerName" /></label>
+                                <label for="name"><spring:message code="label.computerName" /></label>
                  		    	<div id="error-name"></div>
                                 <input type="text" class="form-control" id="name"
                                 		name="name" placeholder="${ computerNameString }">
                             </div>
                             <div class="form-group">
-                                <label for="introduced"><spring:message code="label.introducedDate" /></label>
+                                <label for="datepicker-introduced"><spring:message code="label.introducedDate" /></label>
                             	<div id="error-introduced"></div>
                                 <input type="text" class="form-control datepicker" id="datepicker-introduced"
                                 		name="introduced" placeholder="${ introducedDateString }" />
                             </div>
                             <div class="form-group">
-                                <label for="discontinued"><spring:message code="label.discontinuedDate" /></label>
+                                <label for="datepicker-discontinued"><spring:message code="label.discontinuedDate" /></label>
 	                            <div id="error-discontinued"></div>
                                 <input type="text" class="form-control datepicker" id="datepicker-discontinued"
                                 		name="discontinued" placeholder="${ discontinuedDateString }" />
